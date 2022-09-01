@@ -61,12 +61,15 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+We have decided to develop a music-streaming web application called BEMify. This application will allow users to create an account, follow artists which they like and also create custom playlists with different tracks from different artists. Furthermore we intend to connect users via their music taste by allowing them to share music and follow each other's accounts.
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* Home: The Home page will contain recommended playlists for the you as well as the recent listening activity of your followers so that you can see what your friends and family have listened to.
+* My Profile: The My Profile page will allow for you to see your own curated playlists, as well as more details about your listening activity, such as your favourite artist, tracks and albums. You will also be able to see who you are following as well as who is currently following you.
+* Search: The Search page will allow you to search for artists, albums, tracks, as well as other users that you want to follow and interact with.
+* Messages: The messages tab will display the list of conversations which you have had with other users previously, as well as a "new conversation" icon which will allow you to start a new conversation with a different user.
+* Settings: Here you can change personal information in relation with your account such as email, username, password, and so on.
 
 ### Entity-Relationship (ER) Diagram
 
