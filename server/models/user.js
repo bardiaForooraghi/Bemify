@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: String,
     playlist: {
-        type: [playlistSchema],
+        //type: [playlistSchema],
         default: []
     },
     followers: {
