@@ -30,5 +30,19 @@ router.post('/:account_id/newPlaylist', async (req, res) => {
 });
 
 
+// get a specific user (single item)
+router.get('/:account_id', async (req, res) => {
+    const user = await User.findById(req.params.account_id);
+
+    if (!user) 
+        res.status(404).message('User Not Found!');
+
+    try {
+        res.send(user);
+
+    } catch (e) {
+        res.status(400).send(e.message);
+    }    
+});
 
 module.exports = router;
