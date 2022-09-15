@@ -123,4 +123,28 @@ router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => 
 });
 
 
+// get all the playlists from the specific user
+router.get('/:account_id/playlists', async(req, res) => {
+
+    const userId = req.params.account_id;
+
+    try {
+        const userId = await User.findById(req.params.account_id);
+
+        if (!userId) 
+            return res.status(404).json({ message: `User with id ${userId} not found`});
+
+        if (userId.playlists == null)
+            return res.status(404).json({ message: 'Playlists not found'});
+
+        const result = await User.find({_id: userId}).select({playlists: 1});
+
+        res.send(result);
+
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    }  
+
+});
+
 module.exports = router;
