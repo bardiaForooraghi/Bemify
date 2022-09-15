@@ -259,4 +259,40 @@ router.delete('/:account_id/followers/:follower_id', async (req, res) => {
 });
 
 
+// Delete a specific user from the database
+router.delete('/:account_id', function(req, res, next) {
+    var id = req.params.account_id;
+    User.findOneAndDelete(id, function(err, user) {
+        if (err) { return next(err); }
+        if (user === null) {
+            return res.status(404).json({'message': 'User not found'});
+        }
+        // res.json(user);
+        res.json({"Message": "User deleted"});
+    });
+});
+
+
+// Update a user's profile information
+router.put('/:account_id',  async (req, res) => {
+    let user = await User.findById(req.params.account_id);
+    
+    if (!user) 
+        res.status(404).message('User Not Found!');
+
+    try {
+        user.username = req.body.username;
+        user.password = req.body.password;
+        user.email = req.body.email;
+        user.profilePicture = req.body.profilePicture;
+        user.playlists = req.body.playlists;
+        user.followers = req.body.followers;
+        user.followings = req.body.followings;
+        user = await user.save();
+        res.send(user);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+  });
+
 module.exports = router;
