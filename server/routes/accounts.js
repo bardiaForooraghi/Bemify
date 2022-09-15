@@ -8,7 +8,7 @@ const {Track} = require('../models/track');
 const router = express.Router();
 
 // create a playlist for a user (post a collection/single item)
-router.post('/:account_id/newPlaylist', async (req, res) => {
+router.put('/:account_id/newPlaylist', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
     if (!user) 
@@ -174,5 +174,89 @@ router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
         res.status(400).json({ message: err.message });
     }  
 });
+
+// getting an accounts followers
+router.get('/:account_id/followers', async (req, res) => {
+    let id = req.params.account_id;
+    User.findById(id, function(err, user){
+        if(err){return next(err);}
+        if(user === null) {
+            return res.status(404).json({'message': 'This account has not been found!'})
+        }
+        res.send(user.followers);
+    })
+});
+
+// getting a specific follower from an account
+router.get('/:account_id/followers/:follower_id', async (req, res) => {
+    var id = req.params.account_id;
+    var id2 = req.params.follower_id;
+    User.findById(id, function(err, user1){
+        if(err){return next(err);}
+        if(user1 === null) {
+            return res.status(404).json({'message': 'This account has not been found!'})
+        }
+        User.findById(id2, function(err, user2){
+            if(err){return next(err);}
+            if(user2 === null) {
+                return res.status(404).json({'message': 'This account has not been found!'})
+            }
+            res.json(user2);
+        })
+    })
+});
+
+// following an account & adding to the followers and following lists of the respective users
+router.patch('/:account_id/followers/:follower_id', async (req, res) => {
+    let id1 = req.params.account_id;
+    let id2 = req.params.follower_id;
+    User.findById(id1, function(err, user1){
+        if(err){return next(err);}
+        if(user1 === null) {
+            return res.status(404).json({'message': 'This account has not been found!'})
+        }
+        User.findById(id2, function(err, user2){
+            if(err){return next(err);}
+            if(user2 === null) {
+                return res.status(404).json({'message': 'This account has not been found!'})
+            }
+            if(user2.followers.includes(id1) || user1.followings.includes(id2)){
+                return res.json({'message': 'You are already following this account!'})
+            }
+            user2.followers.push(user1);
+            user1.followings.push(user2);
+            user1.save();
+            user2.save();
+            res.json(user1);
+        })
+    })
+});
+
+// unfollow an account and change the followers/following lists respectively
+router.delete('/:account_id/followers/:follower_id', async (req, res) => {
+    let id1 = req.params.account_id;
+    let id2 = req.params.follower_id;
+    User.findById(id1, function(err, user1){
+        if(err){return next(err);}
+        if(user1 === null) {
+            return res.status(404).json({'message': 'This account has not been found!'})
+        }
+        User.findById(id2, function(err, user2){
+            if(err){return next(err);}
+            if(user2 === null) {
+                return res.status(404).json({'message': 'This account has not been found!'})
+            }
+            if(!user2.followers.includes(id1) || !user1.followings.includes(id2)){
+                return res.json({'message': 'You are not following this account!'})
+            }
+            user2.followers.pull(user1);
+            user1.followings.pull(user2);
+            user1.save();
+            user2.save();
+            res.json(user1);
+        })
+    })
+});
+
 
 module.exports = router;

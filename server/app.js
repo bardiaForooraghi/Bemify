@@ -34,6 +34,7 @@ app.use(cors());
 
 app.use('/api/signup', user);
 app.use('/api/accounts', account);
+app.use('/api/accounts', user);
 
 
 // Import routes
