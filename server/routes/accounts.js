@@ -147,4 +147,32 @@ router.get('/:account_id/playlists', async(req, res) => {
 
 });
 
+
+// return user's playlists' genre
+router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
+    const userId = req.params.account_id;
+    const playlistId = req.params.playlist_id;   
+
+    try {
+        const user = await User.findById(req.params.account_id);
+
+        if (!user) 
+            return res.status(404).json({ message: `User with id ${user} not found`});
+
+        let playlist = user.playlists.filter(playlist => playlist._id == playlistId)[0];
+        
+        if (!playlist)
+            return res.status(404).json({ message: `Playlist with id ${playlistId} not found`});
+
+        const result = playlist.tracks.filter(track => {
+            return track.genre == req.body.genre
+        });    
+
+        res.json(result);
+
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }  
+});
+
 module.exports = router;
