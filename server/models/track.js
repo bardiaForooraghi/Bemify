@@ -7,5 +7,5 @@ const trackSchema = new mongoose.Schema({
 });
 
 const Track = mongoose.model('Track', trackSchema);
-
+module.exports.trackSchema = trackSchema;
 module.exports.Track = Track;
