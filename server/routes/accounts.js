@@ -89,10 +89,38 @@ router.patch('/:account_id/playlists/:playlist_id/addTrack', async (req, res) =>
         playlist.tracks.push(req.body.track_id);
         await user.save();
         res.status(200).json(user);
-        
+
     } catch (e) {
         res.status(400).json({ message: e.message });
     }
 });
+
+// Upload a song to the user's playlist
+router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => {
+    const playlistId = req.params.playlist_id;
+
+    try {
+        const user = await User.findById(req.params.account_id);
+
+        if (!user) 
+            return res.status(404).json({ message: `User with id ${user} not found`});
+
+        let track = new Track({
+            name: req.body.name,
+            genre: req.body.genre,
+            duration: req.body.duration
+        });
+
+        let playlist = user.playlists.filter(playlist => playlist._id == playlistId)[0];
+        playlist.tracks.push(track);
+
+        const result = await user.save();
+        res.status(200).json(result);
+
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    }  
+});
+
 
 module.exports = router;
