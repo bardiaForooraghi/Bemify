@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+const {Playlist, playlistSchema} = require('../models/playlist');
+const {Track, trackSchema} = require('../models/track');
+
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -18,8 +22,8 @@ const userSchema = new mongoose.Schema({
         match: /.*@.*/
     },
     profilePicture: String,
-    playlist: {
-        //type: [playlistSchema],
+    playlists: {
+        type: [playlistSchema],
         default: []
     },
     followers: {
