@@ -1,0 +1,678 @@
+{
+	"info": {
+		"_postman_id": "431f2e38-1484-412f-a19c-acf042e3ec6d",
+		"name": "group-02",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15200425"
+	},
+	"item": [
+		{
+			"name": "Adding new account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"var followersList = jsonData.followers;",
+							"",
+							"pm.test(\"response should have a JSON body\", function(){",
+							"    pm.response.to.have.jsonBody();",
+							"})",
+							"",
+							"pm.test(\"response should have an empty followers list\", function(){",
+							"    pm.expect(followersList[0]).to.eql(undefined);",
+							"})",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Oscar\",\n    \"password\": \"oscarrei11\",\n    \"email\": \"oscarpatito@gmail.com\",\n    \"profilePicture\": \"s2jd2o3\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/signup",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific accounts followers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response should have correct data for first index\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.include(\"6320a507f04c7b5e7560e60a\");",
+							"})",
+							"",
+							"pm.test(\"response should have correct data for second index\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.include(\"63232d620d2dbc37c592ac29\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/followers",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"followers"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6321bd4df073f117ca2e3510"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new follower & following",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();",
+							"",
+							"pm.test(\"the response data should be correct\", function(){",
+							"    pm.expect(responseData.followings[0]).to.eql(\"6321bd4df073f117ca2e3510\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/followers/:follower_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"followers",
+						":follower_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "63232d620d2dbc37c592ac29"
+						},
+						{
+							"key": "follower_id",
+							"value": "6321bd4df073f117ca2e3510"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific follower from specific account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();",
+							"",
+							"pm.test(\"response should have correct response data\", function() {",
+							"    pm.expect(responseData.followings[0]).to.eql(\"6321bd4df073f117ca2e3510\");",
+							"})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/followers/:follower_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"followers",
+						":follower_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6321bd4df073f117ca2e3510"
+						},
+						{
+							"key": "follower_id",
+							"value": "63232d620d2dbc37c592ac29"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Removing follower & following",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();",
+							"",
+							"pm.test(\"the response data should be correct\", function(){",
+							"    pm.expect(responseData._id).to.eql(\"63232d620d2dbc37c592ac29\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/followers/:follower_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"followers",
+						":follower_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "63232d620d2dbc37c592ac29"
+						},
+						{
+							"key": "follower_id",
+							"value": "6321bd4df073f117ca2e3510"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting an Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Returns the correct account\", function(){\r",
+							"    pm.expect(responseData._id).to.eql(\"6320a507f04c7b5e7560e60a\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Playlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"New playlist added has correct data\", function(){\r",
+							"    pm.expect(responseData.playlists[1].name).includes(\"Summer Vibes\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Summer Vibes\",\r\n    \"tracks\": \"[]\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/newPlaylist",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"newPlaylist"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload a song to a specific playlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Playlist has uploaded correct new Track\", function(){\r",
+							"    pm.expect(responseData.playlists[0].tracks[1].name).includes(\"Little Lion Man\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Little Lion Man\",\r\n    \"genre\": \"Indie\",\r\n    \"duration\": \"4:15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/playlists/:playlist_id/newTrack",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"playlists",
+						":playlist_id",
+						"newTrack"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						},
+						{
+							"key": "playlist_id",
+							"value": "632386de940b772cb438f092"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add existing song to a specific playlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Existing song actually exists\", function(){\r",
+							"    pm.expect(responseData.playlists[0].tracks[1]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Existing song is added to playlist\", function(){\r",
+							"    pm.expect(responseData.playlists[1].tracks[0]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"track_id\": \"63238dd3940b772cb438f0b7\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/playlists/:playlist_id/addTrack",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"playlists",
+						":playlist_id",
+						"addTrack"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						},
+						{
+							"key": "playlist_id",
+							"value": "63238d3f940b772cb438f0af"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting a Playlist from an Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Correct playlist is retrieved\", function() {\r",
+							"    pm.expect(responseData[0]._id).to.eql(\"63238d3f940b772cb438f0af\") && pm.expect(responseData[0].name).to.eql(\"Summer Vibes\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/playlists/:playlist_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"playlists",
+						":playlist_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						},
+						{
+							"key": "playlist_id",
+							"value": "63238d3f940b772cb438f0af"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Playlists for a specific Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Retrieve all playlists from correct user\", function(){\r",
+							"    pm.expect(responseData[0]._id).to.eql(\"6320a507f04c7b5e7560e60a\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Retrieve all correct playlists from user\", function(){\r",
+							"    pm.expect(responseData[0].playlists[0]._id).to.eql(\"632386de940b772cb438f092\") && pm.expect(responseData[0].playlists[1]._id).to.eql(\"63238d3f940b772cb438f0af\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/playlists",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"playlists"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Users Playlists Genre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Retrieves correct songs corresponding to genre\", function(){\r",
+							"    pm.expect(responseData[0].genre).to.eql(\"Indie\") && pm.expect(responseData[1].genre).to.eql(\"Indie\") && pm.expect(responseData[2].genre).to.eql(\"Indie\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"genre\": \"Indie\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/playlists/:playlist_id/filter",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"playlists",
+						":playlist_id",
+						"filter"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						},
+						{
+							"key": "playlist_id",
+							"value": "632386de940b772cb438f092"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleting a Playlist from an Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id/playlists/:playlist_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id",
+						"playlists",
+						":playlist_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "6320a507f04c7b5e7560e60a"
+						},
+						{
+							"key": "playlist_id",
+							"value": "63239a9558e2c72b007927eb"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response should respond correct status\", function(){",
+					"    pm.response.to.have.status(200);",
+					"})"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
