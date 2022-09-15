@@ -80,4 +80,19 @@ router.get('/:account_id/playlists/:playlist_id', async (req, res) => {
 });
 
 
+// add an existing song to the specific user's playlist 
+router.patch('/:account_id/playlists/:playlist_id/addTrack', async (req, res) => {
+    try { 
+        const user = await User.findById(req.params.account_id);
+        const playlist = user.playlists.filter(playlist => playlist._id == req.params.playlist_id)[0];
+        
+        playlist.tracks.push(req.body.track_id);
+        await user.save();
+        res.status(200).json(user);
+        
+    } catch (e) {
+        res.status(400).json({ message: e.message });
+    }
+});
+
 module.exports = router;
