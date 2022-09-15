@@ -45,4 +45,20 @@ router.get('/:account_id', async (req, res) => {
     }    
 });
 
+// delete a specific playlist for a user
+router.delete('/:account_id/playlists/:playlist_id', async (req, res) => {
+    const user = await User.findById(req.params.account_id);
+
+    if (!user) 
+        res.status(404).message('User Not Found!');
+
+    try {
+        const result = await user.update({$pull: {playlists: {_id: req.params.playlist_id}}}, {new: true});
+        const result2 = await user.save();
+        res.send(result2);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
 module.exports = router;
