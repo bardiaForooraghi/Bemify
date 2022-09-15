@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "ab751e51-0ce2-4a99-9f7a-683039a84cab",
+		"name": "server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Delete a specific User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();",
+							"",
+							"pm.test(\"Should delete user successfully\", function () {",
+							"    pm.expect(responseData).to.eql({Message: 'User deleted'});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "63235800e612484c8bde4584"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a user's information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = pm.response.json();",
+							"",
+							"pm.test(\"User username is updated correctly\", function(){",
+							"    pm.expect(responseData.username).to.eql(\"poopops\");",
+							"})",
+							"",
+							"pm.test(\"User password is updated correctly\", function(){",
+							"    pm.expect(responseData.password).to.eql(\"7942749835\");",
+							"})",
+							"",
+							"pm.test(\"User profile picture is updated correctly\", function(){",
+							"    pm.expect(responseData.profilePicture).to.eql(\"123457678\");",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"poopops\",\n    \"password\": \"7942749835\",\n    \"email\": \"elisa@gmail.com\",\n    \"profilePicture\": \"123457678\",\n    \"playlist\": [],\n    \"followers\": [],\n    \"followings\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/accounts/:account_id",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						":account_id"
+					],
+					"variable": [
+						{
+							"key": "account_id",
+							"value": "63236d32e612484c8bde4596"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
