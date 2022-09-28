@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Profile from './views/Profile.vue'
 import Settings from './views/Settings.vue'
+import Signup from './views/Signup.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,10 @@ export default new Router({
       path: '/settings',
       name: 'settings',
       component: Settings
+    }, {
+      path: '/signup',
+      name: 'signup',
+      component: Signup
     }
   ]
 })
