@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav"  v-if="!['signup', 'login'].includes(this.$route.name)">
       <router-link to="/upload" id="navtext"><img src="../../images/upload.png" id="icon">Upload</router-link>
       <router-link to="/profile" id="navtext"><img src="../../images/user.png" id="icon">My Profile</router-link>
       <router-link to="/"><img src="../../images/bemify_logo.png" id="logo"></router-link>
