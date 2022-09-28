@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
-import Profile from './views/Profile.vue'
 import Settings from './views/Settings.vue'
 import Signup from './views/Signup.vue'
 
@@ -15,10 +14,6 @@ export default new Router({
       path: '/',
       name: 'login',
       component: Login
-    }, {
-      path: '/profile',
-      name: 'profile',
-      component: Profile
     }, {
       path: '/settings',
       name: 'settings',
