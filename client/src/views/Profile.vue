@@ -32,7 +32,7 @@
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields">
-                <input type="text" id="playlistNameInput" placeholder="Playlist name" required>
+                <input type="text" id="playlistNameInput" placeholder="Playlist name" v-model="name" required>
               </form>
             </b-row>
           </b-container>
@@ -42,7 +42,7 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="show=false"
+              @click="newPlaylist"
               id="createButton"
             >
               Create
@@ -51,7 +51,7 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="show=false"
+              @click="getPlaylists"
               id="closeButton"
             >
               Close
@@ -61,10 +61,6 @@
         </b-modal>
       </div>
     </div>
-    <div class="row" id="playlist"></div>
-    <div class="row" id="playlist"></div>
-    <div class="row" id="playlist"></div>
-    <div class="row" id="playlist"></div>
     <div class="row" id="playlist"></div>
     <div class="b-row" id="track-playback-bar"></div>
   </div>
@@ -137,11 +133,20 @@
 </style>
 
 <script>
+import { Api } from '../Api'
+
 export default {
   name: 'profile',
   data() {
     return {
       message: 'none'
+    }
+  },
+  methods: {
+    async newPlaylist() {
+      await Api.put('/accounts/6335842a466d6d70c55952b6/newPlaylist', {
+        name: this.name
+      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
     }
   }
 }
