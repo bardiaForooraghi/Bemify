@@ -21,7 +21,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         match: /.*@.*/
     },
-    profilePicture: String,
+    profilePicture: {
+        type: String,
+        required: false
+    },
     playlists: {
         type: [playlistSchema],
         default: []

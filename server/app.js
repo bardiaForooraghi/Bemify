@@ -36,7 +36,6 @@ app.use('/api/signup', user);
 app.use('/api/accounts', account);
 app.use('/api/accounts', user);
 
-
 // Import routes
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
