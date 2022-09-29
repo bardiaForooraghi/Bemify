@@ -56,7 +56,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   padding: 10rem;
   font-size: 4rem;
   font-family: "DM Sans", sans-serif;
