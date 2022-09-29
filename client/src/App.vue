@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-    <ul class="nav justify-content-center sticky-top" id="navbar">
+    <ul class="nav justify-content-center sticky-top" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
         <b-modal id="modal-1" content-class="popup" title="Upload your track">
@@ -26,7 +26,7 @@
         <router-link to="/profile" id="navtext"><img src="../../images/user.png" id="icon">My Profile</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/home"><img src="../../images/bemify_logo.png" alt="logo" id="logo"></router-link>
+        <img src="../../images/bemify_logo.png" alt="logo" id="logo">
       </li>
       <li class="nav-item">
         <router-link to="/settings" id="navtext"><img src="../../images/settings.png" id="icon">Settings</router-link>
@@ -50,7 +50,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #E3D5CA;
+  color: #2c3e50;
   min-height: 970px;
   background-color: #183059;
 }

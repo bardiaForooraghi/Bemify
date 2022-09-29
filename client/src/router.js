@@ -4,6 +4,7 @@ import Login from './views/Login.vue'
 import Settings from './views/Settings.vue'
 import Signup from './views/Signup.vue'
 import Profile from './views/Profile.vue'
+import Search from './views/Search.vue'
 
 Vue.use(Router)
 
@@ -27,6 +28,10 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: Profile
+    }, {
+      path: '/search',
+      name: 'search',
+      component: Search
     }
   ]
 })

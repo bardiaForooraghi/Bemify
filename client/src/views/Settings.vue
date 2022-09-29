@@ -9,10 +9,10 @@
                 <input type="text" id="username" placeholder="*Username">
                 <p id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
             </b-row>
-            <b-row id="" class="fourth justify-content-center"><input type="text" id="password" placeholder="*Password">
+            <b-row id="" class="justify-content-center"><input type="text" id="password" placeholder="*Password">
                 <p id="accountText">Your password should be kept secret, avoid sharing it with anyone and staff will never ask for these details.</p>
             </b-row>
-            <b-row id="" class="fourth justify-content-center"><input type="text" id="emailAddress" placeholder="*Email Address"></b-row>
+            <b-row id="" class="justify-content-center"><input type="text" id="emailAddress" placeholder="*Email Address"></b-row>
             <b-row id="" class="fourth justify-content-center">
                     <button id="save">Save Changes</button>
                     <button id="cancel">Cancel Changes</button>
@@ -49,12 +49,8 @@ export default {
         font-size: 36px;
         color:#E3D5CA;
         margin-top:8%;
-        padding-right:35%;
+        padding-left:12%;
     }
-
-#inputFields {
-    margin-top:25px;
-}
 
 #username, #password, #emailAddress {
     width:600px;
@@ -71,8 +67,6 @@ export default {
 #accountText {
     color: #E3D5CA;
     font-family: "DM Sans", sans-serif;
-    padding-top: 10px;
-    padding-bottom:25px;
     max-width: 600px;
     text-align: left;
     }
