@@ -4,7 +4,7 @@
     <ul class="nav navbar justify-content-center sticky-top" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
-        <b-modal id="modal-1" content-class="popup" title="Upload your track">
+        <b-modal ok-title="Upload" ok-id="up" id="modal-1" content-class="popup" title="Upload your track">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields">
@@ -20,6 +20,28 @@
               <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
             </b-row>
           </b-container>
+          <template #modal-footer>
+          <div class="w-100">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="show=false"
+              id="uploadButton"
+            >
+              Upload
+            </b-button>
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="show=false"
+              id="closeButton"
+            >
+              Close
+            </b-button>
+          </div>
+          </template>
         </b-modal>
       </li>
       <li class="nav-item">
@@ -118,6 +140,17 @@
   height: 50px;
   border-radius: 30px;
   padding-left: 20px;
+  background-color: #E3D5CA;
+  border: none;
+}
+
+#file-default.custom-file-input {
+  width: 400px;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 20px;
+  background-color: #E3D5CA;
+  border: none;
 }
 
 .mb-2 {
@@ -128,6 +161,32 @@
 
 .modal-header {
   padding-left: 200px;
+}
+
+#file-default__BV_file_outer_.custom-file b-form-file mb-2 {
+  width: 40px;
+}
+
+#closeButton {
+  background: none;
+  border-width: 3px;
+  border-color: #E3D5CA;;
+  width: 25%;
+  height: 40px;
+  margin: 10px;
+  color: #E3D5CA;
+  font-size: 17px;
+  border-radius: 20px;
+}
+
+#uploadButton {
+  background-color: #F76E45;
+  border: none;
+  width: 25%;
+  height: 40px;
+  margin: 10px;
+  font-size: 17px;
+  border-radius: 20px;
 }
 </style>
 

@@ -20,7 +20,47 @@
         </b-col>
         <b-col id="">
             <b-row id=""><b-img :src="require('../../../images/profile-pic.png')" id="profile-pic" center></b-img></b-row>
-            <b-row id="" class="fourth justify-content-center"><b-button id="changeProfilePic">Change Profile Picture</b-button></b-row>
+            <b-row id="" class="fourth justify-content-center"><b-button v-b-modal.modal-1 id="changeProfilePic">Change Profile Picture</b-button>
+                <b-modal ok-title="Upload" ok-id="up" id="modal-1" content-class="popup" title="Upload your track">
+          <b-container fluid>
+            <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
+              <form id="inputFields">
+                <input type="text" id="trackNameInput" placeholder="*Track name" required>
+              </form>
+            </b-row>
+            <b-row class="my-4" id="modal-body">
+              <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".mp3, .WAV, .AIF, .mp4, .OGG, webM, .AAC, .aup3" placeholder="Choose or drop audio file here"></b-form-file>
+              <b-button @click="file = null">Reset</b-button>
+            </b-row>
+            <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
+              <!-- <b-button @click="clearFiles" class="mr-2">Reset via method</b-button> -->
+              <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
+            </b-row>
+          </b-container>
+          <template #modal-footer>
+          <div class="w-100">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="show=false"
+              id="uploadButton"
+            >
+              Upload
+            </b-button>
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="show=false"
+              id="closeButton"
+            >
+              Close
+            </b-button>
+          </div>
+          </template>
+        </b-modal>
+        </b-row>
         </b-col>
     </b-row>
 </div>

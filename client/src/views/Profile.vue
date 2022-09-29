@@ -36,6 +36,28 @@
               </form>
             </b-row>
           </b-container>
+          <template #modal-footer>
+          <div class="w-100">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="show=false"
+              id="createButton"
+            >
+              Create
+            </b-button>
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="show=false"
+              id="closeButton"
+            >
+              Close
+            </b-button>
+          </div>
+          </template>
         </b-modal>
       </div>
     </div>
@@ -98,6 +120,16 @@
   border-radius: 30px;
   padding-left: 20px;
   }
+
+  #createButton {
+  background-color: #F76E45;
+  border: none;
+  width: 25%;
+  height: 40px;
+  margin: 10px;
+  font-size: 17px;
+  border-radius: 20px;
+}
 
   #track-playback-bar {
     background-color: green;
