@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-    <ul class="nav justify-content-center sticky-top" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
+    <ul class="nav navbar justify-content-center sticky-top" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
         <b-modal id="modal-1" content-class="popup" title="Upload your track">

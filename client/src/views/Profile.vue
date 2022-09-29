@@ -27,7 +27,16 @@
         </div>
       </div>
       <div class="col text-right">
-        <b-button id="newPlaylistButton">Create new playlist</b-button>
+        <b-button v-b-modal.modal-center id="newPlaylistButton">Create new playlist</b-button>
+        <b-modal id="modal-center" content-class="popup" title="Create playlist">
+          <b-container fluid>
+            <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
+              <form id="inputFields">
+                <input type="text" id="playlistNameInput" placeholder="Playlist name" required>
+              </form>
+            </b-row>
+          </b-container>
+        </b-modal>
       </div>
     </div>
     <div class="row" id="playlist"></div>
@@ -35,6 +44,7 @@
     <div class="row" id="playlist"></div>
     <div class="row" id="playlist"></div>
     <div class="row" id="playlist"></div>
+    <div class="b-row" id="track-playback-bar"></div>
   </div>
 </template>
 
@@ -79,6 +89,18 @@
   #newPlaylistButton {
     background-color: #F76E45;
     border-radius: 15px;
+  }
+
+  /* New playlist modal styling */
+  #playlistNameInput {
+    width: 400px;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 20px;
+  }
+
+  #track-playback-bar {
+    background-color: green;
   }
 </style>
 
