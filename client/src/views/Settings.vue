@@ -6,15 +6,21 @@
                 <h1 id="SettingsHeader">Your account</h1>
             </b-row>
             <b-row id="inputFields" class="fourth justify-content-center">
-                <input type="text" id="username" placeholder="*Username">
+                <!-- <input type="text" id="username" placeholder="*Username"> -->
+                <b-form-input v-model="username" type="text" placeholder="Username" id="username"></b-form-input>
                 <p id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
             </b-row>
-            <b-row id="" class="justify-content-center"><input type="text" id="password" placeholder="*Password">
+            <b-row id="" class="justify-content-center">
+                <!-- <input type="text" id="password" placeholder="*Password"> -->
+                <b-form-input v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
                 <p id="accountText">Your password should be kept secret, avoid sharing it with anyone and staff will never ask for these details.</p>
             </b-row>
-            <b-row id="" class="justify-content-center"><input type="text" id="emailAddress" placeholder="*Email Address"></b-row>
+            <b-row id="" class="justify-content-center">
+                <!-- <input type="text" id="emailAddress" placeholder="*Email Address"> -->
+                <b-form-input v-model="email" type="email" placeholder="Email Address" id="password"></b-form-input>
+            </b-row>
             <b-row id="" class="fourth justify-content-center">
-                    <button id="save">Save Changes</button>
+                    <button @click="update" id="save">Save Changes</button>
                     <button id="cancel">Cancel Changes</button>
             </b-row>
         </b-col>
@@ -67,11 +73,24 @@
 </template>
 
 <script>
+import { Api } from '../Api'
+
 export default {
   name: 'test',
   data() {
     return {
-      message: 'none'
+      username: '',
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    async update() {
+      await Api.put('/accounts/:account_id', {
+        username: this.username,
+        password: this.password,
+        email: this.email
+      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
     }
   }
 }
