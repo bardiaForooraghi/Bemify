@@ -137,9 +137,10 @@ router.get('/:account_id/playlists', async(req, res) => {
         if (userId.playlists == null)
             return res.status(404).json({ message: 'Playlists not found'});
 
-        const result = await User.find({_id: userId}).select({playlists: 1});
-
-        res.send(result);
+        let result = await User.find({_id: userId}).select({playlists: 1});
+        result = result[0].playlists;
+    
+        res.json(result);
 
     } catch(err) {
         res.status(400).json({ message: err.message });
