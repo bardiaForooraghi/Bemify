@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const {User} = require('../models/user');
 
-const router = express.Router();
-
+const router = express.Router({ mergeParams: true });
 
 router.post('/', async (req, res) => {
     try {
@@ -17,7 +16,7 @@ router.post('/', async (req, res) => {
             followings: req.body.followings
         });
         user = await user.save();
-        res.send(user);
+        res.status(200).send(user);
     } catch (e) {
         res.status(400).send(e.message);
     }
