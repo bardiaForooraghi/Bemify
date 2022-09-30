@@ -18,7 +18,7 @@
                 <b-form-group label-for="nested-country" label-cols-sm="3" label-align-sm="right">
                     <b-form-input v-model="confirmPassword" class="confirmPassword" type="password" placeholder="Confirm Password"></b-form-input>
                 </b-form-group>
-                <b-button id="btn" @click="signup" class="btn" pill variant="primary" type="submit">Create</b-button>
+                <b-button id="btn" @click="signup" class="btn" pill variant="primary" type="submit" to="/profile">Create</b-button>
                 <b-button pill type="reset">Clear</b-button>
             </b-form-group>
         </b-card>
@@ -49,7 +49,11 @@ export default {
         password: this.password,
         email: this.email,
         profilePicture: ''
-      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+      }).then(response => {
+        console.log(response)
+        const id = response.data._id
+        this.$router.push(this.$route.path + '/' + id)
+      }).catch(error => { console.log(error.response) })
     }
   }
 }

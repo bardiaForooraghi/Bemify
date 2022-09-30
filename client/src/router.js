@@ -25,9 +25,10 @@ export default new Router({
       name: 'signup',
       component: Signup
     }, {
-      path: '/profile',
+      path: '/profile/:account_id',
       name: 'profile',
-      component: Profile
+      component: Profile,
+      props: true
     }, {
       path: '/search',
       name: 'search',
