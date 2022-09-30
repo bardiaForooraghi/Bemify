@@ -178,14 +178,46 @@ router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
 
 // getting an accounts followers
 router.get('/:account_id/followers', async (req, res) => {
-    let id = req.params.account_id;
-    User.findById(id, function(err, user){
-        if(err){return next(err);}
-        if(user === null) {
-            return res.status(404).json({'message': 'This account has not been found!'})
-        }
-        res.send(user.followers);
-    })
+    const userId = req.params.account_id;
+
+    try {
+        const userId = await User.findById(req.params.account_id);
+
+        if (!userId) 
+            return res.status(404).json({ message: `User with id ${userId} not found`});
+
+        if (userId.playlists == null)
+            return res.status(404).json({ message: 'Playlists not found'});
+
+        let result = await User.find({_id: userId}).select({followers:1});
+        result = result[0].followers;
+        res.json(result);
+
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    } 
+});
+
+// getting an accounts followers
+router.get('/:account_id/followings', async (req, res) => {
+    const userId = req.params.account_id;
+
+    try {
+        const userId = await User.findById(req.params.account_id);
+
+        if (!userId) 
+            return res.status(404).json({ message: `User with id ${userId} not found`});
+
+        if (userId.playlists == null)
+            return res.status(404).json({ message: 'Playlists not found'});
+
+        let result = await User.find({_id: userId}).select({followings:1});
+        result = result[0].followings;
+        res.json(result);
+
+    } catch(err) {
+        res.status(400).json({ message: err.message });
+    } 
 });
 
 // getting a specific follower from an account
