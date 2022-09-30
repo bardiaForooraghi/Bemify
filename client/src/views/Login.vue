@@ -48,6 +48,7 @@ export default {
 .login-page {
   background-color: #183059;
   overflow: hidden;
+  /* padding-top: 20px; */
 }
 
 .vue-typer {
@@ -96,6 +97,10 @@ export default {
   font-family: "DM Sans", sans-serif;
   height: 60px;
   font-weight: 550;
+}
+
+.second {
+  padding-top: 50px;
 }
 
 .fourth {

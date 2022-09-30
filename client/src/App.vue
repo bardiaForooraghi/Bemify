@@ -4,11 +4,11 @@
     <ul class="nav navbar justify-content-center sticky-top" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
-        <b-modal ok-title="Upload" ok-id="up" id="modal-1" content-class="popup" title="Upload your track">
+        <b-modal id="modal-1" content-class="popup" title="Upload your track">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields">
-                <input type="text" id="trackNameInput" placeholder="*Track name" required>
+                <input type="text" id="trackNameInput" placeholder="Track name" required>
               </form>
             </b-row>
             <b-row class="my-4" id="modal-body">
@@ -85,7 +85,6 @@
 }
 
 /* Navbar styling */
-
 #navbar, .nav-item {
   font-family: "DM Sans", sans-serif;
   font-size: 20px;
@@ -118,15 +117,14 @@
   height: 25px;
   padding-right: 10px;
 }
+/* Navbar styling */
 
 /* Modal (popup) styling */
-
 .modal-content  {
     -webkit-border-radius: 0px !important;
     -moz-border-radius: 0px !important;
     border-radius: 30px !important;
     font-family: "DM Sans", sans-serif;
-    /* width: 800px; */
 }
 
 #modal-body {

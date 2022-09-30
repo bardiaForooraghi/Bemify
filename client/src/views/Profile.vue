@@ -21,8 +21,8 @@
       </div>
     </div>
     <div class="row align-items-start">
-      <div class="col">
-        <div class="text-left align-self-end">My playlists</div>
+      <div class="text-left align-self-end" id="h1MyPlaylists">
+          My playlists
       </div>
       <div class="col text-right">
         <b-button v-b-modal.modal-center id="newPlaylistButton"
@@ -79,56 +79,91 @@
     <div class="row" id="playlist" v-for="playlist in playlists" :key="playlist">
       <p>{{ playlist.name }}</p>
     </div>
-    <div class="b-row" id="track-playback-bar"></div>
+    <footer class="text-center text-lg-start fixed-bottom" id="trackPlaybackBar">
+      <!-- Grid container -->
+      <div class="b-container p-4">
+        <!--Grid row-->
+        <div class="row">
+          <div class="col-3">
+            <h2 id="listeningTo">You're listening to</h2>
+            <h2 class="song-title">{{ current.title }} - <span>{{ current.artist }}</span></h2>
+          </div>
+          <div class="col-4" id="currentButtons">
+            <div class="controls">
+              <b-button id="prev" @click="prev">Prev</b-button>
+              <b-button id="play" v-if="!isPlaying" @click="play"><img src="../../../images/play.png" id="playButton"></b-button>
+              <b-button id="pause" v-else @click="pause"><img src="../../../images/pause.png" id="pauseButton"></b-button>
+              <b-button id="next" @click="next">Next</b-button>
+            </div>
+          </div>
+          <div class="col-5">
+            Playlist1:
+            <b-button id="demoTrack" v-for="song in songs" :key="song.src" @click="play(song)" :class="(song.src == current.src) ? 'song playing' : 'song'">
+              {{ song.title }} - {{ song.artist }}
+            </b-button>
+          </div>
+        </div>
+      <!--Grid row-->
+      </div>
+      <!-- Grid container -->
+    </footer>
   </div>
 </template>
 
 <style>
-.col-8,
-.col-4 {
-  margin: 50px 0;
-}
+  .col-8, .col-4 {
+    margin: 50px 0;
+  }
 
-#profileInfo {
-  background-color: #e3d5ca;
-  border-radius: 35px;
-  height: 150px;
-  width: 600px;
-  color: black;
-  font-size: 20px;
-  font-weight: 800;
-}
+  #profileInfo {
+    background-color: #E3D5CA;
+    border-radius: 35px;
+    height: 120px;
+    width: 550px;
+    color: black;
+    font-size: 20px;
+    font-weight: 800;
+  }
 
-#userProfile {
-  height: 80px;
-  margin-left: 20px;
-}
+  #userProfile {
+    height: 80px;
+    margin-left: 20px;
+  }
 
-#follow {
-  height: 150px;
-  font-size: 22px;
-  color: #e3d5ca;
-  font-weight: 700;
-}
+  #follow {
+    height: 150px;
+    font-size: 22px;
+    color: #E3D5CA;
+    font-weight: 700;
+  }
 
-#follow:hover {
-  text-decoration: none;
-}
+  #follow:hover {
+    text-decoration: none;
+  }
 
-#playlist {
-  background-color: pink;
-  height: 60px;
-  border-radius: 20px;
-  margin: 20px 0;
-  font-size:20px;
-}
+  #h1MyPlaylists {
+    color: #E3D5CA;
+    font-size: 18px;
+    margin-bottom: 0;
+  }
 
-#newPlaylistButton {
-  background-color: #f76e45;
-  border-radius: 15px;
-}
+  #playlist {
+    background-color: pink;
+    height: 60px;
+    border-radius: 20px;
+    margin: 20px 0;
+  }
 
-/* New playlist modal styling */
+  #newPlaylistButton {
+    background-color: #F76E45;
+    border-radius: 25px;
+    height: 50px;
+    width: 200px;
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+
+  /* Create new playlist modal styling */
 #playlistNameInput {
   width: 400px;
   height: 50px;
@@ -136,8 +171,17 @@
   padding-left: 20px;
 }
 
+#playlistNameInput {
+  width: 400px;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 20px;
+  background-color: #E3D5CA;
+  border: none;
+}
+
 #createButton {
-  background-color: #f76e45;
+  background-color: #F76E45;
   border: none;
   width: 25%;
   height: 40px;
@@ -146,8 +190,38 @@
   border-radius: 20px;
 }
 
-#track-playback-bar {
-  background-color: green;
+#trackPlaybackBar {
+    background-color: #0B1330;
+}
+
+#listeningTo {
+  font-size: 14px;
+}
+
+#prev, #play, #pause, #next, #demoTrack {
+  background-color: #E3D5CA;
+  color: black;
+}
+
+#playButton, #pauseButton {
+  height: 15px;
+}
+
+#currentButtons {
+  margin-top: 0;
+}
+
+footer {
+  height: 110px;
+  padding: 0px;
+  padding-left: 20px;
+  padding-bottom: 50px;
+  margin: 0;
+  line-height: 10px;
+}
+
+h2 {
+  text-align: left;
 }
 </style>
 
@@ -157,12 +231,28 @@ export default {
   name: 'profile',
   data() {
     return {
-      playlists: []
+      playlists: [],
+      current: {},
+      index: 0,
+      isPlaying: false,
+      songs: [
+        {
+          title: 'Milkshake',
+          artist: 'Demo1',
+          src: require('../tracks/milk-shake-116330.mp3')
+        },
+        {
+          title: 'Atmospheric',
+          artist: 'Demo2',
+          src: require('../tracks/atmospheric-hip-hop-instrumental-120988.mp3')
+        }
+      ],
+      player: new Audio()
     }
   },
   methods: {
     async newPlaylist() {
-      await Api.put('/accounts/632d796f4ccfeb0e5c45e77f/newPlaylist', {
+      await Api.put('/accounts/63364392ff1a5e16afce3f81/newPlaylist', {
         name: this.name
       })
         .then((response) => {
@@ -173,7 +263,7 @@ export default {
         })
     },
     getPlaylists: async function () {
-      await Api.get('/accounts/632d796f4ccfeb0e5c45e77f/playlists')
+      await Api.get('/accounts/63364392ff1a5e16afce3f81/playlists')
         .then((response) => {
           this.playlists = response.data
           console.log(response.data)
@@ -183,7 +273,48 @@ export default {
           console.log(error)
         })
         .then(function () {})
+    },
+    play(song) {
+      if (typeof song.src !== 'undefined') {
+        this.current = song
+        this.player.src = this.current.src
+      }
+      this.player.play()
+      this.player.addEventListener('ended', function () {
+        this.index++
+        if (this.index > this.songs.length - 1) {
+          this.index = 0
+        }
+        this.current = this.songs[this.index]
+        this.play(this.current)
+      }.bind(this))
+      this.isPlaying = true
+    },
+    pause() {
+      this.player.pause()
+      this.isPlaying = false
+    },
+    next() {
+      this.index++
+      if (this.index > this.songs.length - 1) {
+        this.index = 0
+      }
+      this.current = this.songs[this.index]
+      this.play(this.current)
+    },
+    prev() {
+      this.index--
+      if (this.index < 0) {
+        this.index = this.songs.length - 1
+      }
+      this.current = this.songs[this.index]
+      this.play(this.current)
     }
+  },
+  created() {
+    this.current = this.songs[this.index]
+    this.player.src = this.current.src
   }
+
 }
 </script>

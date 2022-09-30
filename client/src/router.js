@@ -5,6 +5,7 @@ import Settings from './views/Settings.vue'
 import Signup from './views/Signup.vue'
 import Profile from './views/Profile.vue'
 import Search from './views/Search.vue'
+import Playlist from './views/Playlist.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,10 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: Search
+    }, {
+      path: '/playlist',
+      name: 'playlist',
+      component: Playlist
     }
   ]
 })

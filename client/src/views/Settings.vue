@@ -26,8 +26,9 @@
         </b-col>
         <b-col id="">
             <b-row id=""><b-img :src="require('../../../images/profile-pic.png')" id="profile-pic" center></b-img></b-row>
-            <b-row id="" class="fourth justify-content-center"><b-button v-b-modal.modal-1 id="changeProfilePic">Change Profile Picture</b-button>
-                <b-modal ok-title="Upload" ok-id="up" id="modal-1" content-class="popup" title="Upload your track">
+            <b-row id="" class="fourth justify-content-center">
+                <b-button v-b-modal.modal-lg id="changeProfilePic">Change Profile Picture</b-button>
+                <b-modal id="modal-lg" content-class="popup" title="Change Profile Picture">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields">
@@ -35,7 +36,7 @@
               </form>
             </b-row>
             <b-row class="my-4" id="modal-body">
-              <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".mp3, .WAV, .AIF, .mp4, .OGG, webM, .AAC, .aup3" placeholder="Choose or drop audio file here"></b-form-file>
+              <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".mp3, .WAV, .AIF, .mp4, .OGG, webM, .AAC, .aup3" placeholder="Choose or drop file here"></b-form-file>
               <b-button @click="file = null">Reset</b-button>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
@@ -114,8 +115,10 @@ export default {
 #username, #password, #emailAddress {
     width:600px;
     height:70px;
-    border-radius: 25px;
+    border-radius: 30px;
     padding-left: 20px;
+    background-color: #E3D5CA;
+    border: none;
 }
 
 #username::placeholder, #password::placeholder, #emailAddress::placeholder{
@@ -156,5 +159,15 @@ export default {
 #changeProfilePic{
     background-color: #F76E45;
     width: 250px;
+}
+
+#savePFPButton {
+  background-color: #F76E45;
+  border: none;
+  width: 25%;
+  height: 40px;
+  margin: 10px;
+  font-size: 17px;
+  border-radius: 20px;
 }
 </style>
