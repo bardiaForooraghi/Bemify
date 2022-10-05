@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <b-row>
-      <b-col class="first">
+      <b-col class="first d-none d-lg-block">
         <vue-typer :text="greet" type-delay="200" caret-animation="smooth" :repeat="0"></vue-typer>
       </b-col>
       <b-col class="second">
@@ -9,25 +9,25 @@
         <b-row class="third justify-content-center" id="bemify">
           <p class="app-name">Bemify</p>
         </b-row>
-        <b-row class="fourth justify-content-center">
-          <div class="login">
+        <div class="fourth justify-content-center">
+          <b-row class="login justify-content-center">
             <b-form-input type="text" placeholder="Username" id="input"></b-form-input>
-          </div>
-          <div class="login">
+          </b-row>
+          <b-row class="login justify-content-center">
             <b-form-input type="password" placeholder="Password" id="input"></b-form-input>
-          </div>
-          <div class="login">
+          </b-row>
+          <b-row class="login justify-content-center">
             <b-button id="loginButton">Log in</b-button>
-          </div>
-          <div class="registeration">
-            <p class="registeration-text">Don't have an account?</p>
-            <div class="registeration-button">
-              <router-link to="/signup">
-                <b-button id="registration-button" block variant="primary">Create an Account</b-button>
-              </router-link>
-            </div>
-          </div>
-        </b-row>
+          </b-row>
+          <b-row class="justify-content-center">
+            <p id="createAccount-text">Don't have an account?</p>
+          </b-row>
+          <router-link style="text-decoration: none; color: inherit;" to="/signup">
+          <b-row class="justify-content-center">
+              <b-button id="createAccButton">Create an Account</b-button>
+          </b-row>
+        </router-link>
+        </div>
       </b-col>
     </b-row>
   </div>
@@ -48,7 +48,6 @@ export default {
 .login-page {
   background-color: #183059;
   overflow: hidden;
-  /* padding-top: 20px; */
 }
 
 .vue-typer {
@@ -58,7 +57,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 10rem;
+  padding-left: 110px;
   font-size: 4rem;
   font-family: "DM Sans", sans-serif;
   font-weight: 500;
@@ -85,7 +84,7 @@ export default {
 }
 
 .app-name {
-  color: #E3D5CA;
+  color: #f76e45;
   font-size: 40px;
   font-family: "DM Sans", sans-serif;
 }
@@ -108,7 +107,7 @@ export default {
 }
 
 #input {
-  width: 500px;
+  width: 70%;
   background-color: #e3d5ca;
   border-radius: 30px;
   height: 45px;
@@ -118,43 +117,28 @@ export default {
   padding-left: 50px;
 }
 
-#note {
+#createAccount-text {
   color: #e3d5ca;
   font-family: "DM Sans", sans-serif;
 }
 
-#loginButton {
-  width: 500px;
+#loginButton, #createAccButton {
   background-color: #f76e45;
   border-radius: 30px;
   height: 45px;
   margin: 10px;
   font-family: "DM Sans", sans-serif;
+  width: 70%;
+  text-decoration: none;
+  /* color: #e3d5ca; */
+}
+
+#loginButton:hover, #createAccButton:hover {
+  background-color: #f38e6f;
+  text-decoration: none;
 }
 
 .logo {
   transform: rotate(-9deg);
-}
-
-.login {
-  margin: 0.1rem;
-}
-
-.registration {
-  margin: 2.5rem;
-  color: #F76E45;
-}
-
-#registration-button {
-  width: 500px;
-  background-color: #f76e45;
-  border-radius: 30px;
-  height: 45px;
-  /* margin: 1rem; */
-  font-family: "DM Sans", sans-serif;
-}
-
-.registeration-text {
-  color: #E3D5CA;
 }
 </style>

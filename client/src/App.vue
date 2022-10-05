@@ -140,7 +140,7 @@
     -moz-border-radius: 0px !important;
     border-radius: 30px !important;
     font-family: "DM Sans", sans-serif;
-    margin: 20px;
+    max-width: 90%;
 }
 
 #modal-body {
