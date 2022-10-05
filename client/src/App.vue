@@ -1,7 +1,12 @@
 <template>
   <div id="app">
-    <div>
-    <ul class="nav navbar justify-content-center sticky-top" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
+    <nav class="navbar navbar-expand-md justify-content-center" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
+      <!-- <a class="navbar-brand" href="#"><img src="../../images/bemify_logo.png" alt="logo" id="logo"></a> -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler01" aria-controls="navbarToggler01" aria-expanded="false" aria-label="Toggle navigation">
+      <img src="../../images/bemify_logo.png" alt="logo-toggle" id="logo">
+  </button>
+  <div class="nav-item collapse navbar-collapse" id="navbarToggler01">
+    <ul class="navbar-nav mt-2 mx-auto mt-md-0 align-items-center">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
         <b-modal id="modal-1" content-class="popup" title="Upload your track">
@@ -16,7 +21,6 @@
               <b-button @click="file = null">Reset</b-button>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
-              <!-- <b-button @click="clearFiles" class="mr-2">Reset via method</b-button> -->
               <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
             </b-row>
           </b-container>
@@ -27,8 +31,7 @@
               size="sm"
               class="float-right"
               @click="show=false"
-              id="uploadButton"
-            >
+              id="uploadButton">
               Upload
             </b-button>
             <b-button
@@ -36,8 +39,7 @@
               size="sm"
               class="float-right"
               @click="show=false"
-              id="closeButton"
-            >
+              id="closeButton">
               Close
             </b-button>
           </div>
@@ -47,7 +49,7 @@
       <li class="nav-item">
         <router-link to="/profile" id="navtext"><img src="../../images/user.png" id="icon">My Profile</router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item collapse navbar-collapse" id="navbarToggler01">
         <img src="../../images/bemify_logo.png" alt="logo" id="logo">
       </li>
       <li class="nav-item">
@@ -57,7 +59,8 @@
         <router-link to="/search" id="navtext"><img src="../../images/search.png" id="icon">Search</router-link>
       </li>
     </ul>
-    </div>
+  </div>
+</nav>
     <div id="body"></div>
     <!-- Render the content of the current page view -->
     <router-view/>
@@ -85,18 +88,25 @@
 }
 
 /* Navbar styling */
-#navbar, .nav-item {
+#navbar {
+  background-color: #0E1B3D;
+  /* height:100px; */
+  /* line-height: 100px; */
+  /* max-height: 140px; */
+}
+
+.nav-item {
+  /* width: 60%; */
   font-family: "DM Sans", sans-serif;
   font-size: 20px;
-  background-color: #0E1B3D;
-  height:100px;
-  line-height: 100px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 #navtext {
   color: #E3D5CA;
-  padding: 0 65px;
-  line-height: 100px;
+  /* padding: 0 65px; */
+  /* line-height: 100px; */
   font-size: 20px;
   transition: color 0.4s ease-in-out;
 }
@@ -104,13 +114,18 @@
 #navtext:hover {
     text-decoration: none;
     color: #F76E45;
-
   }
 
 #logo {
   height:90px;
   transform:rotate(-9deg);
-  padding: 0 65px;
+  /* padding: 0 65px; */
+}
+
+#logo-toggle {
+  margin: 0 0 20px 0;
+  height:90px;
+  transform:rotate(-9deg);
 }
 
 #icon {
@@ -125,6 +140,7 @@
     -moz-border-radius: 0px !important;
     border-radius: 30px !important;
     font-family: "DM Sans", sans-serif;
+    margin: 20px;
 }
 
 #modal-body {
