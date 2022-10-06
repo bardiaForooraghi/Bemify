@@ -90,23 +90,17 @@
 /* Navbar styling */
 #navbar {
   background-color: #0E1B3D;
-  /* height:100px; */
-  /* line-height: 100px; */
-  /* max-height: 140px; */
 }
 
 .nav-item {
-  /* width: 60%; */
   font-family: "DM Sans", sans-serif;
   font-size: 20px;
-  margin-left: 30px;
-  margin-right: 30px;
+  margin-left: 35px;
+  margin-right: 35px;
 }
 
 #navtext {
   color: #E3D5CA;
-  /* padding: 0 65px; */
-  /* line-height: 100px; */
   font-size: 20px;
   transition: color 0.4s ease-in-out;
 }
@@ -119,7 +113,6 @@
 #logo {
   height:90px;
   transform:rotate(-9deg);
-  /* padding: 0 65px; */
 }
 
 #logo-toggle {
@@ -140,7 +133,10 @@
     -moz-border-radius: 0px !important;
     border-radius: 30px !important;
     font-family: "DM Sans", sans-serif;
-    max-width: 90%;
+}
+
+#modal-1___BV_modal_content_.modal-content.popup {
+  width: 550px;
 }
 
 #modal-body {
@@ -150,7 +146,7 @@
 }
 
 #trackNameInput {
-  width: 400px;
+  width: 90%;
   height: 50px;
   border-radius: 30px;
   padding-left: 20px;
@@ -159,10 +155,9 @@
 }
 
 #file-default.custom-file-input {
-  width: 400px;
+  width: 40%;
   height: 50px;
   border-radius: 30px;
-  padding-left: 20px;
   background-color: #E3D5CA;
   border: none;
 }
