@@ -49,7 +49,7 @@
       <li class="nav-item">
         <router-link to="/profile" id="navtext"><img src="../../images/user.png" id="icon">My Profile</router-link>
       </li>
-      <li class="nav-item collapse navbar-collapse" id="navbarToggler01">
+      <li class="nav-item collapse navbar-collapse">
         <img src="../../images/bemify_logo.png" alt="logo" id="logo">
       </li>
       <li class="nav-item">
@@ -76,7 +76,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  min-height: 970px;
+  min-height: 800px;
   background-color: #183059;
 }
 

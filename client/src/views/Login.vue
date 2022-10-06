@@ -11,10 +11,10 @@
         </b-row>
         <div class="fourth justify-content-center">
           <b-row class="login justify-content-center">
-            <b-form-input type="text" placeholder="Username" id="input"></b-form-input>
+            <b-form-input type="text" placeholder="Username" id="loginInput"></b-form-input>
           </b-row>
           <b-row class="login justify-content-center">
-            <b-form-input type="password" placeholder="Password" id="input"></b-form-input>
+            <b-form-input type="password" placeholder="Password" id="loginInput"></b-form-input>
           </b-row>
           <b-row class="login justify-content-center">
             <b-button id="loginButton">Log in</b-button>
@@ -106,7 +106,7 @@ export default {
   padding-top: 50px;
 }
 
-#input {
+#loginInput {
   width: 70%;
   background-color: #e3d5ca;
   border-radius: 30px;
