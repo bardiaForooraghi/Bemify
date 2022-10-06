@@ -148,7 +148,6 @@ router.get('/:account_id/playlists', async(req, res) => {
 
 });
 
-
 // return user's playlists' genre
 router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
     const userId = req.params.account_id;
@@ -175,6 +174,35 @@ router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
         res.status(400).json({ message: err.message });
     }  
 });
+
+// // get all users (collection)
+// router.get('/', async (req, res) => {
+//     User.find({}, function(err, users) {
+//         if(err) {
+//             res.status(404).message('Something went wrong!')
+//         }
+//         res.json(users);
+//     })
+// })
+
+// get all filtered users (collection)
+router.get('/', async (req, res) => {
+    User.find({}, function(err, users) {
+        if(err) {
+            res.status(404).message('Something went wrong!')
+        }
+        console.log(req.query)
+        const result = users.filter(user => {
+            if(req.query.username == ""){
+                return users
+            } else {
+                return user.username.includes(req.query.username)
+            }
+        });
+    
+        res.json(result);
+    })
+})
 
 // getting an accounts followers
 router.get('/:account_id/followers', async (req, res) => {
@@ -254,7 +282,10 @@ router.patch('/:account_id/followers/:follower_id', async (req, res) => {
                 return res.status(404).json({'message': 'This account has not been found!'})
             }
             if(user2.followers.includes(id1) || user1.followings.includes(id2)){
-                return res.json({'message': 'You are already following this account!'})
+                return res.status(406).json({'message': 'You are already following this account!'})
+            }
+            if(id1 == id2){
+                return res.status(406).json({'message': 'You cannot follow yourself'})
             }
             user2.followers.push(user1);
             user1.followings.push(user2);
