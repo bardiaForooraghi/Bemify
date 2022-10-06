@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const trackSchema = new mongoose.Schema({
     name: String,
     genre: String,
-    duration: Number
+    duration: String
 });
 
 const Track = mongoose.model('Track', trackSchema);

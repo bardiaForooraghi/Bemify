@@ -111,6 +111,8 @@ router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => 
             duration: req.body.duration
         });
 
+        await track.save();
+
         let playlist = user.playlists.filter(playlist => playlist._id == playlistId)[0];
         playlist.tracks.push(track);
 
@@ -175,18 +177,8 @@ router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
     }  
 });
 
-// // get all users (collection)
-// router.get('/', async (req, res) => {
-//     User.find({}, function(err, users) {
-//         if(err) {
-//             res.status(404).message('Something went wrong!')
-//         }
-//         res.json(users);
-//     })
-// })
-
 // get all filtered users (collection)
-router.get('/', async (req, res) => {
+router.get('/:account_id/users', async (req, res) => {
     User.find({}, function(err, users) {
         if(err) {
             res.status(404).message('Something went wrong!')
@@ -197,6 +189,25 @@ router.get('/', async (req, res) => {
                 return users
             } else {
                 return user.username.includes(req.query.username)
+            }
+        });
+    
+        res.json(result);
+    })
+})
+
+// get all filtered users (collection)
+router.get('/:account_id/tracks', async (req, res) => {
+    Track.find({}, function(err, tracks) {
+        if(err) {
+            res.status(404).message('Something went wrong!')
+        }
+        console.log(req.query)
+        const result = tracks.filter(track => {
+            if(req.query.name == ""){
+                return tracks
+            } else {
+                return track.name.includes(req.query.name)
             }
         });
     
@@ -285,7 +296,7 @@ router.patch('/:account_id/followers/:follower_id', async (req, res) => {
                 return res.status(406).json({'message': 'You are already following this account!'})
             }
             if(id1 == id2){
-                return res.status(406).json({'message': 'You cannot follow yourself'})
+                return res.status(406).json({'message': 'You cannot follow yourself!'})
             }
             user2.followers.push(user1);
             user1.followings.push(user2);
