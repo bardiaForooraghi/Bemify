@@ -26,7 +26,7 @@ export default new Router({
       name: 'signup',
       component: Signup
     }, {
-      path: '/profile/',
+      path: '/profile',
       name: 'profile',
       component: Profile,
       props: true

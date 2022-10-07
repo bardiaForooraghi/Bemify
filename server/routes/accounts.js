@@ -364,7 +364,7 @@ router.put('/:account_id',  async (req, res) => {
         // user.followers = req.body.followers;
         // user.followings = req.body.followings;
         user = await user.save();
-        res.send(user);
+        res.status(200).send(user);
     } catch (e) {
         res.status(400).send(e.message);
     }

@@ -11,13 +11,13 @@
         </b-row>
         <div class="fourth justify-content-center">
           <b-row class="login justify-content-center">
-            <b-form-input type="text" placeholder="Username" id="loginInput"></b-form-input>
+            <b-form-input v-model="username" type="text" placeholder="Username" id="loginInput"></b-form-input>
           </b-row>
           <b-row class="login justify-content-center">
-            <b-form-input type="password" placeholder="Password" id="loginInput"></b-form-input>
+            <b-form-input v-model="password" type="password" placeholder="Password" id="loginInput"></b-form-input>
           </b-row>
           <b-row class="login justify-content-center">
-            <b-button id="loginButton">Log in</b-button>
+            <b-button @click="login" id="loginButton">Log in</b-button>
           </b-row>
           <b-row class="justify-content-center">
             <p id="createAccount-text">Don't have an account?</p>
@@ -34,11 +34,29 @@
 </template>
 
 <script>
+import { Api } from '../Api'
+
 export default {
   name: 'login',
   data() {
     return {
-      greet: 'WELCOME \nTO \nBEMIFY'
+      greet: 'WELCOME \nTO \nBEMIFY',
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    login() {
+      Api.post('/auth', {
+        username: this.username,
+        password: this.password
+      })
+        .then(response => {
+          this.$router.push('/profile')
+          // console.log(response.headers)
+          const token = response.headers['x-auth-token']
+          console.log(token)
+        }).catch(error => { console.log(error.response) })
     }
   }
 }

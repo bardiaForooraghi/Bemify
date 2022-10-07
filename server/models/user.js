@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const {Playlist, playlistSchema} = require('../models/playlist');
 const {Track, trackSchema} = require('../models/track');
@@ -15,10 +16,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 4,
-        maxlength: 10
+        maxlength: 100
     },
     email: {
         type: String,
+        unique: true,
         match: /.*@.*/
     },
     profilePicture: {
@@ -38,6 +40,11 @@ const userSchema = new mongoose.Schema({
         default: []
     },
 });
+
+userSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign({_id: this._id}, 'jwtPrivateKey');
+    return token;
+}
 
 const User = mongoose.model('User', userSchema);
 

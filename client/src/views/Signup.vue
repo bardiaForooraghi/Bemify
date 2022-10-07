@@ -127,7 +127,10 @@ export default {
         password: this.password,
         email: this.email,
         profilePicture: ''
-      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+      }).then(response => {
+        console.log(response)
+        this.$router.push('/profile')
+      }).catch(error => { console.log(error.response) })
     }
   }
 }
