@@ -257,6 +257,7 @@ h2 {
 
 <script>
 import { Api } from '../Api'
+import parseJwt from '../util/parse'
 export default {
   name: 'profile',
   data() {
@@ -268,6 +269,7 @@ export default {
       current: {},
       index: 0,
       isPlaying: false,
+      name: '',
       songs: [
         {
           title: 'Milkshake',
@@ -340,21 +342,13 @@ export default {
   },
   created() {
     const token = localStorage.getItem('token')
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1]
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      }).join(''))
-      return JSON.parse(jsonPayload)
-    };
     const user = parseJwt(token)
     this.username = user.username
     console.log(user)
     this.current = this.songs[this.index]
     this.player.src = this.current.src
     /* Getting all playlists from the user */
-    Api.get('/accounts/:account_id/playlists')
+    Api.get(`/accounts/${user._id}/playlists`)
       .then((response) => {
         this.playlists = response.data
         console.log(response.data)
@@ -365,7 +359,7 @@ export default {
       })
       .then(function () {})
     /* Getting followers no from the user */
-    Api.get('/accounts/:account_id/followers')
+    Api.get(`/accounts/${user._id}/followers`)
       .then((response) => {
         this.followers_no = response.data.length
         console.log(response)
@@ -376,7 +370,7 @@ export default {
       })
       .then(function () {})
     /* Getting followings no from the user */
-    Api.get('/accounts/:account_id/followings')
+    Api.get(`/accounts/${user._id}/followings`)
       .then((response) => {
         this.followings_no = response.data.length
         console.log(response)

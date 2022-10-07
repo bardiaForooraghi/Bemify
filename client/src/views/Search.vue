@@ -233,6 +233,7 @@
 
 <script>
 import { Api } from '../Api'
+import parseJwt from '../util/parse'
 
 export default {
   name: 'search',
@@ -242,13 +243,16 @@ export default {
       tracks: [],
       searchInput: '',
       divText: '',
+      user: {},
       showUnsuccessfulDismissibleAlert: false,
       showSuccessfulDismissibleAlert: false
     }
   },
   methods: {
     search() {
-      Api.get('/accounts/:account_id/users', {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      Api.get(`/accounts/${user._id}/users`, {
         params: {
           username: this.searchInput
         }
@@ -260,7 +264,7 @@ export default {
         .catch((error) => {
           console.log(error.response)
         })
-      Api.get('/accounts/:account_id/tracks', {
+      Api.get(`/accounts/${user._id}/tracks`, {
         params: {
           name: this.searchInput
         }
@@ -274,7 +278,9 @@ export default {
         })
     },
     followAccount(id) {
-      Api.patch('/accounts/:account_id/followers/' + id)
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      Api.patch(`/accounts/${user._id}/followers/` + id)
         .then((response) => {
           if (response.status === 200) {
             this.showSuccessfulDismissibleAlert = true

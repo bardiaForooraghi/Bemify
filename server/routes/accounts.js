@@ -260,7 +260,7 @@ router.get('/:account_id/followings', async (req, res) => {
 });
 
 // getting a specific follower from an account
-router.get('/:account_id/followers/:follower_id', async (req, res) => {
+router.get('/:account_id/followers/:follower_id', async (req, res, next) => {
     var id = req.params.account_id;
     var id2 = req.params.follower_id;
     User.findById(id, function(err, user1){
@@ -279,7 +279,7 @@ router.get('/:account_id/followers/:follower_id', async (req, res) => {
 });
 
 // following an account & adding to the followers and following lists of the respective users
-router.patch('/:account_id/followers/:follower_id', async (req, res) => {
+router.patch('/:account_id/followers/:follower_id', async (req, res, next) => {
     let id1 = req.params.account_id;
     let id2 = req.params.follower_id;
     User.findById(id1, function(err, user1){
@@ -308,7 +308,7 @@ router.patch('/:account_id/followers/:follower_id', async (req, res) => {
 });
 
 // unfollow an account and change the followers/following lists respectively
-router.delete('/:account_id/followers/:follower_id', async (req, res) => {
+router.delete('/:account_id/followers/:follower_id', async (req, res, next) => {
     let id1 = req.params.account_id;
     let id2 = req.params.follower_id;
     User.findById(id1, function(err, user1){
