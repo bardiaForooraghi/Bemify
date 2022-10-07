@@ -382,16 +382,6 @@ export default {
         console.log(error)
       })
       .then(function () {})
-    /* Getting username from the user */
-    Api.get('/accounts/:account_id/')
-      .then((response) => {
-        this.username = response.data.username
-        console.log(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-      .then(function () {})
   }
 }
 </script>
