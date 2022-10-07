@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const {Playlist, playlistSchema} = require('../models/playlist');
 const {Track, trackSchema} = require('../models/track');
