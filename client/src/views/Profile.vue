@@ -290,7 +290,9 @@ export default {
       window.location.reload()
     },
     async newPlaylist() {
-      await Api.put('/accounts/6321bd4df073f117ca2e3510/newPlaylist', {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      await Api.put(`/accounts/${user._id}/newPlaylist`, {
         name: this.name
       })
         .then((response) => {
