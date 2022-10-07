@@ -53,9 +53,8 @@ export default {
       })
         .then(response => {
           this.$router.push('/profile')
-          // console.log(response.headers)
-          const token = response.headers['x-auth-token']
-          console.log(token)
+          const token = response.data
+          localStorage.token = token
         }).catch(error => { console.log(error.response) })
     }
   }
