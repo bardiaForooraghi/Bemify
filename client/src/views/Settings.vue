@@ -2,12 +2,28 @@
 <div>
     <b-row id="content">
       <b-row id="">
-        <b-col class="col-6" id="headerRow">
-          <h1 id="header">Your account</h1>
-        </b-col>
-      </b-row>
-      <b-row align-v="stretch">
-        <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol">
+        <!-- account col -->
+          <b-col class="col-3 order-lg-1 order-md-1" id="headerRow">
+            <b-row>
+              <b-col>
+                <h1 id="header">Your account</h1>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <hr/>
+                <b-row>
+                  <b-button class="mx-auto" id="logoutButton" @click="logout"><img src="../../../images/logout.png" id="logoutImage">Log out</b-button>
+                </b-row>
+                <b-row>
+                  <b-button class="mx-auto" id="deleteAccButton" @click="deleteAccount"><img src="../../../images/delete.png" id="deleteImage">Delete account</b-button>
+                </b-row>
+              </b-col>
+            </b-row>
+          </b-col>
+        <!-- Profile pic col -->
+        <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol"></b-col> -->
+        <b-col class="col-3 order-lg-3 order-md-3" id="profileCol">
             <b-row class="order-sm=0" id=""><b-img class="src" :src="profilePicture" id="profile-pic" center></b-img></b-row>
             <b-row id="" class="fourth justify-content-center">
               <b-col class="col-sm-12">
@@ -15,8 +31,12 @@
                 <b-modal id="modal-lg" content-class="popup" title="Change Profile Picture">
           <b-container fluid>
             <b-row class="my-4" id="modal-body">
-              <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".jpeg, .png, .svg, .WebP, .apng, .gif, .avif" placeholder="Choose or drop file here"></b-form-file>
-              <b-button @click="file = null">Reset</b-button>
+              <b-col-11>
+                <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".jpeg, .png, .svg, .WebP, .apng, .gif, .avif" placeholder="Choose or drop file here"></b-form-file>
+              </b-col-11>
+              <b-col-1 class="ml-auto">
+                <b-button id="resetButton" @click="file = null">Reset</b-button>
+              </b-col-1>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
               <!-- <b-button @click="clearFiles" class="mr-2">Reset via method</b-button> -->
@@ -46,10 +66,12 @@
           </div>
           </template>
         </b-modal>
-              </b-col>
+        </b-col>
         </b-row>
         </b-col>
-        <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-1 order-md-1" id="">
+        <!-- input fields col -->
+        <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-1 order-md-1" id=""> -->
+          <b-col class="col-6 order-lg-2 order-md-2" align-self="center" id="inputColumn">
             <b-row id="inputFields" class="fourth justify-content-center">
                 <!-- <input type="text" id="username" placeholder="*Username"> -->
                 <b-form-input v-model="username" type="text" placeholder="Username" id="username"></b-form-input>
@@ -68,24 +90,95 @@
               <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
               <b-button class="mx-auto btn" @click="update" id="save">Save Changes</b-button>
             </b-row>
-        </b-col>
+          </b-col>
       </b-row>
+      <!-- <b-row align-v="stretch">
+        <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol">
+            <b-row class="order-sm=0" id=""><b-img class="src" :src="profilePicture" id="profile-pic" center></b-img></b-row>
+            <b-row id="" class="fourth justify-content-center">
+              <b-col class="col-sm-12">
+                <b-button v-b-modal.modal-lg class="btn" id="changeProfilePic">Change Profile Picture</b-button>
+                <b-modal id="modal-lg" content-class="popup" title="Change Profile Picture">
+          <b-container fluid>
+            <b-row class="my-4" id="modal-body">
+              <b-col-11>
+                <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".jpeg, .png, .svg, .WebP, .apng, .gif, .avif" placeholder="Choose or drop file here"></b-form-file>
+              </b-col-11>
+              <b-col-1 class="ml-auto">
+                <b-button id="resetButton" @click="file = null">Reset</b-button>
+              </b-col-1>
+            </b-row>
+            <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
+              <b-button @click="clearFiles" class="mr-2">Reset via method</b-button>
+              <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
+            </b-row>
+          </b-container>
+          <template #modal-footer>
+          <div class="w-100">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="onChange"
+              id="uploadButton"
+            >
+              Change
+            </b-button>
+            <b-button
+              variant="primary"
+              size="sm"
+              class="float-right"
+              @click="$bvModal.hide('modal-lg')"
+              id="closeButton"
+            >
+              Close
+            </b-button>
+          </div>
+          </template>
+        </b-modal>
+        </b-col>
+        </b-row>
+        </b-col>
+        <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-1 order-md-1" id="">
+            <b-row id="inputFields" class="fourth justify-content-center">
+                <input type="text" id="username" placeholder="*Username">
+                <b-form-input v-model="username" type="text" placeholder="Username" id="username"></b-form-input>
+                <p class="d-none d-lg-block" id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
+            </b-row>
+            <b-row id="" class="justify-content-center">
+                <input type="text" id="password" placeholder="*Password">
+                <b-form-input v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
+                <p class="d-none d-lg-block" id="accountText">Your password should be kept secret, avoid sharing it with anyone and staff will never ask for these details.</p>
+            </b-row>
+            <b-row id="" class="justify-content-center">
+                <input type="text" id="emailAddress" placeholder="*Email Address">
+                <b-form-input v-model="email" type="email" placeholder="Email address" id="password"></b-form-input>
+            </b-row>
+            <b-row id="buttons" class="fourth justify-content-center mx-auto">
+              <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
+              <b-button class="mx-auto btn" @click="update" id="save">Save Changes</b-button>
+            </b-row>
+        </b-col>
+      </b-row> -->
     </b-row>
 </div>
 </template>
 
 <style>
 #content {
-  padding: 30px 60px;
+  padding-top: 50px;
+  padding-right: 10%;
+  padding-left: 10%;
+  min-height: fit-content;
 }
 #profile-pic {
-    width: 40%;
+    width: 80%;
 }
 
-#headerRow {
-  padding: 20px;
-  padding-left: 60%;
-}
+/* #headerRow {
+ padding: 20px;
+  padding-left: 30%;
+} */
 
 .btn {
   margin: 10px;
@@ -93,11 +186,48 @@
 
 #header {
         font-family: "DM Sans", sans-serif;
-        font-size: 36px;
+        font-size: 50px;
         color:#E3D5CA;
         /* margin-top:8%; */
-        padding-left: 60%;
-    }
+        font-weight: bold;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: #E3D5CA;
+  height: 1px;
+  border: none;
+}
+
+#logoutButton, #deleteAccButton {
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#logoutImage {
+  height: 20px;
+  margin-right: 8px;
+}
+
+#deleteImage {
+  height: 30px;
+  margin-right: 2px;
+}
+
+#logoutButton {
+  color: #E3D5CA;
+}
+
+#deleteAccButton {
+  color: red;
+}
+
+#inputColumn, #profileCol {
+  padding-top: 50px;
+}
 
 #username, #password, #emailAddress {
     width: 70%;
@@ -135,7 +265,7 @@
 #save {
     background-color:#F76E45;
     color:#E3D5CA;
-    width: 30%;
+    width: 40%;
     margin-right: 30px;
     border: none;
 }
@@ -144,7 +274,7 @@
   background: none;
   border-width: 3px;
   border-color: #E3D5CA;;
-  width: 30%;
+  width: 40%;
   margin-left: 30px;
   color: #E3D5CA;
 }
@@ -162,6 +292,11 @@
     background-color: #F76E45;
     width: 40%;
     border: none;
+}
+
+#modal-lg___BV_modal_content_.modal-content.popup {
+  width: 550px;
+  background-color: #E3D5CA;
 }
 
 #savePFPButton {

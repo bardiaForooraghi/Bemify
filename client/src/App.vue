@@ -12,13 +12,22 @@
         <b-modal id="modal-1" content-class="popup" title="Upload your track">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
-              <form id="inputFields">
-                <input type="text" id="trackNameInput" placeholder="Track name" required>
+              <form id="inputFields1">
+                <input v-model="trackName" type="text" id="trackNameInput" placeholder="Track name" required>
+              </form>
+            </b-row>
+            <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
+              <form id="inputFields1">
+                <input v-model="trackGenre" type="text" id="genreInput" placeholder="Genre" required>
               </form>
             </b-row>
             <b-row class="my-4" id="modal-body">
-              <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".mp3, .WAV, .AIF, .mp4, .OGG, webM, .AAC, .aup3" placeholder="Choose or drop audio file here"></b-form-file>
-              <b-button @click="file = null">Reset</b-button>
+              <b-col-11>
+                <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".mp3, .WAV, .AIF, .mp4, .OGG, webM, .AAC, .aup3" placeholder="Choose or drop audio file here"></b-form-file>
+              </b-col-11>
+              <b-col-1 class="ml-auto">
+                <b-button id="resetButton" @click="file = null">Reset</b-button>
+              </b-col-1>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
               <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
@@ -136,30 +145,36 @@
 }
 
 #modal-1___BV_modal_content_.modal-content.popup {
-  width: 550px;
+  width: 600px;
+  background-color: #E3D5CA;
 }
 
 #modal-body {
   padding: 0px;
   margin: auto;
-  text-align: center;
+  /* text-align: center; */
 }
 
-#trackNameInput {
-  width: 90%;
+#inputFields1 {
+  width: 100%;
+}
+
+#trackNameInput, #genreInput {
+  width: 100%;
   height: 50px;
   border-radius: 30px;
   padding-left: 20px;
-  background-color: #E3D5CA;
+  /* background-color: #E3D5CA; */
   border: none;
 }
 
 #file-default.custom-file-input {
-  width: 40%;
+  width: 100%;
   height: 50px;
   border-radius: 30px;
   background-color: #E3D5CA;
   border: none;
+  /* fix width */
 }
 
 .mb-2 {
@@ -173,17 +188,25 @@
 }
 
 #file-default__BV_file_outer_.custom-file b-form-file mb-2 {
-  width: 40px;
+  width: 100%;
+  /* fix width */
+}
+
+#resetButton {
+  margin: 0;
+  background-color: #a18672;
+  border: none;
+  border-radius: 20px;
 }
 
 #closeButton {
   background: none;
   border-width: 3px;
-  border-color: #E3D5CA;;
+  border-color: white;
   width: 25%;
   height: 40px;
   margin: 10px;
-  color: #E3D5CA;
+  color: white;
   font-size: 17px;
   border-radius: 20px;
 }
