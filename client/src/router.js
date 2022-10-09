@@ -35,7 +35,7 @@ export default new Router({
       name: 'search',
       component: Search
     }, {
-      path: '/playlist',
+      path: '/playlist/:playlist_id',
       name: 'playlist',
       component: Playlist
     }

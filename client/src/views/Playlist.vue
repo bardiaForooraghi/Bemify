@@ -1,7 +1,7 @@
 <template>
 <div class="row b-container">
     <div class="col-2">
-        <img src="../../../images/back.png" id="goBack">
+        <img src="../../../images/back.png" id="goBack" @click="returnToProfile">
     </div>
     <div class="col-8" id="playlistBox">
         <div class="row">
@@ -9,17 +9,14 @@
                 <router-link to="/profile"><img src="../../../images/playlist_image.png" id="playlistImage"></router-link>
             </div>
             <div class="col-10">
-                <p id="playlistName">Playlist name</p>
-                <p id="playlistCreator">Playlist creator</p>
+                <p id="playlistName">{{ playlistName }}</p>
+                <p id="playlistCreator">Made by: {{ username }}</p>
             </div>
         </div>
         <div class="row">
             <b-button id="filterButton">Filter by genre</b-button>
         </div>
-        <div class="row" id="track"></div>
-    <div class="row " id="track"></div>
-    <div class="row" id="track"></div>
-    <div class="row" id="track"></div>
+        <div class="row" id="track" v-for="Song in tracks" :key="Song">{{ Song.name }} - {{Song.duration}}</div>
         <div class="row" id="song"></div>
     </div>
     <div class="col-2"></div>
@@ -77,12 +74,51 @@
 </style>
 
 <script>
+import { Api } from '../Api'
+import parseJwt from '../util/parse'
 export default {
   name: 'profile',
   data() {
     return {
-      message: 'none'
+      username: '',
+      playlistName: '',
+      trackIds: [],
+      tracks: []
     }
+  },
+  methods: {
+    returnToProfile() {
+      this.$router.push('/profile')
+    }
+  },
+  created() {
+    const token = localStorage.getItem('token')
+    const user = parseJwt(token)
+
+    this.username = user.username
+
+    Api.get(`/accounts/${user._id}/playlists/` + this.$route.params.playlist_id)
+      .then((response) => {
+        this.trackIds = response.data[0].tracks
+        this.playlistName = response.data[0].name
+        for (let i = 0; i < this.trackIds.length; i++) {
+          Api.get('/tracks/' + this.trackIds[i]._id)
+            .then((response) => {
+              this.tracks.push(response.data)
+            })
+            .catch((error) => {
+              this.data.length = 0
+              console.log(error)
+            })
+            .then(function () {})
+        }
+        console.log(this.trackIds.length)
+      })
+      .catch((error) => {
+        this.data.length = 0
+        console.log(error)
+      })
+      .then(function () {})
   }
 }
 </script>

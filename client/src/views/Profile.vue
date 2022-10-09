@@ -86,6 +86,7 @@
       id="playlist"
       v-for="playlist in playlists"
       :key="playlist"
+      @click="viewPlaylist(playlist._id)"
     >
       <p>{{ playlist.name }}</p>
     </div>
@@ -340,6 +341,9 @@ export default {
       }
       this.current = this.songs[this.index]
       this.play(this.current)
+    },
+    viewPlaylist(id) {
+      this.$router.push('/playlist/' + id)
     }
   },
   created() {

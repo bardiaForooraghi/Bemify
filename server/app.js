@@ -7,6 +7,7 @@ var history = require('connect-history-api-fallback');
 const user = require('./routes/users');
 const account = require('./routes/accounts');
 const auth = require('./routes/auth');
+const track = require('./routes/tracks');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -37,6 +38,7 @@ app.use('/api/signup', user);
 app.use('/api/accounts', account);
 app.use('/api/accounts', user);
 app.use('/api/auth', auth);
+app.use('/api/tracks', track)
 
 // Import routes
 app.get('/api', function(req, res) {

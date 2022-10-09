@@ -68,20 +68,24 @@
               v-for="Track in tracks"
               :key="Track"
             >
-              <b-col class="col-6 mr-auto">
-                <p id="user">{{ Track.name }}</p>
-              </b-col>
+              <b-modal id="my-modal" hide-footer title="Select a Playlist to add the song to!">
+                <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addToPlaylist(Playlist._id, Track._id);hideModal();">{{ Playlist.name }}</b-button>
+              </b-modal>
+                <b-col class="col-6 mr-auto">
+                  <p id="user">{{ Track.name }}</p>
+                </b-col>
               <b-col class="col-3 ml-auto">
                 <button class="playButton" @click="play(song)">Play</button>
               </b-col>
               <b-col class="col-3 ml-auto">
-                <img
+                <b-button v-b-modal.my-modal id="searchButton" @click="showPlaylists()"
+            ><img
                   class="button saveButton"
                   @click="save(song)"
                   src="../../../images/plus.png"
                   alt="saveButton"
                   id="plus"
-                />
+                /></b-button>
               </b-col>
             </b-row>
           </b-col>
@@ -241,6 +245,7 @@ export default {
     return {
       users: [],
       tracks: [],
+      playlists: [],
       searchInput: '',
       divText: '',
       user: {},
@@ -292,6 +297,32 @@ export default {
             this.showUnsuccessfulDismissibleAlert = true
           }
         })
+    },
+    showPlaylists() {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      /* Getting all playlists from the user */
+      Api.get(`/accounts/${user._id}/playlists`)
+        .then((response) => {
+          this.playlists = response.data
+          console.log(response.data)
+        })
+        .catch((error) => {
+          this.data.length = 0
+          console.log(error)
+        })
+        .then(function () {})
+    },
+    addToPlaylist(id, id2) {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      Api.patch(`/accounts/${user._id}/playlists/` + id + '/addTrack', {
+        track_id: id2
+      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+    },
+    hideModal() {
+      console.log('hello')
+      this.$refs['my-modal'].hide()
     }
   },
   created() {
