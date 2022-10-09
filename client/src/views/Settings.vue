@@ -8,7 +8,7 @@
       </b-row>
       <b-row align-v="stretch">
         <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol">
-            <b-row class="order-sm=0" id=""><b-img class="src" :src="currentSrc" id="profile-pic" center></b-img></b-row>
+            <b-row class="order-sm=0" id=""><b-img class="src" :src="profilePicture" id="profile-pic" center></b-img></b-row>
             <b-row id="" class="fourth justify-content-center">
               <b-col class="col-sm-12">
                 <b-button v-b-modal.modal-lg class="btn" id="changeProfilePic">Change Profile Picture</b-button>
@@ -38,7 +38,7 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="show=false"
+              @click="$bvModal.hide('modal-lg')"
               id="closeButton"
             >
               Close
@@ -65,7 +65,7 @@
                 <b-form-input v-model="email" type="email" placeholder="Email address" id="password"></b-form-input>
             </b-row>
             <b-row id="buttons" class="fourth justify-content-center mx-auto">
-              <b-button class="mx-auto btn" id="cancel">Cancel Changes</b-button>
+              <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
               <b-button class="mx-auto btn" @click="update" id="save">Save Changes</b-button>
             </b-row>
         </b-col>
@@ -123,7 +123,7 @@
     text-align: left;
     }
 
-#save, #cancel, #changeProfilePic {
+#save, #clear, #changeProfilePic {
     border-radius: 40px;
     font-size: 18px;
     font-family: "DM Sans", sans-serif;
@@ -140,7 +140,7 @@
     border: none;
 }
 
-#cancel {
+#clear {
   background: none;
   border-width: 3px;
   border-color: #E3D5CA;;
@@ -189,7 +189,8 @@ export default {
       username: '',
       email: '',
       password: '',
-      currentSrc: require('../../../images/profile-pic.png')
+      profilePicture: require('../../../images/profile-pic.png'),
+      file: ''
     }
   },
   methods: {
@@ -199,7 +200,19 @@ export default {
         password: this.password,
         email: this.email
       }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+    },
+    //  Method to clear input fields
+    async clear() {
+      this.username = ''
+      this.password = ''
+      this.email = ''
     }
+    // async onChange() {
+    //   await Api.put('/accounts/:account_id', {
+    //     profilePicture: this.file,
+    //     this.profilePicture = this.file
+    //   }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+    // }
   }
 }
 </script>

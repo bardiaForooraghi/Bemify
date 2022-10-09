@@ -38,7 +38,7 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="show=false"
+              @click="$bvModal.hide('modal-1')"
               id="closeButton">
               Close
             </b-button>

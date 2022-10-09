@@ -10,7 +10,7 @@
             />
           </div>
           <div class="col-9 text-left align-self-center">
-            Hello {{ username }}!<br />
+            Hello <strong>{{ username }}</strong>!
           </div>
         </div>
       </div>
@@ -71,6 +71,7 @@
                 variant="primary"
                 size="sm"
                 class="float-right"
+                @click="$bvModal.hide('modal-center')"
                 id="closeButton"
               >
                 Close
@@ -146,8 +147,7 @@
   height: 120px;
   width: 550px;
   color: black;
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 25px;
 }
 
 #userProfile {

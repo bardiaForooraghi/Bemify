@@ -38,7 +38,7 @@
           </b-row>
           <b-row class="mx-auto">
             <b-col class="mx-auto">
-              <b-button id="clearSignupbtn" class="btn" type="reset">Clear</b-button>
+              <b-button id="clearSignupbtn" @click="clear" class="btn" type="reset">Clear</b-button>
             </b-col>
             <b-col class="mx-auto">
               <button id="createAccountbtn" @click="signup" class="btn" pill variant="primary" type="submit">Create</button>
@@ -127,13 +127,21 @@ export default {
         username: this.username,
         password: this.password,
         email: this.email,
-        profilePicture: ''
+        profilePicture: require('../../../images/profile-pic.png')
       }).then(response => {
         console.log(response)
         const token = response.data.token
         localStorage.token = token
         this.$router.push('/profile')
       }).catch(error => { console.log(error.response) })
+    },
+
+    //  Method to clear input fields
+    async clear() {
+      this.email = ''
+      this.username = ''
+      this.password = ''
+      this.confirmPassword = ''
     }
   }
 }
