@@ -126,8 +126,7 @@ export default {
       await Api.post('/signup', {
         username: this.username,
         password: this.password,
-        email: this.email,
-        profilePicture: require('../../../images/profile-pic.png')
+        email: this.email
       }).then(response => {
         console.log(response)
         const token = response.data.token

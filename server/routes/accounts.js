@@ -308,9 +308,9 @@ router.patch('/:account_id/followers/:follower_id', async (req, res, next) => {
 });
 
 // unfollow an account and change the followers/following lists respectively
-router.delete('/:account_id/followers/:follower_id', async (req, res, next) => {
+router.delete('/:account_id/following/:following_id', async (req, res, next) => {
     let id1 = req.params.account_id;
-    let id2 = req.params.follower_id;
+    let id2 = req.params.following_id;
     User.findById(id1, function(err, user1){
         if(err){return next(err);}
         if(user1 === null) {
@@ -319,10 +319,13 @@ router.delete('/:account_id/followers/:follower_id', async (req, res, next) => {
         User.findById(id2, function(err, user2){
             if(err){return next(err);}
             if(user2 === null) {
-                return res.status(404).json({'message': 'This account has not been found!'})
+                return res.status(404).json({'message': 'This account has hehe not been found!'})
             }
             if(!user2.followers.includes(id1) || !user1.followings.includes(id2)){
-                return res.json({'message': 'You are not following this account!'})
+                return res.status(406).json({'message': 'You are not following this account!'})
+            }
+            if(id1 == id2){
+                return res.status(406).json({'message': 'You cannot unfollow yourself!'})
             }
             user2.followers.pull(user1);
             user1.followings.pull(user2);
@@ -336,16 +339,16 @@ router.delete('/:account_id/followers/:follower_id', async (req, res, next) => {
 
 // Delete a specific user from the database
 router.delete('/:account_id', function(req, res, next) {
-    var id = req.params.account_id;
-    User.findOneAndDelete(id, function(err, user) {
-        if (err) { return next(err); }
-        if (user === null) {
-            return res.status(404).json({'message': 'User not found'});
+    User.findOneAndDelete({_id: req.params.account_id }, function (err, docs) {
+        if (err){
+            res.status(400)
         }
-        // res.json(user);
-        res.json({"Message": "User deleted"});
-    });
+        else{
+            res.status(200).json(docs);
+        }
 });
+});
+
 
 
 // Update a user's profile information
@@ -369,5 +372,18 @@ router.put('/:account_id',  async (req, res) => {
         res.status(400).send(e.message);
     }
   });
+
+
+  //    Delete all users in database
+  router.delete('/', function(req, res, next) {
+    User.deleteMany(function (err, docs) {
+        if (err){
+            res.status(400)
+        }
+        else{
+            res.status(200).json(docs);
+        }
+});
+});
 
 module.exports = router;

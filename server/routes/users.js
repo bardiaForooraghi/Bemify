@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
             username: req.body.username,
             password: req.body.password,
             email: req.body.email,
-            profilePicture: req.body.profilePicture,
+            profilePicture: '../../public/profile-pic.png',
             playlist: req.body.Playlist,
             followers: req.body.followers,
             followings: req.body.followings

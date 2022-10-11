@@ -22,15 +22,29 @@
         variant="danger"
         id="alreadyFollowing"
         v-model="showUnsuccessfulDismissibleAlert"
-        >You are already following this user!</b-alert
-      >
+        >You are already following this user!
+      </b-alert>
       <b-alert
         dismissible
         variant="success"
         id="alreadyFollowing"
         v-model="showSuccessfulDismissibleAlert"
-        >You are now following this user!</b-alert
-      >
+        >You are now following this user!
+      </b-alert>
+      <b-alert
+        dismissible
+        variant="success"
+        id="alreadyFollowing"
+        v-model="showSuccessfulDismissibleAlertUnfollow"
+        >Unfollowed successfully!
+      </b-alert>
+      <b-alert
+        dismissible
+        variant="danger"
+        id="alreadyFollowing"
+        v-model="showUnsuccessfulDismissibleAlertUnfollow"
+        >You were not following this user!
+      </b-alert>
     </b-row>
     <b-row class="justify-content-center mx-auto" id="resultRow">
       <b-col class="mx-auto" id="search-results">
@@ -51,10 +65,7 @@
                 <button class="followButton" @click="followAccount(User._id)">
                   Follow
                 </button>
-                <button
-                  class="unfollowButton"
-                  @click="unfollowAccount(User._id)"
-                >
+                <button class="unfollowButton" @click="unfollowAccount(User._id)">
                   Unfollow
                 </button>
               </b-col>
@@ -250,7 +261,9 @@ export default {
       divText: '',
       user: {},
       showUnsuccessfulDismissibleAlert: false,
-      showSuccessfulDismissibleAlert: false
+      showSuccessfulDismissibleAlert: false,
+      showUnsuccessfulDismissibleAlertUnfollow: false,
+      showSuccessfulDismissibleAlertUnfollow: false
     }
   },
   methods: {
@@ -295,6 +308,23 @@ export default {
           console.log(error.response)
           if (error.response.status === 406) {
             this.showUnsuccessfulDismissibleAlert = true
+          }
+        })
+    },
+    unfollowAccount(id) {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      Api.delete(`/accounts/${user._id}/following/` + id)
+        .then((response) => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulDismissibleAlertUnfollow = true
+          }
+        })
+        .catch((error) => {
+          console.log(error.response)
+          if (error.response.status === 406) {
+            this.showUnsuccessfulDismissibleAlertUnfollow = true
           }
         })
     },
