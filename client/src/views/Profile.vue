@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row align-items-start">
+    <div class="row align-items-start" id="row1">
       <div class="col-8">
         <div class="row" id="profileInfo">
           <div class="col-3 align-self-center">
@@ -16,20 +16,41 @@
       </div>
       <div class="row col-4" id="follow">
         <div class="col-6 align-self-center">
-          <b-link href="#foo" id="follow"
-            >{{ followers_no }}<br />followers</b-link
-          >
+          <div>
+            <b-button id="followersButton" v-b-modal.modal-scrollable><b-link href="#foo" id="follow">{{ followers_no }}<br />followers</b-link></b-button>
+            <b-modal centered hide-footer="true" id="modal-scrollable" scrollable title="Followers">
+              <b-row
+                id="followers"
+                v-for="follower in followers_name"
+                :key="follower"
+                >
+                <p>{{ follower }} <br></p>
+            </b-row>
+            </b-modal>
+          </div>
         </div>
         <div class="col-6 align-self-center">
-          <b-link href="#foo" id="follow"
-            >{{ followings_no }}<br />following</b-link
-          >
+          <div>
+            <b-button id="followingButton" v-b-modal.modal-scrollable2><b-link href="#foo" id="follow">{{ followings_no }}<br />following</b-link></b-button>
+            <b-modal centered hide-footer="true" id="modal-scrollable2" scrollable title="Following">
+              <b-row
+                class="row"
+                id="following"
+                v-for="following in followings_name"
+                :key="following"
+                >
+                <hr class="hr" />
+                <p>{{ following }}</p>
+              <hr/>
+            </b-row>
+            </b-modal>
+          </div>
         </div>
       </div>
     </div>
-    <div class="row align-items-start">
+    <b-row class="align-items-start">
       <div class="text-left align-self-end" id="h1MyPlaylists">
-        My playlists
+      My playlists
       </div>
       <div class="col text-right">
         <b-button v-b-modal.modal-center id="newPlaylistButton"
@@ -56,7 +77,7 @@
               </form>
             </b-row>
           </b-container>
-          <template #modal-footer>
+          <template #modal-footer border-0>
             <div class="w-100">
               <b-button
                 variant="primary"
@@ -80,23 +101,33 @@
           </template>
         </b-modal>
       </div>
-    </div>
-    <div
-      class="row"
-      id="playlist"
-      v-for="playlist in playlists"
-      :key="playlist"
-      @click="viewPlaylist(playlist._id)"
-    >
-      <p>{{ playlist.name }}</p>
-    </div>
+    </b-row>
+    <!-- Playlist container -->
+    <b-row class="mx-auto" id="playlistRow">
+        <b-col class="col-md-12 mb-4 mx-auto" id="search-results">
+          <div class="card example-1 scrollbar-dusty-grass mx-auto">
+            <div id="card-body" class="mx-auto">
+                <b-col id="playlist-results">
+                  <div
+                    class="row"
+                    id="playlist"
+                    v-for="playlist in playlists"
+                    :key="playlist"
+                    @click="viewPlaylist(playlist._id)"
+                  >
+                    <p>{{ playlist.name }}</p>
+                  </div>
+                </b-col>
+            </div>
+          </div>
+        </b-col>
+    </b-row>
+    <!-- Playbar -->
     <footer
       class="text-center text-lg-start fixed-bottom"
       id="trackPlaybackBar"
     >
-      <!-- Grid container -->
       <div class="b-container p-4">
-        <!--Grid row-->
         <div class="row">
           <div class="col-3">
             <h2 id="listeningTo">You're listening to</h2>
@@ -116,7 +147,7 @@
               <b-button id="next" @click="next">Next</b-button>
             </div>
           </div>
-          <div class="col-5">
+          <div class="col-5 d-none d-lg-block">
             Playlist1:
             <b-button
               id="demoTrack"
@@ -129,17 +160,64 @@
             </b-button>
           </div>
         </div>
-        <!--Grid row-->
       </div>
-      <!-- Grid container -->
     </footer>
   </div>
 </template>
 
 <style>
+
+#playlistRow {
+  width: 100%;
+}
+
+div.card.example-1.scrollbar-dusty-grass.mx-auto {
+  height: 230px;
+  border-radius: 40px;
+  width: 100%;
+  margin: 20px 10px 10px 10px;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.scrollbar-dusty-grass::-webkit-scrollbar {
+  width: 12px;
+  background-color: none;
+}
+
+.scrollbar-dusty-grass::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-image: -webkit-linear-gradient(330deg, #f76f45c6 0%, #f76e45 100%);
+  background-image: linear-gradient(120deg, #f4977bc6 0%, #f76e45 100%);
+}
+
+.example-1 {
+  position: relative;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+#card-body {
+  height: 300px;
+  border-radius: 40px;
+  width: 100%;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+div#card-body.mx-auto {
+  width: 100%;
+  background: none;
+  padding-top: 0;
+}
+
 .col-8,
 .col-4 {
-  margin: 50px 0;
+  margin: 50px 0 10px;
 }
 
 #profileInfo {
@@ -147,7 +225,7 @@
   border-radius: 35px;
   height: 120px;
   width: 550px;
-  color: black;
+  color: #2C3D4E;
   font-size: 25px;
 }
 
@@ -167,17 +245,39 @@
   text-decoration: none;
 }
 
-#h1MyPlaylists {
-  color: #e3d5ca;
-  font-size: 18px;
-  margin-bottom: 0;
+#followersButton, #followingButton {
+  background: none;
+  border: none;
 }
 
-#playlist {
-  background-color: pink;
+div#modal-scrollable___BV_modal_content_.modal-content {
+  /* background-color: rgb(30, 30, 29); */
+}
+
+/* #followers {
+  background-color: rgb(161, 156, 152);
   height: 60px;
   border-radius: 20px;
   margin: 20px 0;
+} */
+
+#h1MyPlaylists {
+  color: #e3d5ca;
+  font-size: 20px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+#playlist {
+  background-color: rgb(153, 90, 100);
+  height: 60px;
+  border-radius: 20px;
+  margin: 15px 0;
+  cursor: pointer;
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  color: #e3d5ca;
 }
 
 #newPlaylistButton {
@@ -217,7 +317,7 @@
 }
 
 #trackPlaybackBar {
-  background-color: #0b1330;
+  background-color: #E3D5CA;
 }
 
 #listeningTo {
@@ -229,13 +329,21 @@
 #pause,
 #next,
 #demoTrack {
-  background-color: #e3d5ca;
-  color: black;
+  background-color:#f76e45;
+  color: #E3D5CA;
+  border: none;
+  font-weight: bold;
+}
+
+#play, #pause {
+  border-radius: 40px;
+  height: 50px;
+  width: 50px;
 }
 
 #playButton,
 #pauseButton {
-  height: 15px;
+  height: 20px;
 }
 
 #currentButtons {
@@ -264,6 +372,10 @@ export default {
   data() {
     return {
       playlists: [],
+      followers: [],
+      followers_name: [],
+      followings: [],
+      followings_name: [],
       followers_no: 0,
       followings_no: 0,
       username: '',
@@ -350,14 +462,12 @@ export default {
     const token = localStorage.getItem('token')
     const user = parseJwt(token)
     this.username = user.username
-    console.log(user)
     this.current = this.songs[this.index]
     this.player.src = this.current.src
     /* Getting all playlists from the user */
     Api.get(`/accounts/${user._id}/playlists`)
       .then((response) => {
         this.playlists = response.data
-        console.log(response.data)
       })
       .catch((error) => {
         this.data.length = 0
@@ -368,7 +478,18 @@ export default {
     Api.get(`/accounts/${user._id}/followers`)
       .then((response) => {
         this.followers_no = response.data.length
-        console.log(response)
+        this.followers = response.data
+        for (let i = 0; i < this.followers.length; i++) {
+          Api.get('/accounts/' + this.followers[i])
+            .then((response) => {
+              this.followers_name.push(response.data.username)
+            })
+            .catch((error) => {
+              this.data.length = 0
+              console.log(error)
+            })
+            .then(function () {})
+        }
       })
       .catch((error) => {
         this.data.length = 0
@@ -379,7 +500,18 @@ export default {
     Api.get(`/accounts/${user._id}/followings`)
       .then((response) => {
         this.followings_no = response.data.length
-        console.log(response)
+        this.followings = response.data
+        for (let i = 0; i < this.followings.length; i++) {
+          Api.get('/accounts/' + this.followings[i])
+            .then((response) => {
+              this.followings_name.push(response.data.username)
+            })
+            .catch((error) => {
+              this.data.length = 0
+              console.log(error)
+            })
+            .then(function () {})
+        }
       })
       .catch((error) => {
         this.data.length = 0

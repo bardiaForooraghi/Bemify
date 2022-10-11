@@ -51,24 +51,29 @@
 
 <style>
 .signup-page {
-  background-color: #183059;
   font-family: "DM Sans", sans-serif;
+  background-image: url('../../../images/stacked-waves-haikei.svg');
+  aspect-ratio: 960/300;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 #container {
-    width: 60%;
-    height: fit-content;
-    background-color: #27406D;
-    margin: 60px;
-    border-radius: 30px;
-    padding: 3% 5% 2% 5%;
+  width: 60%;
+  height: fit-content;
+  background-color: #27406D;
+  margin: 60px;
+  border-radius: 30px;
+  padding: 3% 5% 2% 5%;
 }
 
 #headerSignup {
-padding-top: 40px;
-color: #E3D5CA;
-margin-bottom: 20px;
-font-size: 45px;
+  padding-top: 40px;
+  color: #E3D5CA;
+  margin-bottom: 20px;
+  font-size: 45px;
 }
 
 #clearSignupbtn {

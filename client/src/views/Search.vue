@@ -46,11 +46,15 @@
         >You were not following this user!
       </b-alert>
     </b-row>
-    <b-row class="justify-content-center mx-auto" id="resultRow">
+    <b-row class="mx-auto" id="resultRow">
+      <div class="row mx-auto" id="test">
+      <b-col class="col-md-12 mb-4 mx-auto" id="search-results">
+        <div class="card example-1 scrollbar-ripe-malinka  mx-auto">
+          <div id="card-body1" class="mx-auto">
+            <b-row class="justify-content-center mx-auto" id="resultRow">
       <b-col class="mx-auto" id="search-results">
         <b-row>
-          <b-col class="col-5" id="user-results">
-            <!-- <p>User results</p> -->
+          <b-col class="col-4" id="user-results">
             <b-row
               class="mx-auto"
               id="userResult"
@@ -60,8 +64,6 @@
               <b-col class="col-7 mx-auto">
                 <p>{{ User.profilePicture }}</p>
                 <p id="user">{{ User.username }}</p>
-              </b-col>
-              <b-col class="col-5 ml-auto">
                 <button class="followButton" @click="followAccount(User._id)">
                   Follow
                 </button>
@@ -71,8 +73,7 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col class="col-7" id="song-results">
-            <!-- <p v-if="user =>1">Song results</p> -->
+          <b-col class="col-8" id="song-results">
             <b-row
               class="mx-auto"
               id="songResult"
@@ -103,10 +104,59 @@
         </b-row>
       </b-col>
     </b-row>
+          </div>
+        </div>
+      </b-col>
+      </div>
+    </b-row>
   </div>
 </template>
 
 <style>
+
+#test {
+  width: 100%;
+}
+
+div.card.example-1.scrollbar-ripe-malinka {
+  background-color: #27416d;
+  height: 450px;
+  border-radius: 40px;
+  width: 80%;
+  margin: 5px 10px 10px 10px;
+  min-height: 0;
+  padding: 50px;
+  border: none;
+}
+
+.scrollbar-ripe-malinka::-webkit-scrollbar {
+    width: 12px;
+    background-color: none;
+}
+
+.scrollbar-ripe-malinka::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-image: -webkit-linear-gradient(330deg, #f76f45c6 0%, #f76e45 100%);
+    background-image: linear-gradient(120deg, #f4977bc6 0%, #f76e45 100%);
+}
+
+.example-1 {
+    position: relative;
+    overflow-y: scroll;
+}
+
+#card-body {
+  background-color: #27416d;
+  height: 300px;
+  border-radius: 40px;
+  width: 80%;
+}
+
+div#card-body1.mx-auto {
+  padding: 0;
+}
+
 .search {
   padding-top: 5%;
 }
@@ -152,20 +202,20 @@
 }
 
 #resultRow {
-  width: 70%;
+  width: 100%;
 }
 
 #userResult {
-  width: 80%;
+  width: 100%;
   background-color: #c5b0bb;
-  height: 150px;
+  height: 200px;
   border-radius: 20px;
   margin: 20px 0;
   padding: 10px;
 }
 
 #songResult {
-  width: 80%;
+  width: 100%;
   background-color: #cea874;
   height: 60px;
   border-radius: 20px;
@@ -192,26 +242,16 @@
   border-radius: 40px;
 }
 
-#search-results {
-  background-color: #27416d;
-  min-height: 0;
-  height: fit-content;
-  border-radius: 40px;
-  margin-bottom: 150px;
-}
-
 #alreadyFollowing {
   width: 500px;
 }
 
 .followButton,
 .unfollowButton {
-  width: 100%;
+  width: 80%;
   font-size: 16px;
   border-radius: 20px;
   border: none;
-  margin-top: 15px;
-  margin-bottom: 15px;
   color: #e3d5ca;
   height: 35px;
   min-width: fit-content;
@@ -223,11 +263,6 @@
 
 .unfollowButton {
   background-color: #af5b5b;
-}
-
-#user-results,
-#song-results {
-  margin-top: 40px;
 }
 
 .playButton {

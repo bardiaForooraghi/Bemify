@@ -107,21 +107,15 @@
     width: 80%;
 }
 
-/* #headerRow {
- padding: 20px;
-  padding-left: 30%;
-} */
-
 .btn {
   margin: 10px;
 }
 
 #header {
-        font-family: "DM Sans", sans-serif;
-        font-size: 50px;
-        color:#E3D5CA;
-        /* margin-top:8%; */
-        font-weight: bold;
+  font-family: "DM Sans", sans-serif;
+  font-size: 50px;
+  color:#E3D5CA;
+  font-weight: bold;
 }
 
 hr {
@@ -169,7 +163,6 @@ hr {
     height: 55px;
     margin: 10px;
     font-family: "DM Sans", sans-serif;
-    /* padding-left: 50px; */
 }
 
 #username::placeholder, #password::placeholder, #emailAddress::placeholder{

@@ -17,9 +17,10 @@
               </form>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
-              <form id="inputFields1">
-                <input v-model="trackGenre" type="text" id="genreInput" placeholder="Genre" required>
-              </form>
+              <div>
+                <b-form-select id="inputFields1" v-model="trackGenre" :options="options" placeholder="Choose a genre" required></b-form-select>
+                <!-- id="genreInput" -->
+              </div>
             </b-row>
             <b-row class="my-4" id="modal-body">
               <b-col-11>
@@ -86,7 +87,12 @@
   text-align: center;
   color: #2c3e50;
   min-height: 800px;
-  background-color: #183059;
+  background-image: url('../../images/stacked-waves-haikei.svg');
+  aspect-ratio: 960/300;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 #body {
@@ -152,11 +158,18 @@
 #modal-body {
   padding: 0px;
   margin: auto;
-  /* text-align: center; */
 }
 
 #inputFields1 {
   width: 100%;
+}
+
+select#inputFields1.custom-select {
+  width: 100%;
+  height: 50px;
+  border-radius: 30px;
+  padding-left: 20px;
+  border: none;
 }
 
 #trackNameInput, #genreInput {
@@ -164,7 +177,6 @@
   height: 50px;
   border-radius: 30px;
   padding-left: 20px;
-  /* background-color: #E3D5CA; */
   border: none;
 }
 
@@ -228,7 +240,21 @@
 export default {
   data() {
     return {
-      file: null
+      file: null,
+      selected: null,
+      options: [
+        { value: null, text: 'Please select an option' },
+        { value: 'a', text: 'Pop' },
+        { value: 'b', text: 'Hip-hop/Rap' },
+        { value: { C: '3PO' }, text: 'Rock/Metal' },
+        { value: 'd', text: 'Dance/Electronic' },
+        { value: null, text: 'Latin' },
+        { value: 'a', text: 'Indie/Aletrnative rock' },
+        { value: 'b', text: 'Classical' },
+        { value: { C: '3PO' }, text: 'K-pop' },
+        { value: 'd', text: 'Country' },
+        { value: null, text: 'R&B' }
+      ]
     }
   },
   methods: {

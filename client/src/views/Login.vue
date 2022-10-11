@@ -33,37 +33,8 @@
   </div>
 </template>
 
-<script>
-import { Api } from '../Api'
-
-export default {
-  name: 'login',
-  data() {
-    return {
-      greet: 'WELCOME \nTO \nBEMIFY',
-      username: '',
-      password: ''
-    }
-  },
-  methods: {
-    login() {
-      Api.post('/auth', {
-        username: this.username,
-        password: this.password
-      })
-        .then(response => {
-          this.$router.push('/profile')
-          const token = response.data
-          localStorage.token = token
-        }).catch(error => { console.log(error.response) })
-    }
-  }
-}
-</script>
-
 <style>
 .login-page {
-  background-color: #183059;
   overflow: hidden;
 }
 
@@ -147,7 +118,6 @@ export default {
   font-family: "DM Sans", sans-serif;
   width: 70%;
   text-decoration: none;
-  /* color: #e3d5ca; */
 }
 
 #loginButton:hover, #createAccButton:hover {
@@ -159,3 +129,32 @@ export default {
   transform: rotate(-9deg);
 }
 </style>
+
+<script>
+  import { Api } from '../Api'
+  
+  export default {
+    name: 'login',
+    data() {
+      return {
+        greet: 'WELCOME \nTO \nBEMIFY',
+        username: '',
+        password: ''
+      }
+    },
+    methods: {
+      login() {
+        Api.post('/auth', {
+          username: this.username,
+          password: this.password
+        })
+          .then(response => {
+            this.$router.push('/profile')
+            const token = response.data
+            localStorage.token = token
+          }).catch(error => { console.log(error.response) })
+      }
+    }
+  }
+  </script>
+  
