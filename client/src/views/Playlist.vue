@@ -138,10 +138,10 @@ export default {
 
     this.username = user.username
 
-    Api.get(`/accounts/${user._id}/playlists/` + this.$route.params.playlist_id)
+    Api.get('/playlists/' + this.$route.params.playlist_id)
       .then((response) => {
-        this.trackIds = response.data[0].tracks
-        this.playlistName = response.data[0].name
+        this.trackIds = response.data.tracks
+        this.playlistName = response.data.name
         for (let i = 0; i < this.trackIds.length; i++) {
           Api.get('/tracks/' + this.trackIds[i]._id)
             .then((response) => {

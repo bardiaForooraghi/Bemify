@@ -8,6 +8,8 @@ const user = require('./routes/users');
 const account = require('./routes/accounts');
 const auth = require('./routes/auth');
 const track = require('./routes/tracks');
+const artist = require('./routes/artists')
+const playlist = require('./routes/playlists')
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -39,6 +41,8 @@ app.use('/api/accounts', account);
 app.use('/api/accounts', user);
 app.use('/api/auth', auth);
 app.use('/api/tracks', track)
+app.use('/api/artists', artist)
+app.use('/api/playlists', playlist)
 
 // Import routes
 app.get('/api', function(req, res) {

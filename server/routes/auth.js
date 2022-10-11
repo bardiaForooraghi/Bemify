@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 
 const router = express.Router({ mergeParams: true });
 
+// Generating a token for Users which have logged in
 router.post('/', async (req, res) => {
     let user = await User.findOne({username: req.body.username});
     if (!user) 

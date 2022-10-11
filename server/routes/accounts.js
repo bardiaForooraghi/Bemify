@@ -20,6 +20,8 @@ router.put('/:account_id/newPlaylist', async (req, res) => {
             tracks: req.body.tracks
         });
 
+        const result1 = await playlist.save()
+
         user.playlists.push(playlist);
         const result = await user.save();
 
@@ -101,9 +103,14 @@ router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => 
 
     try {
         const user = await User.findById(req.params.account_id);
+        const specificPlaylist = await Playlist.findById(req.params.playlist_id)
 
         if (!user) 
             return res.status(404).json({ message: `User with id ${user} not found`});
+
+        if(!specificPlaylist)
+            return res.status(404).json({ message: `Playlist with id ${playlist} not found`})
+
 
         let track = new Track({
             name: req.body.name,
@@ -115,6 +122,9 @@ router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => 
 
         let playlist = user.playlists.filter(playlist => playlist._id == playlistId)[0];
         playlist.tracks.push(track);
+        specificPlaylist.tracks.push(track);
+        const result1 = await specificPlaylist.save();
+        
 
         const result = await user.save();
         res.status(200).json(result);
@@ -196,7 +206,7 @@ router.get('/:account_id/users', async (req, res) => {
     })
 })
 
-// get all filtered users (collection)
+// get all filtered tracks (collection)
 router.get('/:account_id/tracks', async (req, res) => {
     Track.find({}, function(err, tracks) {
         if(err) {
@@ -237,7 +247,7 @@ router.get('/:account_id/followers', async (req, res) => {
     } 
 });
 
-// getting an accounts followers
+// getting an accounts follwings
 router.get('/:account_id/followings', async (req, res) => {
     const userId = req.params.account_id;
 
@@ -366,6 +376,38 @@ router.put('/:account_id',  async (req, res) => {
         // user.playlists = req.body.playlists;
         // user.followers = req.body.followers;
         // user.followings = req.body.followings;
+        user = await user.save();
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+  });
+
+// Update a user's username information
+  router.patch('/:account_id/username', async (req, res) => {
+    let user = await User.findById(req.params.account_id);
+
+    if (!user) 
+        res.status(404).message('User Not Found!');
+
+    try {
+        user.username = req.body.username;
+        user = await user.save();
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+  });
+
+  // Update a user's email information
+  router.patch('/:account_id/email', async (req, res) => {
+    let user = await User.findById(req.params.account_id);
+
+    if (!user) 
+        res.status(404).message('User Not Found!');
+
+    try {
+        user.email = req.body.email;
         user = await user.save();
         res.status(200).send(user);
     } catch (e) {

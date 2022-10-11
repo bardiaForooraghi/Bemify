@@ -74,7 +74,7 @@
           <b-col class="col-6 order-lg-2 order-md-2" align-self="center" id="inputColumn">
             <b-row id="inputFields" class="fourth justify-content-center">
                 <!-- <input type="text" id="username" placeholder="*Username"> -->
-                <b-form-input v-model="username" type="text" placeholder="Username" id="username"></b-form-input>
+                <b-form-input v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
             </b-row>
             <b-row id="" class="justify-content-center">
@@ -84,7 +84,7 @@
             </b-row>
             <b-row id="" class="justify-content-center">
                 <!-- <input type="text" id="emailAddress" placeholder="*Email Address"> -->
-                <b-form-input v-model="email" type="email" placeholder="Email address" id="password"></b-form-input>
+                <b-form-input v-model="email" type="email" v-bind:placeholder="emailPlaceholder" id="password"></b-form-input>
             </b-row>
             <b-row id="buttons" class="fourth justify-content-center mx-auto">
               <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
@@ -248,7 +248,9 @@ export default {
   data() {
     return {
       username: '',
+      usernamePlaceholder: '',
       email: '',
+      emailPlaceholder: '',
       password: '',
       profilePicture: require('../../public/profile-pic.png'),
       file: ''
@@ -293,19 +295,19 @@ export default {
     //   }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
     // }
   // },
-  // created() {
-  //   const token = localStorage.getItem('token')
-  //   const user = parseJwt(token)
-  //   Api.get(`/accounts/${user._id}`)
-  //     .then(response => {
-  //       console.log(response.data.profilePicture)
-  //       this.profilePicture = response.data.profilePicture
-  //       console.log(this.profilePicture)
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response)
-  //     })
-  // }
+  },
+  created() {
+    const token = localStorage.getItem('token')
+    const user = parseJwt(token)
+    Api.get(`/accounts/${user._id}`)
+      .then(response => {
+        // this.profilePicture = response.data.profilePicture
+        this.usernamePlaceholder = response.data.username
+        this.emailPlaceholder = response.data.email
+      })
+      .catch(error => {
+        console.log(error.response)
+      })
   }
 }
 </script>

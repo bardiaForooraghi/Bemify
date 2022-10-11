@@ -15,9 +15,13 @@ router.get('/me', auth, async (req, res) => {
 
 router.post('/', async (req, res) => {
     let user = await User.findOne({email: req.body.email});
+    let inputUsername = req.body.username
 
-    if (user) 
+    if (user) {
         return res.status(400).send('User already registered');
+    } else if (inputUsername.includes("artist")) {
+        return res.status(400).send('The keyword artist can only be used by verified artists!')
+    }
 
     try {
         let user = new User({
