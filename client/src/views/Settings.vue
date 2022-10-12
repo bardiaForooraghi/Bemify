@@ -3,7 +3,7 @@
     <b-row id="content">
       <b-row id="">
         <!-- account col -->
-          <b-col class="col-3 order-lg-1 order-md-1" id="headerRow">
+          <b-col class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-6 order-lg-1 order-md-1" id="headerCol">
             <b-row>
               <b-col>
                 <h1 id="header">Your account</h1>
@@ -23,11 +23,12 @@
           </b-col>
         <!-- Profile pic col -->
         <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol"></b-col> -->
-        <b-col class="col-3 order-lg-3 order-md-3" id="profileCol">
+        <b-col class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-6 order-lg-3 order-md-3" id="profileCol">
             <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" rounded="circle" class="src" :src="profilePicture" id="profile-pic" center/></b-row>
             <b-row id="" class="fourth justify-content-center">
               <b-col class="col-sm-12">
-                <b-button v-b-modal.modal-lg class="btn" id="changeProfilePic">Change Profile Picture</b-button>
+                <b-button v-b-modal.modal-lg class="btn d-none d-sm-block" id="changeProfilePic">Change Profile Picture</b-button>
+                <b-button v-b-modal.modal-lg class="btn d-sm-none" id="changeProfilePic">Change</b-button>
                 <b-modal id="modal-lg" content-class="popup" title="Change Profile Picture">
           <b-container fluid>
             <b-row class="my-4" id="modal-body">
@@ -71,7 +72,7 @@
         </b-col>
         <!-- input fields col -->
         <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-1 order-md-1" id=""> -->
-          <b-col class="col-6 order-lg-2 order-md-2" align-self="center" id="inputColumn">
+          <b-col class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 order-lg-2 order-md-2" align-self="center" id="inputColumn">
             <b-row id="inputFields" class="fourth justify-content-center">
                 <!-- <input type="text" id="username" placeholder="*Username"> -->
                 <b-form-input v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
@@ -103,6 +104,7 @@
   padding-left: 10%;
   min-height: fit-content;
 }
+
 #profile-pic {
     width: 80%;
 }
@@ -191,7 +193,7 @@ hr {
     background-color:#F76E45;
     color:#E3D5CA;
     width: 40%;
-    margin-right: 30px;
+    /* margin-left: 20px; */
     border: none;
 }
 
@@ -200,7 +202,7 @@ hr {
   border-width: 3px;
   border-color: #E3D5CA;;
   width: 40%;
-  margin-left: 30px;
+  /* margin-right: 20px; */
   color: #E3D5CA;
 }
 
@@ -216,7 +218,11 @@ hr {
 #changeProfilePic{
     background-color: #F76E45;
     width: 40%;
+    min-width: fit-content;
+    height: 60px;
+    min-height: fit-content;
     border: none;
+    color: #E3D5CA;
 }
 
 #modal-lg___BV_modal_content_.modal-content.popup {
@@ -236,6 +242,47 @@ hr {
 
 .fourth {
   padding-top: 2%;
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
+  #buttons {
+  width: 90%;
+}
+}
+
+@media (max-width: 768px) {
+#profileCol {
+  padding-top: 0px;
+}
+#profile-pic {
+    width: 60%;
+}
+#changeProfilePic {
+    border-radius: 40px;
+    font-size: 17px;
+    height: 60px;
+    min-width: fit-content;
+    width: 30%;
+}
+#inputColumn {
+  margin-top: 0;
+  padding-top: 10px;
+}
+#headerCol, #profileCol {
+  margin-bottom: 0;
+}
+#header {
+  font-size: 45px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#logoutButton, #deleteAccButton {
+  margin: 5px;
+}
+#buttons {
+  width: 80%;
+}
 }
 </style>
 
