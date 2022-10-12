@@ -26,7 +26,7 @@ router.delete('/', function(req, res, next) {
         else{
             res.status(200).json(docs);
         }
-});
+    });
 });
 
 
@@ -39,7 +39,7 @@ router.delete('/:track_id', function(req, res, next) {
         else{
             res.status(200).json(docs);
         }
-});
+    });
 });
 
 // Update a tracks information
@@ -58,7 +58,7 @@ router.put('/:track_id',  async (req, res) => {
     } catch (e) {
         res.status(400).send(e.message);
     }
-  });
+});
 
 
 module.exports = router;

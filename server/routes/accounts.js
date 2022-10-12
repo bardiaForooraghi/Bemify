@@ -5,6 +5,10 @@ const {User} = require('../models/user');
 const {Playlist} = require('../models/playlist');
 const {Track} = require('../models/track');
 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
+
 const router = express.Router();
 
 // create a playlist for a user (post a collection/single item)
@@ -356,7 +360,7 @@ router.delete('/:account_id', function(req, res, next) {
         else{
             res.status(200).json(docs);
         }
-});
+    });
 });
 
 
@@ -370,21 +374,20 @@ router.put('/:account_id',  async (req, res) => {
 
     try {
         user.username = req.body.username;
-        user.password = req.body.password;
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(req.body.password, salt);
         user.email = req.body.email;
-        // user.profilePicture = req.body.profilePicture;
-        // user.playlists = req.body.playlists;
-        // user.followers = req.body.followers;
-        // user.followings = req.body.followings;
+        const token = user.generateAuthToken();
         user = await user.save();
+        res.json({token, user});
         res.status(200).send(user);
     } catch (e) {
         res.status(400).send(e.message);
     }
-  });
+});
 
 // Update a user's username information
-  router.patch('/:account_id/username', async (req, res) => {
+router.patch('/:account_id/username', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
     if (!user) 
@@ -397,10 +400,10 @@ router.put('/:account_id',  async (req, res) => {
     } catch (e) {
         res.status(400).send(e.message);
     }
-  });
+});
 
-  // Update a user's email information
-  router.patch('/:account_id/email', async (req, res) => {
+// Update a user's email information
+router.patch('/:account_id/email', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
     if (!user) 
@@ -413,11 +416,11 @@ router.put('/:account_id',  async (req, res) => {
     } catch (e) {
         res.status(400).send(e.message);
     }
-  });
+});
 
 
-  //    Delete all users in database
-  router.delete('/', function(req, res, next) {
+// Delete all users in database
+router.delete('/', function(req, res, next) {
     User.deleteMany(function (err, docs) {
         if (err){
             res.status(400)
@@ -425,7 +428,7 @@ router.put('/:account_id',  async (req, res) => {
         else{
             res.status(200).json(docs);
         }
-});
+    });
 });
 
 module.exports = router;

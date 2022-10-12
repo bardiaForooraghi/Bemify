@@ -305,7 +305,9 @@ export default {
   },
   methods: {
     async update() {
-      await Api.put('/accounts/:account_id', {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      await Api.put(`/accounts/${user._id}`, {
         username: this.username,
         password: this.password,
         email: this.email
