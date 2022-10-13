@@ -60,5 +60,39 @@ router.put('/:track_id',  async (req, res) => {
     }
 });
 
+// creating a new track
+router.post('/', async(req, res) => {
+    try {
+        let track = new Track({
+            name: req.body.name,
+            duration: req.body.duration,
+            genre: req.body.genre
+        });
+        track = await track.save();
+        res.json(track);
+    } catch (e) {
+        res.status(400).send(e.message);
+    } 
+});
+
+
+// get all filtered tracks (collection)
+router.get('/', async (req, res) => {
+    Track.find({}, function(err, tracks) {
+        if(err) {
+            res.status(404).message('Something went wrong!')
+        }
+        const result = tracks.filter(track => {
+            if(req.query.name == ""){
+                return tracks
+            } else {
+                return track.name.includes(req.query.name)
+            }
+        });
+    
+        res.json(result);
+    })
+})
+
 
 module.exports = router;

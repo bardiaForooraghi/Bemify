@@ -21,7 +21,8 @@ router.put('/:account_id/newPlaylist', async (req, res) => {
     try {
         let playlist = new Playlist({
             name: req.body.name,
-            tracks: req.body.tracks
+            tracks: req.body.tracks,
+            owner: req.params.account_id
         });
 
         const result1 = await playlist.save()
@@ -59,7 +60,39 @@ router.delete('/:account_id/playlists/:playlist_id', async (req, res) => {
         res.status(404).message('User Not Found!');
 
     try {
-        const result = await user.update({$pull: {playlists: {_id: req.params.playlist_id}}}, {new: true});
+        Playlist.findByIdAndDelete({_id: req.params.playlist_id}, function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Deleted : ", docs);
+            }
+        });
+        const result = await user.update({$pull: {playlists: req.params.playlist_id}}, {new: true});
+        const result2 = await user.save();
+        res.send(result2);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
+// delete all playlists for a user
+router.delete('/:account_id/playlists/', async (req, res) => {
+    const user = await User.findById(req.params.account_id);
+
+    if (!user) 
+        res.status(404).message('User Not Found!');
+
+    try {
+        Playlist.deleteMany({owner: req.params.account_id}, function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Deleted : ", docs);
+            }
+        });
+        const result = await user.update({$set: {playlists: []}}, {new: true});
         const result2 = await user.save();
         res.send(result2);
     } catch (e) {
@@ -82,22 +115,6 @@ router.get('/:account_id/playlists/:playlist_id', async (req, res) => {
 
     } catch(err) {
         res.status(400).json({ message: err.message });
-    }
-});
-
-
-// add an existing song to the specific user's playlist 
-router.patch('/:account_id/playlists/:playlist_id/addTrack', async (req, res) => {
-    try { 
-        const user = await User.findById(req.params.account_id);
-        const playlist = user.playlists.filter(playlist => playlist._id == req.params.playlist_id)[0];
-        
-        playlist.tracks.push(req.body.track_id);
-        await user.save();
-        res.status(200).json(user);
-
-    } catch (e) {
-        res.status(400).json({ message: e.message });
     }
 });
 
@@ -141,22 +158,14 @@ router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => 
 
 // get all the playlists from the specific user
 router.get('/:account_id/playlists', async(req, res) => {
-
-    const userId = req.params.account_id;
-
     try {
-        const userId = await User.findById(req.params.account_id);
+        const user = await User.find({_id: req.params.account_id}).populate("playlists")
 
-        if (!userId) 
-            return res.status(404).json({ message: `User with id ${userId} not found`});
+        if (!user) {
+            return res.status(404).json({ message: 'User was not found!'});
+        }
 
-        if (userId.playlists == null)
-            return res.status(404).json({ message: 'Playlists not found'});
-
-        let result = await User.find({_id: userId}).select({playlists: 1});
-        result = result[0].playlists;
-    
-        res.json(result);
+        res.json(user);
 
     } catch(err) {
         res.status(400).json({ message: err.message });
@@ -197,31 +206,11 @@ router.get('/:account_id/users', async (req, res) => {
         if(err) {
             res.status(404).message('Something went wrong!')
         }
-        console.log(req.query)
         const result = users.filter(user => {
             if(req.query.username == ""){
                 return users
             } else {
                 return user.username.includes(req.query.username)
-            }
-        });
-    
-        res.json(result);
-    })
-})
-
-// get all filtered tracks (collection)
-router.get('/:account_id/tracks', async (req, res) => {
-    Track.find({}, function(err, tracks) {
-        if(err) {
-            res.status(404).message('Something went wrong!')
-        }
-        console.log(req.query)
-        const result = tracks.filter(track => {
-            if(req.query.name == ""){
-                return tracks
-            } else {
-                return track.name.includes(req.query.name)
             }
         });
     
@@ -390,28 +379,49 @@ router.put('/:account_id',  async (req, res) => {
 router.patch('/:account_id/username', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
-    if (!user) 
+    if (!user) {
         res.status(404).message('User Not Found!');
-
-    try {
+    } else {
         user.username = req.body.username;
+        const token = user.generateAuthToken();
         user = await user.save();
-        res.status(200).send(user);
-    } catch (e) {
-        res.status(400).send(e.message);
+        res.json({token, user});
     }
+
 });
 
 // Update a user's email information
 router.patch('/:account_id/email', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
+    if (!user) {
+        res.status(404).message('User Not Found!');
+    }
+
+    try {
+        user.email = req.body.email;
+        const token = user.generateAuthToken();
+        user = await user.save();
+        res.json({token, user});
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+});
+
+// Update a user's password information
+router.patch('/:account_id/password', async (req, res) => {
+    let user = await User.findById(req.params.account_id);
+
     if (!user) 
         res.status(404).message('User Not Found!');
 
     try {
-        user.email = req.body.email;
+        user.password = await bcrypt.hash(req.body.password, salt);
+        const salt = await bcrypt.genSalt(10);
+        const token = user.generateAuthToken();
         user = await user.save();
+        res.json({token, user});
         res.status(200).send(user);
     } catch (e) {
         res.status(400).send(e.message);

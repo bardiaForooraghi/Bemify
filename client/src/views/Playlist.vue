@@ -9,8 +9,8 @@
                 <router-link to="/profile"><img src="../../../images/playlist_image.png" id="playlistImage"></router-link>
             </div>
             <div class="col-10">
-                <p id="playlistName">{{ playlistName }}</p>
-                <p id="playlistCreator">Created by {{ username }}</p>
+              <p id="playlistName">{{ playlistName }}</p>
+              <p id="playlistCreator">Created by {{ username }}</p>
             </div>
         </div>
         <b-row>
@@ -28,10 +28,25 @@
                 <b-dropdown-item>Country</b-dropdown-item>
                 <b-dropdown-item>R&B</b-dropdown-item>
               </b-dropdown>
+              <b-button id="deletePlaylistsButton" dropright text="Filter by genre" class="m-md-2" @click="deletePlaylist();">Delete Playlist</b-button>
             </div>
           </b-col>
         </b-row>
-        <div class="row" id="track" v-for="Song in tracks" :key="Song">{{ Song.name }} - {{Song.duration}}</div>
+        <div class="row" id="track" v-for="Song in tracks" :key="Song">
+          <b-col class="col-9 ml-auto">
+            {{ Song.name }} - {{Song.duration}}
+          </b-col>
+          <b-col class="col-3 ml-auto">
+                <b-button id="searchButton"
+                @click="deleteFromPlaylist(Song._id);"
+            ><img
+                  class="button saveButton"
+                  src="../../../images/delete.png"
+                  alt="saveButton"
+                  id="deleteSong"
+                /></b-button>
+              </b-col>
+        </div>
         <div class="row" id="song"></div>
     </div>
     <div class="col-2"></div>
@@ -42,6 +57,19 @@
 .b-container {
   margin-top: 10px;
 }
+
+#deleteSong {
+  width: 20%;
+  height: 10%;
+}
+
+/* #editSong{
+  width:4%;
+  height:4%;
+  margin-right: 20px;
+  margin-top: 50px;
+} */
+
 #goBack {
   height: 60px;
   margin-top: 30px;
@@ -123,13 +151,23 @@ export default {
     return {
       username: '',
       playlistName: '',
-      trackIds: [],
       tracks: []
     }
   },
   methods: {
     returnToProfile() {
       this.$router.push('/profile')
+    },
+    deletePlaylist() {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      Api.delete(`/accounts/${user._id}/playlists/` + this.$route.params.playlist_id)
+      this.$router.push('/profile')
+      window.location.reload()
+    },
+    deleteFromPlaylist(id) {
+      Api.delete('/playlists/' + this.$route.params.playlist_id + '/tracks/' + id)
+      window.location.reload()
     }
   },
   created() {
@@ -138,22 +176,10 @@ export default {
 
     this.username = user.username
 
-    Api.get('/playlists/' + this.$route.params.playlist_id)
+    Api.get('/playlists/' + this.$route.params.playlist_id + '/tracks')
       .then((response) => {
-        this.trackIds = response.data.tracks
-        this.playlistName = response.data.name
-        for (let i = 0; i < this.trackIds.length; i++) {
-          Api.get('/tracks/' + this.trackIds[i]._id)
-            .then((response) => {
-              this.tracks.push(response.data)
-            })
-            .catch((error) => {
-              this.data.length = 0
-              console.log(error)
-            })
-            .then(function () {})
-        }
-        console.log(this.trackIds.length)
+        this.playlistName = response.data[0].name
+        this.tracks = response.data[0].tracks
       })
       .catch((error) => {
         this.data.length = 0

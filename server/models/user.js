@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema({
         required: false
     },
     playlists: {
-        type: [playlistSchema],
-        default: []
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Playlist"
     },
     followers: {
         type: [mongoose.SchemaTypes.ObjectId],

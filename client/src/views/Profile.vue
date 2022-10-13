@@ -53,6 +53,10 @@
       My playlists
       </div>
       <div class="col text-right">
+        <b-button id="deletePlaylistsButton"
+        @click="deleteAllPlaylists();reloadPage();"
+          >Delete all playlists</b-button
+        >
         <b-button v-b-modal.modal-center id="newPlaylistButton"
           >Create new playlist</b-button
         >
@@ -280,7 +284,7 @@ div#modal-scrollable___BV_modal_content_.modal-content {
   color: #e3d5ca;
 }
 
-#newPlaylistButton {
+#newPlaylistButton, #deletePlaylistsButton {
   background-color: #f76e45;
   border-radius: 25px;
   height: 50px;
@@ -415,6 +419,17 @@ export default {
           console.log(error.response)
         })
     },
+    async deleteAllPlaylists() {
+      const token = localStorage.getItem('token')
+      const user = parseJwt(token)
+      await Api.delete(`/accounts/${user._id}/playlists`)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error.response)
+        })
+    },
     play(song) {
       if (typeof song.src !== 'undefined') {
         this.current = song
@@ -467,7 +482,7 @@ export default {
     /* Getting all playlists from the user */
     Api.get(`/accounts/${user._id}/playlists`)
       .then((response) => {
-        this.playlists = response.data
+        this.playlists = response.data[0].playlists
       })
       .catch((error) => {
         this.data.length = 0
@@ -518,6 +533,9 @@ export default {
         console.log(error)
       })
       .then(function () {})
+  },
+  deactivated() {
+    this.player.pause()
   }
 }
 </script>

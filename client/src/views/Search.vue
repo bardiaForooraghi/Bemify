@@ -80,7 +80,7 @@
               v-for="Track in tracks"
               :key="Track"
             >
-              <b-modal id="my-modal" hide-footer title="Select a Playlist to add the song to!">
+              <b-modal v-bind:id="Track.name" hide-footer title="Select a Playlist to add the song to!">
                 <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addToPlaylist(Playlist._id, Track._id);hideModal();">{{ Playlist.name }}</b-button>
               </b-modal>
                 <b-col class="col-6 mr-auto">
@@ -90,7 +90,7 @@
                 <button class="playButton" @click="play(song)">Play</button>
               </b-col>
               <b-col class="col-3 ml-auto">
-                <b-button v-b-modal.my-modal id="searchButton" @click="showPlaylists()"
+                <b-button v-b-modal="Track.name" id="searchButton" @click="showPlaylists()"
             ><img
                   class="button saveButton"
                   @click="save(song)"
@@ -317,7 +317,7 @@ export default {
         .catch((error) => {
           console.log(error.response)
         })
-      Api.get(`/accounts/${user._id}/tracks`, {
+      Api.get('/tracks', {
         params: {
           name: this.searchInput
         }
@@ -369,7 +369,7 @@ export default {
       /* Getting all playlists from the user */
       Api.get(`/accounts/${user._id}/playlists`)
         .then((response) => {
-          this.playlists = response.data
+          this.playlists = response.data[0].playlists
           console.log(response.data)
         })
         .catch((error) => {
@@ -379,9 +379,7 @@ export default {
         .then(function () {})
     },
     addToPlaylist(id, id2) {
-      const token = localStorage.getItem('token')
-      const user = parseJwt(token)
-      Api.patch(`/accounts/${user._id}/playlists/` + id + '/addTrack', {
+      Api.patch('/playlists/' + id + '/addTrack', {
         track_id: id2
       }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
     },
