@@ -5,7 +5,7 @@
         <b-col>
           <b-row class="justify-content-center">
             <b-col class="mx-auto">
-              <h1 id="headerSignup">Create An Account</h1>
+              <h1 id="headerSignup">Create an Account</h1>
             </b-col>
           </b-row>
           <b-row class="justify-content-center mx-auto" id="signupInput">
@@ -73,7 +73,7 @@
   padding-top: 40px;
   color: #E3D5CA;
   margin-bottom: 20px;
-  font-size: 45px;
+  font-size: 5vw;
 }
 
 #clearSignupbtn {
@@ -106,6 +106,28 @@
   min-width: 100%;
   width: 80%;
   padding-left: 6%;
+}
+
+@media (min-width: 769px) {
+  #headerSignup {
+  padding-top: 40px;
+  font-size: 5vw;
+}
+}
+
+@media (max-width: 768px) {
+  #headerSignup {
+  padding-bottom: -10px;
+  font-size: 38px;
+}
+#container {
+  width: 60%;
+  height: fit-content;
+  background-color: #27406D;
+  margin-left: 20px;
+  border-radius: 30px;
+  padding: 3% 5% 2% 5%;
+}
 }
 </style>
 

@@ -12,9 +12,7 @@
             autocomplete="off"
             required
           />
-          <b-button @click="search" id="searchButton"
-            ><img src="../../../images/search.png" id="search"
-          /></b-button>
+          <b-button @click="search" id="searchButton"><img src="../../../images/search.png" id="search"/></b-button>
         </b-col>
       </b-row>
       <b-alert
@@ -47,14 +45,11 @@
       </b-alert>
     </b-row>
     <b-row class="mx-auto" id="resultRow">
-      <div class="row mx-auto" id="test">
       <b-col class="col-md-12 mb-4 mx-auto" id="search-results">
         <div class="card example-1 scrollbar-ripe-malinka  mx-auto">
           <div id="card-body1" class="mx-auto">
             <b-row class="justify-content-center mx-auto" id="resultRow">
-      <b-col class="mx-auto" id="search-results">
-        <b-row>
-          <b-col class="col-4" id="user-results">
+          <b-col class="col-lg-4 col-md-12 col-sm-12 col-xs-12 col-12 mx-auto" id="user-results">
             <b-row
               class="mx-auto"
               id="userResult"
@@ -64,16 +59,20 @@
               <b-col class="col-7 mx-auto">
                 <p>{{ User.profilePicture }}</p>
                 <p id="user">{{ User.username }}</p>
-                <button class="followButton" @click="followAccount(User._id)">
-                  Follow
-                </button>
-                <button class="unfollowButton" @click="unfollowAccount(User._id)">
-                  Unfollow
-                </button>
+                <b-row class="mx-auto">
+                  <button class="followButton" @click="followAccount(User._id)">
+                    Follow
+                  </button>
+                </b-row>
+                <b-row class="mx-auto">
+                  <button class="unfollowButton" @click="unfollowAccount(User._id)">
+                    Unfollow
+                  </button>
+                </b-row>
               </b-col>
             </b-row>
           </b-col>
-          <b-col class="col-8" id="song-results">
+          <b-col class="col-lg-8 col-md-12 col-sm-12 col-xs-12 col-12 mx-auto" id="song-results">
             <b-row
               class="mx-auto"
               id="songResult"
@@ -83,15 +82,15 @@
               <b-modal v-bind:id="Track.name" hide-footer title="Select a Playlist to add the song to!">
                 <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addToPlaylist(Playlist._id, Track._id);hideModal();">{{ Playlist.name }}</b-button>
               </b-modal>
-                <b-col class="col-6 mr-auto">
+                <b-col class="col-8 mr-auto" id="trackCol">
                   <p id="user">{{ Track.name }}</p>
                 </b-col>
-              <b-col class="col-3 ml-auto">
+              <b-col class="col-2 mx-auto" id="trackCol">
                 <button class="playButton" @click="play(song)">Play</button>
               </b-col>
-              <b-col class="col-3 ml-auto">
-                <b-button v-b-modal="Track.name" id="searchButton" @click="showPlaylists()"
-            ><img
+              <b-col class="col-2 mx-auto" id="trackCol">
+                <b-button v-b-modal="Track.name" id="saveTrackButton" @click="showPlaylists()">
+                  <img
                   class="button saveButton"
                   @click="save(song)"
                   src="../../../images/plus.png"
@@ -101,13 +100,10 @@
               </b-col>
             </b-row>
           </b-col>
-        </b-row>
-      </b-col>
     </b-row>
           </div>
         </div>
       </b-col>
-      </div>
     </b-row>
   </div>
 </template>
@@ -155,6 +151,8 @@ div.card.example-1.scrollbar-ripe-malinka {
 
 div#card-body1.mx-auto {
   padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 .search {
@@ -201,14 +199,27 @@ div#card-body1.mx-auto {
   color: #e3d5ca;
 }
 
+div.col-7.mx-auto.col {
+  margin: 0;
+}
+
 #resultRow {
   width: 100%;
 }
 
+#trackCol {
+  margin-top: 0;
+}
+
+#user-results, #song-results {
+  padding-top: 0;
+  margin-top: 0;
+}
+
 #userResult {
-  width: 100%;
+  width: 90%;
   background-color: #c5b0bb;
-  height: 200px;
+  height: 230px;
   border-radius: 20px;
   margin: 20px 0;
   padding: 10px;
@@ -242,19 +253,27 @@ div#card-body1.mx-auto {
   border-radius: 40px;
 }
 
+#saveTrackButton {
+  width: 40px;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
 #alreadyFollowing {
   width: 500px;
 }
 
 .followButton,
 .unfollowButton {
-  width: 80%;
+  width: 100%;
   font-size: 16px;
   border-radius: 20px;
   border: none;
   color: #e3d5ca;
   height: 35px;
   min-width: fit-content;
+  margin: 5px;
 }
 
 .followButton {
@@ -270,14 +289,29 @@ div#card-body1.mx-auto {
   font-size: 16px;
   border-radius: 20px;
   border: none;
-  color: #0e1b3d;
+  color: #cea874;
+  font-weight: 900;
   height: 35px;
   background-color: #e3d5ca;
   min-width: fit-content;
 }
 
 #plus {
-  width: 50%;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  #userResult {
+    width: 250px;
+    height: 230px;
+  }
+  #songResult {
+  width: 100%;
+  background-color: #cea874;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+}
 }
 </style>
 

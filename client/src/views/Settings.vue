@@ -27,7 +27,7 @@
             <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" rounded="circle" class="src" :src="profilePicture" id="profile-pic" center/></b-row>
             <b-row id="" class="fourth justify-content-center">
               <b-col class="col-sm-12">
-                <b-button v-b-modal.modal-lg class="btn d-none d-sm-block" id="changeProfilePic">Change Profile Picture</b-button>
+                <b-button v-b-modal.modal-lg class="btn d-none d-sm-block mx-auto" id="changeProfilePic">Change Profile Picture</b-button>
                 <b-button v-b-modal.modal-lg class="btn d-sm-none" id="changeProfilePic">Change</b-button>
                 <b-modal id="modal-lg" content-class="popup" title="Change Profile Picture">
           <b-container fluid>
@@ -226,8 +226,11 @@ hr {
 }
 
 #modal-lg___BV_modal_content_.modal-content.popup {
-  width: 550px;
   background-color: #E3D5CA;
+  width: 80%;
+  margin: 50px;
+  max-width: 70vw;
+
 }
 
 #savePFPButton {
@@ -238,6 +241,10 @@ hr {
   margin: 10px;
   font-size: 17px;
   border-radius: 20px;
+}
+
+#uploadButton {
+  min-width: fit-content;
 }
 
 .fourth {

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="row align-items-start" id="row1">
-      <div class="col-8">
-        <div class="row" id="profileInfo">
+      <div class="col-md-8 col-sm-12 col-xs-12 col-12">
+        <b-row class="col-md-12 col-sm-12 col-xs-12 col-12" id="profileInfo">
           <div class="col-3 align-self-center">
             <img
               src="../../../images/user_profile.png"
@@ -12,10 +12,10 @@
           <div class="col-9 text-left align-self-center">
             Hello <strong>{{ username }}</strong>!
           </div>
-        </div>
+        </b-row>
       </div>
-      <div class="row col-4" id="follow">
-        <div class="col-6 align-self-center">
+      <b-row class="follow" id="follow">
+        <b-col class="col-6 align-self-center d-none d-lg-block">
           <div>
             <b-button id="followersButton" v-b-modal.modal-scrollable><b-link href="#foo" id="follow">{{ followers_no }}<br />followers</b-link></b-button>
             <b-modal centered hide-footer="true" id="modal-scrollable" scrollable title="Followers">
@@ -28,8 +28,8 @@
             </b-row>
             </b-modal>
           </div>
-        </div>
-        <div class="col-6 align-self-center">
+        </b-col>
+        <div class="col-6 align-self-center d-none d-lg-block">
           <div>
             <b-button id="followingButton" v-b-modal.modal-scrollable2><b-link href="#foo" id="follow">{{ followings_no }}<br />following</b-link></b-button>
             <b-modal centered hide-footer="true" id="modal-scrollable2" scrollable title="Following">
@@ -46,7 +46,7 @@
             </b-modal>
           </div>
         </div>
-      </div>
+      </b-row>
     </div>
     <b-row class="align-items-start">
       <div class="text-left align-self-end" id="h1MyPlaylists">
@@ -70,7 +70,7 @@
               class="my-4 align-self-center d-flex justify-content-center"
               id="modal-body"
             >
-              <form id="inputFields">
+              <form id="inputFields1">
                 <input
                   type="text"
                   id="playlistNameInput"
@@ -144,10 +144,12 @@
               <b-button id="prev" @click="prev">Prev</b-button>
               <b-button id="play" v-if="!isPlaying" @click="play"
                 ><img src="../../../images/play.png" id="playButton"
-              /></b-button>
+              />
+              </b-button>
               <b-button id="pause" v-else @click="pause"
                 ><img src="../../../images/pause.png" id="pauseButton"
-              /></b-button>
+              />
+              </b-button>
               <b-button id="next" @click="next">Next</b-button>
             </div>
           </div>
@@ -219,8 +221,8 @@ div#card-body.mx-auto {
   padding-top: 0;
 }
 
-.col-8,
-.col-4 {
+.col-md-12,
+.follow {
   margin: 50px 0 10px;
 }
 
@@ -254,16 +256,24 @@ div#card-body.mx-auto {
   border: none;
 }
 
-div#modal-scrollable___BV_modal_content_.modal-content {
-  /* background-color: rgb(30, 30, 29); */
+/* not responsive */
+div#modal-scrollable2___BV_modal_content_.modal-content {
+  width: 80%;
+  margin: 0px;
+  width: 70vw;
 }
 
-/* #followers {
-  background-color: rgb(161, 156, 152);
-  height: 60px;
-  border-radius: 20px;
-  margin: 20px 0;
-} */
+div#modal-scrollable___BV_modal_content_.modal-content {
+  width: 80%;
+  margin: 0px;
+  width: 70vw;
+}
+
+div#modal-center___BV_modal_content_.modal-content.popup {
+  width: 80%;
+  margin: 50px;
+  max-width: 70vw;
+}
 
 #h1MyPlaylists {
   color: #e3d5ca;
@@ -294,20 +304,18 @@ div#modal-scrollable___BV_modal_content_.modal-content {
 }
 
 /* Create new playlist modal styling */
-#playlistNameInput {
-  width: 400px;
-  height: 50px;
-  border-radius: 30px;
-  padding-left: 20px;
-}
 
 #playlistNameInput {
-  width: 400px;
+  width: 100%;
   height: 50px;
   border-radius: 30px;
   padding-left: 20px;
   background-color: #e3d5ca;
   border: none;
+}
+
+#inputFields1 {
+  width: 100%;
 }
 
 #createButton {
@@ -366,6 +374,32 @@ footer {
 h2 {
   text-align: left;
 }
+
+@media (max-width: 992px) {
+  #profileInfo {
+    background-color: #e3d5ca;
+    border-radius: 35px;
+    height: 120px;
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 768px) {
+  #profileInfo {
+    background-color: #e3d5ca;
+    border-radius: 35px;
+    height: 120px;
+    width: 100%;
+  }
+
+}
+/* @media (max-width: 576px) {
+  #app {
+    padding-left: 20px;
+    padding-right: 10px;
+  }
+} */
 </style>
 
 <script>

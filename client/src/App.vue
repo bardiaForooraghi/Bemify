@@ -9,7 +9,7 @@
     <ul class="navbar-nav mt-2 mx-auto mt-md-0 align-items-center">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
-        <b-modal id="modal-1" content-class="popup" title="Upload your track">
+        <b-modal id="modal-1" :width=100 center content-class="popup" title="Upload your track">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields1">
@@ -80,6 +80,10 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
 
+template {
+  background-color: pink;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -89,10 +93,11 @@
   min-height: 800px;
   background-image: url('../../images/stacked-waves-haikei.svg');
   aspect-ratio: 960/300;
-    width: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
 }
 
 #body {
@@ -151,8 +156,10 @@
 }
 
 #modal-1___BV_modal_content_.modal-content.popup {
-  width: 600px;
+  width: 80%;
   background-color: #E3D5CA;
+  margin: 50px;
+  max-width: 70vw;
 }
 
 #modal-body {
@@ -231,6 +238,10 @@ select#inputFields1.custom-select {
   margin: 10px;
   font-size: 17px;
   border-radius: 20px;
+}
+
+button, b-button {
+  min-width: fit-content;
 }
 </style>
 
