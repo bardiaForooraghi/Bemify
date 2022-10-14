@@ -26,7 +26,7 @@ export default new Router({
       name: 'signup',
       component: Signup
     }, {
-      path: '/profile/:account_id',
+      path: '/profile',
       name: 'profile',
       component: Profile,
       props: true
@@ -35,7 +35,7 @@ export default new Router({
       name: 'search',
       component: Search
     }, {
-      path: '/playlist',
+      path: '/playlist/:playlist_id',
       name: 'playlist',
       component: Playlist
     }

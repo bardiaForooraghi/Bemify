@@ -4,9 +4,13 @@ const {Track, trackSchema} = require('../models/track');
 
 const playlistSchema = new mongoose.Schema({
     name: String,
+    owner: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "User"
+    },
     tracks: {
-        type: [trackSchema],
-        default: []
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "Track"
     }
 });
 
