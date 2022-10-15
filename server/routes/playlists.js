@@ -49,19 +49,18 @@ router.post('/', async(req, res) => {
 
 // add an existing song to the specific user's playlist 
 router.patch('/:playlist_id/addTrack', async (req, res) => {
-    try { 
-        let playlist = await Playlist.findById(req.params.playlist_id);
+    let playlist = await Playlist.findById(req.params.playlist_id);
 
-        if (!playlist) {
-            res.status(404).send('Playlist Not Found!');
+    if (!playlist) {
+        return res.status(404).send('Playlist Not Found!');
+    } else {
+        if(playlist.tracks.includes(req.body.track_id)) {
+            return res.status(400).send('Playlist already has this song!')
         } else {
             playlist.tracks.push(req.body.track_id)
             playlist = await playlist.save()
-        res.send(playlist);
-    }
-
-    } catch (e) {
-        res.status(400).json({ message: e.message });
+        }
+    res.send(playlist);
     }
 });
 

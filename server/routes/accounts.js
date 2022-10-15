@@ -202,7 +202,7 @@ router.get('/:account_id/playlists/:playlist_id/filter', async (req, res) => {
 
 // get all filtered users (collection)
 router.get('/:account_id/users', async (req, res) => {
-    User.find({}, function(err, users) {
+    User.find({_id: {$ne: req.params.account_id}}, function(err, users) {
         if(err) {
             res.status(404).message('Something went wrong!')
         }
