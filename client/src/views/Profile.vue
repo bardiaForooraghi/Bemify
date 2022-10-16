@@ -14,41 +14,6 @@
           </div>
         </b-row>
       </div>
-      <!-- Hidden in bigger screens -->
-      <!-- <b-row class="follow" id="follow">
-        <b-col class="col-6 align-self-center d-none d-md-block">
-          <div>
-            <b-button id="followersButton" v-b-modal.modal-scrollable><b-link href="#foo" id="follow">{{ followers_no }}<br />followers</b-link></b-button>
-            <b-modal centered hide-footer="true" id="modal-scrollable" scrollable title="Followers">
-              <b-row
-                id="followers"
-                v-for="follower in followers_name"
-                :key="follower"
-                >
-                <p>{{ follower }} <br></p>
-            </b-row>
-            </b-modal>
-          </div>
-        </b-col>
-        <b-col class="col-6 align-self-center d-none d-md-block">
-          <div>
-            <b-button id="followingButton" v-b-modal.modal-scrollable2><b-link href="#foo" id="follow">{{ followings_no }}<br />following</b-link></b-button>
-            <b-modal centered hide-footer="true" id="modal-scrollable2" scrollable title="Following">
-              <b-row
-                class="row"
-                id="following"
-                v-for="following in followings_name"
-                :key="following"
-                >
-                <hr class="hr" />
-                <p>{{ following }}</p>
-              <hr/>
-            </b-row>
-            </b-modal>
-          </div>
-        </b-col>
-      </b-row> -->
-      <!-- Hidden in smaller screens -->
       <b-row class="follow" id="follow">
         <b-col class="col-6 align-self-center d-none d-md-block">
           <div>
@@ -88,10 +53,45 @@
       My playlists
       </div>
       <div class="col text-right">
-        <b-button id="deletePlaylistsButton"
-        @click="deleteAllPlaylists();reloadPage();"
-          >Delete all playlists</b-button
+        <b-button v-b-modal.modal-center1 id="deletePlaylistsButton">
+          Delete all playlists
+        </b-button>
+        <b-modal
+          id="modal-center1"
+          content-class="popup"
+          title="Are you sure?"
         >
+          <b-container fluid>
+            <b-row
+              class="my-4 align-self-center d-flex justify-content-center"
+              id="modal-body"
+            >
+              Please confirm that you want to delete your playlists
+            </b-row>
+          </b-container>
+          <template #modal-footer border-0>
+            <div class="w-100">
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right"
+                @click="deleteAllPlaylists();reloadPage();"
+                id="closeButton1"
+              >
+                Delete
+              </b-button>
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right"
+                @click="$bvModal.hide('modal-center1')"
+                id="closeModalButton"
+              >
+                Close
+              </b-button>
+            </div>
+          </template>
+        </b-modal>
         <b-button v-b-modal.modal-center id="newPlaylistButton"
           >Create new playlist</b-button
         >
@@ -132,7 +132,7 @@
                 size="sm"
                 class="float-right"
                 @click="$bvModal.hide('modal-center')"
-                id="closeButton"
+                id="closeButton1"
               >
                 Close
               </b-button>
@@ -314,6 +314,29 @@ div#modal-center___BV_modal_content_.modal-content.popup {
   font-size: 20px;
   margin-bottom: 0;
   font-weight: bold;
+}
+
+#closeButton1 {
+  background: none;
+  border-width: 3px;
+  border-color: #e3d5ca;
+  width: 25%;
+  height: 40px;
+  margin: 10px;
+  color: #e3d5ca;
+  font-size: 17px;
+  border-radius: 20px;
+}
+
+#closeModalButton {
+  border: none;
+  width: 25%;
+  height: 40px;
+  margin: 10px;
+  color: #e3d5ca;
+  font-size: 17px;
+  border-radius: 20px;
+  background-color: #F76E45;
 }
 
 #playlist {

@@ -16,7 +16,43 @@
                   <b-button class="mx-auto" id="logoutButton" @click="logout"><img src="../../../images/logout.png" id="logoutImage">Log out</b-button>
                 </b-row>
                 <b-row>
-                  <b-button class="mx-auto" id="deleteAccButton" @click="deleteAccount"><img src="../../../images/delete.png" id="deleteImage">Delete account</b-button>
+                  <b-button v-b-modal.modal-center2 class="mx-auto" id="deleteAccButton"><img src="../../../images/delete.png" id="deleteImage">Delete account</b-button>
+                  <b-modal
+                    id="modal-center2"
+                    content-class="popup"
+                    title="Are you sure?"
+                  >
+                    <b-container fluid>
+                      <b-row
+                        class="my-4 align-self-center d-flex justify-content-center"
+                        id="modal-body"
+                      >
+                        Please confirm that you want to delete your account
+                      </b-row>
+                    </b-container>
+                    <template #modal-footer border-0>
+                      <div class="w-100">
+                        <b-button
+                          variant="primary"
+                          size="sm"
+                          class="float-right"
+                          @click="deleteAccount()"
+                          id="closeButton1"
+                        >
+                          Delete
+                        </b-button>
+                        <b-button
+                          variant="primary"
+                          size="sm"
+                          class="float-right"
+                          @click="$bvModal.hide('modal-center2')"
+                          id="closeModalButton"
+                        >
+                          Close
+                        </b-button>
+                      </div>
+                    </template>
+                  </b-modal>
                 </b-row>
               </b-col>
             </b-row>
