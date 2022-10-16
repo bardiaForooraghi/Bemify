@@ -15,9 +15,12 @@ const router = express.Router();
 router.put('/:account_id/newPlaylist', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
-    if (!user) 
-        res.status(404).message('User Not Found!');
-
+    if (!user) {
+        return res.status(404).send('User Not Found!');
+    } else if (req.body.name === "") {
+        return res.status(400).send('Playlist name cannot be empty!');
+    }
+        
     try {
         let playlist = new Playlist({
             name: req.body.name,

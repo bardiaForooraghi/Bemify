@@ -90,14 +90,18 @@ template {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  min-height: 800px;
+  /* min-height: 800px; */
   background-image: url('../../images/stacked-waves-haikei.svg');
   aspect-ratio: 960/300;
-  width: 100%;
+  /* width: 100%; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
+  width: 100vw;
+  position:absolute;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 #body {
@@ -105,6 +109,15 @@ template {
   font-size: 20px;
   color: #E3D5CA;
   display: flex;
+  height: 100vh;
+  width: 100vw;
+  position:absolute;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /* Navbar styling */

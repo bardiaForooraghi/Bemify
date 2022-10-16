@@ -4,19 +4,19 @@
         <img src="../../../images/back.png" id="goBack" @click="returnToProfile">
     </div>
     <div class="col-8" id="playlistBox">
-        <div class="row">
-            <div class="col-2 d-none d-md-block">
+        <b-row id="playlistname-row">
+            <div class="col-3 d-none d-md-block">
                 <router-link to="/profile"><img src="../../../images/playlist_image.png" id="playlistImage"></router-link>
             </div>
-            <div class="col-10">
+            <div class="col-9">
               <p id="playlistName">{{ playlistName }}</p>
               <p id="playlistCreator">Created by {{ username }}</p>
             </div>
-        </div>
-        <b-row>
-          <b-col class="ml-auto">
-            <div>
-              <b-dropdown id="filterButto" dropright text="Filter by genre" class="m-md-2">
+          </b-row>
+        <b-row id="button-row">
+          <b-col class="ml-auto d-flex">
+            <b-row class="ml-auto d-flex">
+              <b-dropdown id="filterButto" dropleft text="Filter by genre" class="m-md-2">
                 <b-dropdown-item>Pop</b-dropdown-item>
                 <b-dropdown-item>Hip-hop/Rap</b-dropdown-item>
                 <b-dropdown-item>Rock/Metal</b-dropdown-item>
@@ -28,28 +28,39 @@
                 <b-dropdown-item>Country</b-dropdown-item>
                 <b-dropdown-item>R&B</b-dropdown-item>
               </b-dropdown>
-              <b-button id="deletePlaylistsButton" dropright text="Filter by genre" class="m-md-2" @click="deletePlaylist();">Delete Playlist</b-button>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row class="mx-auto" id="playlistRow">
+          <b-col class="col-md-12 mb-4 mx-auto" id="song-list">
+            <div class="card example-1 scrollbar-dusty-grass mx-auto">
+              <div id="card-body" class="mx-auto">
+                <b-row id="track" v-for="Song in tracks" :key="Song">
+                  <b-col class="col-md-10 col-sm-10 col-xs-9 col-9 mr-auto d-flex">
+                    {{ Song.name }} - {{Song.duration}}
+                  </b-col>
+                  <b-col class="col-md-2 col-sm-2 col-xs-3 col-3 ml-auto">
+                    <b-button id="deleteButton" @click="deleteFromPlaylist(Song._id);">
+                      <img
+                          class="button deleteButton"
+                          src="../../../images/delete-playlist.png"
+                          alt="deleteButton"
+                          id="deleteSong"
+                      /></b-button>
+                  </b-col>
+                </b-row>
+          <!-- <div class="row" id="song"></div> -->
+              </div>
             </div>
           </b-col>
         </b-row>
-        <div class="row" id="track" v-for="Song in tracks" :key="Song">
-          <b-col class="col-9 ml-auto">
-            {{ Song.name }} - {{Song.duration}}
+        <b-row class="mx-auto d-flex">
+          <b-col>
+            <b-button id="deletePlaylistButton" class="m-md-2" @click="deletePlaylist()">Delete Playlist</b-button>
           </b-col>
-          <b-col class="col-3 ml-auto">
-                <b-button id="searchButton"
-                @click="deleteFromPlaylist(Song._id);"
-            ><img
-                  class="button saveButton"
-                  src="../../../images/delete.png"
-                  alt="saveButton"
-                  id="deleteSong"
-                /></b-button>
-              </b-col>
-        </div>
-        <div class="row" id="song"></div>
+        </b-row>
     </div>
-    <div class="col-2"></div>
+    <!-- <div class="col-2"></div> -->
 </div>
 </template>
 
@@ -77,56 +88,72 @@
   cursor:pointer;
 }
 
+#playlistname-row {
+  height: 170px;
+}
+
+#button-row {
+  margin-top: 0;
+  padding-top: 0;
+  height: 60px;
+}
+
 #playlistBox {
   background-color: rgb(153, 90, 100);
-  height: fit-content;
+  min-height: fit-content;
+  height: 580px;
   border-radius: 30px;
   color: #e3d5ca;
+  margin-top: 30px;
 }
 
 #playlistImage {
-  height: 140px;
+  width: 10vw;
   text-align: center;
   margin: 40px;
+  margin-top: 50px;
 }
 
 #playlistName {
   text-align: left;
-  margin: 50px 60px 0 60px;
+  margin: 70px 60px 0 0px;
   font-size: 30px;
   font-weight: bold;
 }
 
 #playlistCreator {
   text-align: left;
-  margin: 0px 60px;
-  font-size: 25px;
+  margin: 0px 0px;
+  font-size: 21px;
 }
 
-#filterRow {
-  align-content: right;
+#playlistRow {
+  height: 265px;
 }
 
-#filterButton {
-  background-color:#E3D5CA;
-  color: #F76E45;
-  width: 170px;
-  margin-left: 30px;
-  font-weight: bold;
-  border: none;
-  border-radius: 30px;
+#deletePlaylistButton {
+  background-color: #f76e45;
+  border-radius: 25px;
   height: 50px;
+  width: fit-content;
+  font-size: 100%;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color:#E3D5CA;
+  border: none;
+  width: 10%;
 }
 
 button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
   background-color:#E3D5CA;
-  color: #F76E45;
-  width: 170px;
-  margin-left: 30px;
+  color: #f76e45;
+  /* width: 170px; */
+  /* margin-left: 30px; */
   font-weight: bold;
   border: none;
   border-radius: 30px;
   height: 50px;
+  margin-right: 40px;
 }
 
 #track {
@@ -136,9 +163,54 @@ button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
   margin: 20px 20px;
   height: 60px;
   cursor: pointer;
-  padding: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
   font-size: 20px;
   color: #e3d5ca;
+  font-weight: bold;
+}
+
+#deleteButton {
+  width: 70px;
+  padding: 0;
+  background: none;
+  border: none;
+  margin: 0;
+}
+
+.deleteButton {
+  width: 100%;
+}
+
+#song-list {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  #playlistName {
+    margin-left: 15%;
+  }
+
+  #playlistCreator {
+    margin-left: 15%;
+  }
+
+  #track {
+  font-size: 2.5vw;
+  min-width: 50px;
+  padding-left: 0px;
+}
+
+#playlistBox {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#deleteButton {
+  width: 40px;
+}
+
 }
 </style>
 

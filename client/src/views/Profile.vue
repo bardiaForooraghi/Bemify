@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row align-items-start" id="row1">
+    <b-row class="align-items-start" id="row1">
       <div class="col-md-8 col-sm-12 col-xs-12 col-12">
         <b-row class="col-md-12 col-sm-12 col-xs-12 col-12" id="profileInfo">
           <div class="col-3 align-self-center">
@@ -9,13 +9,14 @@
               id="userProfile"
             />
           </div>
-          <div class="col-9 text-left align-self-center">
+          <div class="col-9 text-left align-self-center" id="profile-username">
             Hello <strong>{{ username }}</strong>!
           </div>
         </b-row>
       </div>
-      <b-row class="follow" id="follow">
-        <b-col class="col-6 align-self-center d-none d-lg-block">
+      <!-- Hidden in bigger screens -->
+      <!-- <b-row class="follow" id="follow">
+        <b-col class="col-6 align-self-center d-none d-md-block">
           <div>
             <b-button id="followersButton" v-b-modal.modal-scrollable><b-link href="#foo" id="follow">{{ followers_no }}<br />followers</b-link></b-button>
             <b-modal centered hide-footer="true" id="modal-scrollable" scrollable title="Followers">
@@ -29,7 +30,41 @@
             </b-modal>
           </div>
         </b-col>
-        <div class="col-6 align-self-center d-none d-lg-block">
+        <b-col class="col-6 align-self-center d-none d-md-block">
+          <div>
+            <b-button id="followingButton" v-b-modal.modal-scrollable2><b-link href="#foo" id="follow">{{ followings_no }}<br />following</b-link></b-button>
+            <b-modal centered hide-footer="true" id="modal-scrollable2" scrollable title="Following">
+              <b-row
+                class="row"
+                id="following"
+                v-for="following in followings_name"
+                :key="following"
+                >
+                <hr class="hr" />
+                <p>{{ following }}</p>
+              <hr/>
+            </b-row>
+            </b-modal>
+          </div>
+        </b-col>
+      </b-row> -->
+      <!-- Hidden in smaller screens -->
+      <b-row class="follow" id="follow">
+        <b-col class="col-6 align-self-center d-none d-md-block">
+          <div>
+            <b-button id="followersButton" v-b-modal.modal-scrollable><b-link href="#foo" id="follow">{{ followers_no }}<br />followers</b-link></b-button>
+            <b-modal centered hide-footer="true" id="modal-scrollable" scrollable title="Followers">
+              <b-row
+                id="followers"
+                v-for="follower in followers_name"
+                :key="follower"
+                >
+                <p>{{ follower }} <br></p>
+            </b-row>
+            </b-modal>
+          </div>
+        </b-col>
+        <div class="col-6 align-self-center d-none d-md-block">
           <div>
             <b-button id="followingButton" v-b-modal.modal-scrollable2><b-link href="#foo" id="follow">{{ followings_no }}<br />following</b-link></b-button>
             <b-modal centered hide-footer="true" id="modal-scrollable2" scrollable title="Following">
@@ -47,8 +82,8 @@
           </div>
         </div>
       </b-row>
-    </div>
-    <b-row class="align-items-start">
+    </b-row>
+    <b-row class="align-items-start" id="row2">
       <div class="text-left align-self-end" id="h1MyPlaylists">
       My playlists
       </div>
@@ -230,7 +265,7 @@ div#card-body.mx-auto {
   background-color: #e3d5ca;
   border-radius: 35px;
   height: 120px;
-  width: 550px;
+  width: 600px;
   color: #2C3D4E;
   font-size: 25px;
 }
@@ -256,7 +291,6 @@ div#card-body.mx-auto {
   border: none;
 }
 
-/* not responsive */
 div#modal-scrollable2___BV_modal_content_.modal-content {
   width: 80%;
   margin: 0px;
@@ -298,8 +332,8 @@ div#modal-center___BV_modal_content_.modal-content.popup {
   background-color: #f76e45;
   border-radius: 25px;
   height: 50px;
-  width: 200px;
-  font-size: 18px;
+  width: 90px;
+  font-size: 16px;
   margin-bottom: 0;
 }
 
@@ -383,9 +417,14 @@ h2 {
     width: 100%;
   }
 
+  #row1, #row2, #playlistRow {
+    padding-left: 7%;
+    padding-right: 10px;
+  }
+
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   #profileInfo {
     background-color: #e3d5ca;
     border-radius: 35px;
@@ -393,13 +432,21 @@ h2 {
     width: 100%;
   }
 
-}
-/* @media (max-width: 576px) {
-  #app {
-    padding-left: 20px;
-    padding-right: 10px;
+  #followingButton, #followersButton, #follow {
+    margin-left: -10px;
+    margin-right: -10px;
+    text-align: center;
   }
-} */
+
+  #follow {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  #profile-username {
+  padding-left: 42px;
+}
+}
 </style>
 
 <script>
