@@ -90,6 +90,7 @@
             <b-row id="buttons" class="fourth justify-content-center mx-auto">
               <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
               <b-button class="mx-auto btn" @click="update" id="save">Save Changes</b-button>
+              <b-alert variant="success" id="saveChanges" v-model="showSuccessfulAlert">Your changes have been successfully saved!</b-alert>
             </b-row>
           </b-col>
       </b-row>
@@ -187,6 +188,14 @@ hr {
     height: 55px;
     min-width: fit-content;
     padding: 10px;
+}
+
+#saveChanges {
+  font-size: 18px;
+  font-family: "DM Sans", sans-serif;
+  height: 65px;
+  min-width: fit-content;
+  padding: 10px;
 }
 
 #save {
@@ -307,7 +316,8 @@ export default {
       emailPlaceholder: '',
       password: '',
       profilePicture: require('../../public/profile-pic.png'),
-      file: ''
+      file: '',
+      showSuccessfulAlert: false
     }
   },
   methods: {
@@ -318,7 +328,12 @@ export default {
         username: this.username,
         password: this.password,
         email: this.email
-      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+      }).then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          this.showSuccessfulAlert = true
+        }
+      }).catch(error => { console.log(error.response) })
     },
     //  Method to clear input fields
     async clear() {
