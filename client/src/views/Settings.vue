@@ -86,7 +86,7 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="onChange; $bvModal.hide('modal-lg')"
+              @click="onChange(); $bvModal.hide('modal-lg')"
               id="uploadButton"
             >
               Change

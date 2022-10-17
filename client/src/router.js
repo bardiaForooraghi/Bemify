@@ -38,6 +38,10 @@ export default new Router({
       path: '/playlist/:playlist_id',
       name: 'playlist',
       component: Playlist
+    }, {
+      path: '*',
+      name: '404',
+      component: Login
     }
   ]
 })

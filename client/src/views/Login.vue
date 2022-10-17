@@ -39,7 +39,7 @@
           </b-row>
           <b-row class="login justify-content-center">
             <b-button @click="login" id="loginButton">Log in</b-button>
-            <b-alert  variant="danger" id="loginFailure" v-model="showUnsuccessfulLogin">Invalid email or password!</b-alert>
+            <b-alert  variant="danger" id="loginFailure" v-model="showUnsuccessfulLogin">Invalid username or password!</b-alert>
           </b-row>
           <b-row class="justify-content-center">
             <p id="createAccount-text">Don't have an account?</p>
