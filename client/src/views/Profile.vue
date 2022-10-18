@@ -13,6 +13,14 @@
             Hello <strong>{{ username }}</strong>!
           </div>
         </b-row>
+        <b-row class="d-md-none" id="follow-hidden">
+          <b-col class="col-6 text-right">
+              <b-button id="followersButton-hidden" v-b-modal.modal-scrollable><b-link href="#foo" id="follow-hidden">{{ followers_no }} followers</b-link></b-button>
+          </b-col>
+          <b-col class="col-6 text-left">
+              <b-button id="followingButton-hidden" v-b-modal.modal-scrollable2><b-link href="#foo" id="follow-hidden">{{ followings_no }} following</b-link></b-button>
+          </b-col>
+        </b-row>
       </div>
       <b-row class="follow" id="follow">
         <b-col class="col-6 align-self-center d-none d-md-block">
@@ -24,7 +32,11 @@
                 v-for="follower in followers_name"
                 :key="follower"
                 >
-                <p>{{ follower }} <br></p>
+                <hr class="hr" />
+                <div>
+                  <img src="../../../images/user_profile.png" id="followProfile"/>{{ follower }} <br>
+                </div>
+                <hr/>
             </b-row>
             </b-modal>
           </div>
@@ -40,7 +52,9 @@
                 :key="following"
                 >
                 <hr class="hr" />
-                <p>{{ following }}</p>
+                <div>
+                  <img src="../../../images/user_profile.png" id="followProfile"/>{{ following }} <br>
+                </div>
               <hr/>
             </b-row>
             </b-modal>
@@ -52,7 +66,7 @@
       <div class="text-left align-self-end" id="h1MyPlaylists">
       My playlists
       </div>
-      <div class="col text-right">
+      <div class="col text-right d-none d-md-block">
         <b-button v-b-modal.modal-center1 id="deletePlaylistsButton">
           Delete all playlists
         </b-button>
@@ -139,6 +153,14 @@
             </div>
           </template>
         </b-modal>
+      </div>
+      <div class="col text-right d-md-none">
+        <b-button v-b-modal.modal-center1 id="deletePlaylistsButton">
+          Delete All
+        </b-button>
+        <b-button v-b-modal.modal-center id="newPlaylistButton"
+          >Create</b-button
+        >
       </div>
     </b-row>
     <!-- Playlist container -->
@@ -272,6 +294,25 @@ div#card-body.mx-auto {
   margin-left: 20px;
 }
 
+/* Hidden follow bar */
+#follow-hidden {
+  height: 25px;
+  width: 100%;
+  color: #e3d5ca;
+  margin-bottom: 20px;
+}
+
+#followersButton-hidden, #followingButton-hidden {
+  color: #e3d5ca;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-decoration: none;
+  background: none;
+  font-weight: 800;
+}
+
 #follow {
   height: 150px;
   font-size: 22px;
@@ -289,15 +330,41 @@ div#card-body.mx-auto {
 }
 
 div#modal-scrollable2___BV_modal_content_.modal-content {
-  width: 80%;
   margin: 0px;
-  width: 70vw;
+  width: 35vw;
+  min-width: 300px;
+  background-color: #385181;
+  color: #e3d5ca;
 }
 
 div#modal-scrollable___BV_modal_content_.modal-content {
-  width: 80%;
   margin: 0px;
-  width: 70vw;
+  width: 35vw;
+  min-width: 300px;
+  background-color: #385181;
+  color: #e3d5ca;
+}
+
+button.close {
+  color: #e3d5ca;
+}
+
+header#modal-scrollable2___BV_modal_header_.modal-header {
+  padding-left: 40px;
+}
+
+header#modal-scrollable___BV_modal_header_.modal-header {
+  padding-left: 40px;
+}
+
+#followProfile {
+  width: 40px;
+  margin-right: 10px;
+}
+
+#followers, #following {
+  color: #F76E45;
+  font-size: 25px;
 }
 
 div#modal-center___BV_modal_content_.modal-content.popup {
@@ -308,9 +375,9 @@ div#modal-center___BV_modal_content_.modal-content.popup {
 
 #h1MyPlaylists {
   color: #e3d5ca;
-  font-size: 20px;
+  font-size: 22px;
   margin-bottom: 0;
-  font-weight: bold;
+  font-weight: 400;
 }
 
 #closeButton1 {
@@ -344,8 +411,10 @@ div#modal-center___BV_modal_content_.modal-content.popup {
   cursor: pointer;
   width: 100%;
   padding: 15px;
+  padding-left: 50px;
   font-size: 20px;
   color: #e3d5ca;
+  font-weight: 800;
 }
 
 #newPlaylistButton, #deletePlaylistsButton {
@@ -466,6 +535,25 @@ h2 {
   #profile-username {
   padding-left: 42px;
 }
+}
+
+@media (max-width: 768px) {
+  #userProfile {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  #deletePlaylistsButton, #newPlaylistButton {
+    font-size: 15px;
+    width: fit-content;
+  }
+  #deletePlaylistsButton {
+    margin-right: 5px;
+  }
+  #newPlaylistButton {
+    margin-left: 5px;
+  }
 }
 </style>
 

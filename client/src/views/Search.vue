@@ -265,6 +265,7 @@ div.col-7.mx-auto.col {
   border-radius: 20px;
   margin: 20px 0;
   padding: 15px 10px;
+  padding-left: 20px;
 }
 
 #search-input:focus,
@@ -358,6 +359,7 @@ div.col-7.mx-auto.col {
   height: 60px;
   margin: 20px 0;
   padding: 5px;
+  padding-left: 20px;
 }
 div.card.example-1.scrollbar-ripe-malinka {
   background-color: #27416d;
