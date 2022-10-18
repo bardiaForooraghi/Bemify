@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-md justify-content-center" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
+    <nav class="navbar navbar-expand-md justify-content-center" id="navbar" v-if="!['signup', 'login', 'pageNotFound'].includes(this.$route.name)">
       <!-- <a class="navbar-brand" href="#"><img src="../../images/bemify_logo.png" alt="logo" id="logo"></a> -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler01" aria-controls="navbarToggler01" aria-expanded="false" aria-label="Toggle navigation">
       <img src="../../images/bemify_logo.png" alt="logo-toggle" id="logo">
@@ -69,7 +69,6 @@
     </ul>
   </div>
 </nav>
-    <div id="body"></div>
     <!-- Render the content of the current page view -->
     <router-view/>
   </div>

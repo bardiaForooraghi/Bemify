@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
         user = await user.save();
-        const token = user.generateAuthToken();
+        const token = await user.generateAuthToken();
         // res.header('x-auth-token', token).status(200).send(user);
         res.json({token, user});
     } catch (e) {

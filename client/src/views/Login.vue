@@ -185,9 +185,9 @@ export default {
         password: this.password
       })
         .then((response) => {
-          this.$router.push('/profile')
           const token = response.data
           localStorage.token = token
+          this.$router.push('/profile')
         })
         .catch((error) => {
           if (error.response.status !== 200) {

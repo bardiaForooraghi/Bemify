@@ -6,6 +6,7 @@ import Signup from './views/Signup.vue'
 import Profile from './views/Profile.vue'
 import Search from './views/Search.vue'
 import Playlist from './views/Playlist.vue'
+import PageNotFound from './views/PageNotFound.vue'
 
 Vue.use(Router)
 
@@ -20,7 +21,14 @@ export default new Router({
     }, {
       path: '/settings',
       name: 'settings',
-      component: Settings
+      component: Settings,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('token') !== undefined && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
+          next()
+        } else {
+          next('/pageNotFound')
+        }
+      }
     }, {
       path: '/signup',
       name: 'signup',
@@ -29,19 +37,40 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: Profile,
-      props: true
+      props: true,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('token') !== undefined && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
+          next()
+        } else {
+          next('/pageNotFound')
+        }
+      }
     }, {
       path: '/search',
       name: 'search',
-      component: Search
+      component: Search,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('token') !== undefined && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
+          next()
+        } else {
+          next('/pageNotFound')
+        }
+      }
     }, {
       path: '/playlist/:playlist_id',
       name: 'playlist',
-      component: Playlist
+      component: Playlist,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('token') !== undefined && localStorage.getItem('token') !== null && localStorage.getItem('token') !== '') {
+          next()
+        } else {
+          next('/pageNotFound')
+        }
+      }
     }, {
       path: '*',
-      name: '404',
-      component: Login
+      name: 'pageNotFound',
+      component: PageNotFound
     }
   ]
 })

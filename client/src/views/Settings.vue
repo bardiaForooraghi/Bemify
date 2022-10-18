@@ -402,7 +402,6 @@ export default {
     },
     logout() {
       localStorage.clear()
-      sessionStorage.removeItem('token')
       this.$router.push('/')
     },
     deleteAccount() {
