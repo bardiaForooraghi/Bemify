@@ -110,10 +110,14 @@ router.get('/:account_id/playlists/:playlist_id', async (req, res) => {
 
     try {
         const user = await User.findById(userId);
+        const playlist = await Playlist.findById(playlistId)
 
-        if (!user) 
+        if (!user) {
             return res.status(404).json({ message: `User with id ${userId} not found`});
-
+        } else if (!playlist) {
+            return res.status(404).json({ message: `Playlist with id ${playlistId} not found`});
+        }
+            
         res.status(200).json(user.playlists.filter(playlist => playlist._id == playlistId));
 
     } catch(err) {
@@ -124,7 +128,7 @@ router.get('/:account_id/playlists/:playlist_id', async (req, res) => {
 // Upload a song to the user's playlist
 router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => {
     const playlistId = req.params.playlist_id;
-
+    
     try {
         const user = await User.findById(req.params.account_id);
         const specificPlaylist = await Playlist.findById(req.params.playlist_id)
