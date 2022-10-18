@@ -192,11 +192,11 @@ export default {
 
     async validateUsername(value) {
       if (value.length >= 3) {
-        this.msg.password = ''
+        this.msg.username = ''
       } else if (value === '') {
-        this.msg.password = ''
+        this.msg.username = ''
       } else {
-        this.msg.password = 'At least 3 characters are required!'
+        this.msg.username = 'At least 3 characters are required!'
       }
     },
 
