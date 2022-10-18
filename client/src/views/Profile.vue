@@ -162,12 +162,9 @@
         </b-col>
     </b-row>
     <!-- Playbar -->
-    <footer
-      class="text-center text-lg-start fixed-bottom"
-      id="trackPlaybackBar"
-    >
+    <footer class="text-center text-lg-start fixed-bottom" id="trackPlaybackBar">
       <div class="b-container p-4">
-        <div class="row">
+        <b-row>
           <div class="col-3">
             <h2 id="listeningTo">You're listening to</h2>
             <h2 class="song-title">
@@ -200,7 +197,7 @@
               {{ song.title }} - {{ song.artist }}
             </b-button>
           </div>
-        </div>
+        </b-row>
       </div>
     </footer>
   </div>

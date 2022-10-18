@@ -36,7 +36,7 @@
             <div class="card example-1 scrollbar-dusty-grass mx-auto">
               <div id="card-body" class="mx-auto">
                 <b-row id="track" v-for="Song in tracks" :key="Song">
-                  <b-col class="col-md-10 col-sm-10 col-xs-9 col-9 mr-auto d-flex">
+                  <b-col class="col-md-10 col-sm-10 col-xs-9 col-9 mr-auto d-flex" id="trackName">
                     {{ Song.name }} - {{Song.duration}}
                   </b-col>
                   <b-col class="col-md-2 col-sm-2 col-xs-3 col-3 ml-auto">
@@ -56,7 +56,14 @@
         </b-row>
         <b-row class="mx-auto d-flex">
           <b-col>
-            <b-button id="deletePlaylistButton" class="m-md-2" @click="deletePlaylist()">Delete Playlist</b-button>
+            <b-button id="deletePlaylistButton" class="m-md-2" @click="deletePlaylist()">
+              <span class="trash">
+                <span>
+                </span>
+                <i>
+                </i>
+              </span>
+            </b-button>
           </b-col>
         </b-row>
     </div>
@@ -74,13 +81,6 @@
   height: 10%;
 }
 
-/* #editSong{
-  width:4%;
-  height:4%;
-  margin-right: 20px;
-  margin-top: 50px;
-} */
-
 #goBack {
   height: 60px;
   margin-top: 30px;
@@ -89,7 +89,7 @@
 }
 
 #playlistname-row {
-  height: 170px;
+  height: 190px;
 }
 
 #button-row {
@@ -101,7 +101,7 @@
 #playlistBox {
   background-color: rgb(153, 90, 100);
   min-height: fit-content;
-  height: 580px;
+  height: 585px;
   border-radius: 30px;
   color: #e3d5ca;
   margin-top: 30px;
@@ -132,7 +132,7 @@
 }
 
 #deletePlaylistButton {
-  background-color: #f76e45;
+  background-color: transparent;
   border-radius: 25px;
   height: 50px;
   width: fit-content;
@@ -144,11 +144,13 @@
   width: 10%;
 }
 
+#trackName {
+  font-size: 20px;
+}
+
 button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
   background-color:#E3D5CA;
   color: #f76e45;
-  /* width: 170px; */
-  /* margin-left: 30px; */
   font-weight: bold;
   border: none;
   border-radius: 30px;
@@ -172,7 +174,7 @@ button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
 }
 
 #deleteButton {
-  width: 70px;
+  width: 25px;
   padding: 0;
   background: none;
   border: none;
@@ -180,11 +182,95 @@ button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
 }
 
 .deleteButton {
-  width: 100%;
+  width: 25px;
+  margin: 0;
+}
+
+#deleteSong {
+  width: 25px;
 }
 
 #song-list {
   margin-top: 0;
+}
+/* Trash test */
+.trash {
+  background:#F76E45;
+  width: 36.96px;
+  height: 44.8px;
+  display: inline-block;
+  margin: 0 auto;
+  position: relative;
+  -webkit-border-bottom-right-radius: 3.36px;
+  -webkit-border-bottom-left-radius: 3.36px;
+  -moz-border-radius-bottomright: 3.36px;
+  -moz-border-radius-bottomleft: 3.36px;
+  border-bottom-right-radius: 3.36px;
+  border-bottom-left-radius: 3.36px;
+}
+.trash span {
+  position: absolute;
+  height: 6.72px;
+  background: #F76E45;
+  top: -10.64px;
+  left: -5.6px;
+  right: -5.6px;
+  border-top-left-radius: 5.6px;
+  border-top-right-radius: 5.6px;
+  transform: rotate(0deg);
+  transition: transform 250ms;
+  transform-origin: 19% 100%;
+}
+.trash span:after {
+  content: '';
+  position: absolute;
+  width: 15.12px;
+  height: 3.92px;
+  background: #F76E45;
+  top: -5.6px;
+  border-top-left-radius: 5.6px;
+  border-top-right-radius: 5.6px;
+  transform: rotate(0deg);
+  transition: transform 250ms;
+  transform-origin: 19% 100%;
+  left: 15.12px;
+}
+
+.trash i {
+  position:relative;
+  width: 3.5px;
+  height:28px;
+  background:rgb(153, 90, 100);
+  display:block;
+  margin:9.8px auto;
+  border-radius: 3.5px;
+}
+.trash i:after {
+  content: '';
+  width: 2.8px;
+  height: 28px;
+  background: rgb(153, 90, 100);
+  position: absolute;
+  left: -10.08px;
+  border-radius: 2.8px;
+}
+.trash i:before {
+  content: '';
+  width: 2.8px;
+  height: 28px;
+  background: rgb(153, 90, 100);
+  position: absolute;
+  right: -10.08px;
+  border-radius: 2.8px;
+}
+
+.trash:hover span {
+  transform: rotate(-45deg);
+  transition: transform 250ms;
+}
+
+span.trash::after {
+  color: transparent;
 }
 
 @media (max-width: 768px) {
@@ -208,9 +294,22 @@ button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
 }
 
 #deleteButton {
-  width: 40px;
+  width: 20px;
+  margin: 0;
+  align-items: left;
+}
+#deleteSong {
+  margin: 0;
+  width: 20px;
 }
 
+#trackName {
+  font-size: 17px;
+}
+
+#track {
+  padding-top: 0px;
+}
 }
 </style>
 

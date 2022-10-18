@@ -70,7 +70,7 @@
               :key="User"
             >
               <b-col class="col-7 mx-auto">
-                <p>{{ User.profilePicture }}</p>
+                <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" class="src" :src="profilePicture" id="user-pic" center/></b-row>
                 <p id="user">{{ User.username }}</p>
                 <b-row class="mx-auto">
                   <button class="followButton" @click="followAccount(User._id)">
@@ -95,11 +95,12 @@
               <b-modal v-bind:id="Track.name" hide-footer title="Select a Playlist to add the song to!">
                 <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addToPlaylist(Playlist._id, Track._id); $bvModal.hide(Track.name);">{{ Playlist.name }}</b-button>
               </b-modal>
-                <b-col class="col-8 mr-auto" id="trackCol">
-                  <p id="user">{{ Track.name }}</p>
+                <b-col class="col-8 mr-auto d-flex" id="trackCol">
+                  <p id="trackName">{{ Track.name }}</p>
                 </b-col>
               <b-col class="col-2 mx-auto" id="trackCol">
-                <button class="playButton" @click="play(song)">Play</button>
+                <p id="trackMins">{{ Track.duration }}</p>
+                <!-- <button class="playButton" @click="play(song)">Play</button> -->
               </b-col>
               <b-col class="col-2 mx-auto" id="trackCol">
                 <b-button v-b-modal="Track.name" id="saveTrackButton" @click="showPlaylists()">
@@ -169,7 +170,7 @@ div#card-body1.mx-auto {
 }
 
 .search {
-  padding-top: 5%;
+  padding-top: 30px;
 }
 
 .content {
@@ -179,6 +180,7 @@ div#card-body1.mx-auto {
 .search-row {
   width: 100%;
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 #searchButton {
@@ -207,14 +209,25 @@ div#card-body1.mx-auto {
   padding-left: 20px;
 }
 
-#user {
+#user, #trackName {
   font-size: 20px;
   font-weight: bold;
   color: #e3d5ca;
 }
 
+#trackMins {
+  font-weight: bold;
+  color: #e3d5ca;
+  text-align: end;
+  margin-top: 5px;
+}
+
 div.col-7.mx-auto.col {
   margin: 0;
+}
+
+#search-results {
+  margin-top: 20px;
 }
 
 #resultRow {
@@ -223,6 +236,8 @@ div.col-7.mx-auto.col {
 
 #trackCol {
   margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 #user-results, #song-results {
@@ -232,11 +247,15 @@ div.col-7.mx-auto.col {
 
 #userResult {
   width: 90%;
-  background-color: #c5b0bb;
-  height: 230px;
+  background-color: #b094a2;
+  height: 235px;
   border-radius: 20px;
   margin: 20px 0;
   padding: 10px;
+}
+
+#user-pic {
+  width: 45%;
 }
 
 #songResult {
@@ -245,7 +264,7 @@ div.col-7.mx-auto.col {
   height: 60px;
   border-radius: 20px;
   margin: 20px 0;
-  padding: 10px;
+  padding: 15px 10px;
 }
 
 #search-input:focus,
@@ -272,6 +291,8 @@ div.col-7.mx-auto.col {
   padding: 0;
   background: none;
   border: none;
+  margin: 0;
+  /* margin-top: 8px; */
 }
 
 #alreadyFollowing {
@@ -311,7 +332,7 @@ div.col-7.mx-auto.col {
 }
 
 #plus {
-  width: 100%;
+  width: 35px;
 }
 
 #addingSong {
@@ -320,6 +341,10 @@ div.col-7.mx-auto.col {
 
 #alreadyAddingSong {
   width: 500px;
+}
+
+div.col-7.mx-auto.col {
+  padding: 10px;
 }
 
 @media (max-width: 992px) {
@@ -331,10 +356,49 @@ div.col-7.mx-auto.col {
   width: 100%;
   background-color: #cea874;
   height: 60px;
+  margin: 20px 0;
+  padding: 5px;
+}
+div.card.example-1.scrollbar-ripe-malinka {
+  background-color: #27416d;
+  height: 450px;
+  border-radius: 40px;
+  width: 80%;
+  margin: 5px 10px 10px 10px;
+  min-height: 0;
+  padding: 30px;
+}
+
+#trackName {
+  font-size: 100%;
+  min-width: 50px;
+  padding-left: 0px;
+  margin-top: 10px;
+}
+}
+
+@media (max-width: 488px) {
+  #songResult {
+    width: 250px;
+  }
+}
+
+@media (max-width: 10480px) {
+  #temporary {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  #saveTrackButton {
   margin: 0;
-  padding: 0;
+  margin-top: 8px;
+}
+#trackMins {
+  margin-top: 13px;
 }
 }
+
 </style>
 
 <script>
@@ -346,6 +410,7 @@ export default {
   data() {
     return {
       users: [],
+      profilePicture: require('../../public/profile-pic.png'),
       tracks: [],
       playlists: [],
       searchInput: '',

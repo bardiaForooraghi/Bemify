@@ -58,9 +58,8 @@
             </b-row>
           </b-col>
         <!-- Profile pic col -->
-        <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol"></b-col> -->
         <b-col class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-6 order-lg-3 order-md-3" id="profileCol">
-            <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" rounded="circle" class="src" :src="profilePicture" id="profile-pic" center/></b-row>
+            <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" class="src" :src="profilePicture" id="profile-pic" center/></b-row>
             <b-row id="" class="fourth justify-content-center">
               <b-col class="col-sm-12">
                 <b-button v-b-modal.modal-lg class="btn d-none d-sm-block mx-auto" id="changeProfilePic">Change Profile Picture</b-button>
@@ -76,7 +75,6 @@
               </b-col-1>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
-              <!-- <b-button @click="clearFiles" class="mr-2">Reset via method</b-button> -->
               <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
             </b-row>
           </b-container>
@@ -107,20 +105,16 @@
         </b-row>
         </b-col>
         <!-- input fields col -->
-        <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-1 order-md-1" id=""> -->
           <b-col class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 order-lg-2 order-md-2" align-self="center" id="inputColumn">
             <b-row id="inputFields" class="fourth justify-content-center">
-                <!-- <input type="text" id="username" placeholder="*Username"> -->
                 <b-form-input v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
             </b-row>
             <b-row id="" class="justify-content-center">
-                <!-- <input type="text" id="password" placeholder="*Password"> -->
                 <b-form-input v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your password should be kept secret, avoid sharing it with anyone and staff will never ask for these details.</p>
             </b-row>
             <b-row id="" class="justify-content-center">
-                <!-- <input type="text" id="emailAddress" placeholder="*Email Address"> -->
                 <b-form-input v-model="email" type="email" v-bind:placeholder="emailPlaceholder" id="password"></b-form-input>
             </b-row>
             <b-row id="buttons" class="fourth justify-content-center mx-auto">
