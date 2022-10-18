@@ -280,9 +280,6 @@ export default {
     }
   },
   methods: {
-    // clearFiles() {
-    //   this.$refs['file-input'].reset()
-    // },
     clear() {
       this.trackName = ''
       this.trackDuration = ''

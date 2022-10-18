@@ -44,7 +44,7 @@ router.post('/', async(req, res) => {
             artisttracks: req.body.artisttracks
         });
         playlist = await playlist.save();
-        res.json(playlist);
+        res.status(201).json(playlist);
     } catch (e) {
         res.status(400).send(e.message);
     } 
@@ -95,7 +95,7 @@ router.delete('/:playlist_id/tracks/:track_id', async(req, res) => {
         } else {
             const result = await playlist.update({$pull: {tracks: req.params.track_id}}, {new: true});
             playlist = await playlist.save()
-        res.send(playlist);
+        res.status(204);
     }
 
     } catch (e) {
@@ -113,7 +113,7 @@ router.delete('/:playlist_id/artisttracks/:track_id', async(req, res) => {
         } else {
             const result = await playlist.update({$pull: {artisttracks: req.params.track_id}}, {new: true});
             playlist = await playlist.save()
-        res.send(playlist);
+        res.status(204);
     }
 
     } catch (e) {

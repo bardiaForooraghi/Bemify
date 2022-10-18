@@ -33,7 +33,7 @@ router.put('/:account_id/newPlaylist', async (req, res) => {
         user.playlists.push(playlist);
         const result = await user.save();
 
-        res.send(result);
+        res.status(201).send(result);
     } catch (e) {
         res.status(400).send(e.message);
     }
@@ -73,7 +73,7 @@ router.delete('/:account_id/playlists/:playlist_id', async (req, res) => {
         });
         const result = await user.update({$pull: {playlists: req.params.playlist_id}}, {new: true});
         const result2 = await user.save();
-        res.send(result2);
+        res.status(204);
     } catch (e) {
         res.status(400).send(e.message);
     }
@@ -97,7 +97,7 @@ router.delete('/:account_id/playlists/', async (req, res) => {
         });
         const result = await user.update({$set: {playlists: []}}, {new: true});
         const result2 = await user.save();
-        res.send(result2);
+        res.status(204);
     } catch (e) {
         res.status(400).send(e.message);
     }
@@ -344,7 +344,7 @@ router.delete('/:account_id', function(req, res, next) {
             return res.status(400)
         }
         else{
-            res.status(200).json(docs);
+            res.status(204).json(docs);
         }
     });
 });
@@ -365,8 +365,7 @@ router.put('/:account_id',  async (req, res) => {
         user.email = req.body.email;
         const token = user.generateAuthToken();
         user = await user.save();
-        res.json({token, user});
-        res.status(200).send(user);
+        res.status(200).json({token, user});
     } catch (e) {
         res.status(400).send(e.message);
     }
@@ -428,12 +427,17 @@ router.patch('/:account_id/password', async (req, res) => {
 
 // Delete all users in database
 router.delete('/', function(req, res, next) {
+    Playlist.deleteMany(function (err, docs) {
+        if (err){
+            return res.status(400)
+        }
+    });
     User.deleteMany(function (err, docs) {
         if (err){
             return res.status(400)
         }
         else{
-            res.status(200).json(docs);
+            res.status(204).json(docs);
         }
     });
 });

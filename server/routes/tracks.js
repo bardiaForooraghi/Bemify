@@ -24,7 +24,7 @@ router.delete('/', function(req, res, next) {
             return res.status(400)
         }
         else{
-            res.status(200).json(docs);
+            res.status(204).json(docs);
         }
     });
 });
@@ -37,7 +37,7 @@ router.delete('/:track_id', function(req, res, next) {
             return res.status(400)
         }
         else{
-            res.status(200).json(docs);
+            res.status(204).json(docs);
         }
     });
 });
@@ -69,7 +69,7 @@ router.post('/', async(req, res) => {
             genre: req.body.genre
         });
         track = await track.save();
-        res.json(track);
+        res.status(201).json(track);
     } catch (e) {
         res.status(400).send(e.message);
     } 
