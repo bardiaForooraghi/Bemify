@@ -739,7 +739,7 @@
 							"variable": [
 								{
 									"key": "account_id",
-									"value": ""
+									"value": "634f06e40b2f335b6063b998"
 								}
 							]
 						}
@@ -789,57 +789,7 @@
 							"variable": [
 								{
 									"key": "account_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update a users password",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var responseData = pm.response.json();\r",
-									"\r",
-									"pm.test(\"Correct Status Code\", function(){\r",
-									"    pm.expect(pm.response.code).to.eql(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"password\": \"\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/accounts/:account_id/password",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts",
-								":account_id",
-								"password"
-							],
-							"variable": [
-								{
-									"key": "account_id",
-									"value": null
+									"value": "634f06e40b2f335b6063b998"
 								}
 							]
 						}

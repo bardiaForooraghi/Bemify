@@ -128,7 +128,7 @@ router.get('/:account_id/playlists/:playlist_id', async (req, res) => {
 // Upload a song to the user's playlist
 router.post('/:account_id/playlists/:playlist_id/newTrack', async (req, res) => {
     const playlistId = req.params.playlist_id;
-    
+
     try {
         const user = await User.findById(req.params.account_id);
         const specificPlaylist = await Playlist.findById(req.params.playlist_id)
@@ -402,27 +402,7 @@ router.patch('/:account_id/email', async (req, res) => {
         user.email = req.body.email;
         const token = user.generateAuthToken();
         user = await user.save();
-        res.json({token, user});
-        res.status(200).send(user);
-    } catch (e) {
-        res.status(400).send(e.message);
-    }
-});
-
-// Update a user's password information
-router.patch('/:account_id/password', async (req, res) => {
-    let user = await User.findById(req.params.account_id);
-
-    if (!user) 
-        return res.status(404).send('User Not Found!');
-
-    try {
-        user.password = await bcrypt.hash(req.body.password, salt);
-        const salt = await bcrypt.genSalt(10);
-        const token = user.generateAuthToken();
-        user = await user.save();
-        res.json({token, user});
-        res.status(200).send(user);
+        res.status(200).json({token, user});
     } catch (e) {
         res.status(400).send(e.message);
     }
