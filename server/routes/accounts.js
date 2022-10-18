@@ -60,7 +60,7 @@ router.delete('/:account_id/playlists/:playlist_id', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
     if (!user) 
-        return res.status(404).message('User Not Found!');
+        return res.status(404).send('User Not Found!');
 
     try {
         Playlist.findByIdAndDelete({_id: req.params.playlist_id}, function (err, docs) {
@@ -84,7 +84,7 @@ router.delete('/:account_id/playlists/', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
     if (!user) 
-        return res.status(404).message('User Not Found!');
+        return res.status(404).send('User Not Found!');
 
     try {
         Playlist.deleteMany({owner: req.params.account_id}, function (err, docs) {
@@ -180,7 +180,7 @@ router.get('/:account_id/playlists', async(req, res) => {
 router.get('/:account_id/users', async (req, res) => {
     User.find({_id: {$ne: req.params.account_id}}, function(err, users) {
         if(err) {
-            res.status(404).message('Something went wrong!')
+            return res.status(404).send('Something went wrong!')
         }
         const result = users.filter(user => {
             if(req.query.username == ""){
@@ -356,7 +356,7 @@ router.put('/:account_id',  async (req, res) => {
     let user = await User.findById(req.params.account_id);
     
     if (!user) 
-        return res.status(404).message('User Not Found!');
+        return res.status(404).send('User Not Found!');
 
     try {
         user.username = req.body.username;
@@ -376,7 +376,7 @@ router.patch('/:account_id/username', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
     if (!user) {
-        return res.status(404).message('User Not Found!');
+        return res.status(404).send('User Not Found!');
     } else {
         user.username = req.body.username;
         const token = user.generateAuthToken();
@@ -391,7 +391,7 @@ router.patch('/:account_id/email', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
     if (!user) {
-        return res.status(404).message('User Not Found!');
+        return res.status(404).send('User Not Found!');
     }
 
     try {
@@ -410,7 +410,7 @@ router.patch('/:account_id/password', async (req, res) => {
     let user = await User.findById(req.params.account_id);
 
     if (!user) 
-        return res.status(404).message('User Not Found!');
+        return res.status(404).send('User Not Found!');
 
     try {
         user.password = await bcrypt.hash(req.body.password, salt);
