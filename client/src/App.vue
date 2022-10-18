@@ -9,7 +9,7 @@
     <ul class="navbar-nav mt-2 mx-auto mt-md-0 align-items-center">
       <li class="nav-item">
         <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Add track</div>
-        <b-modal id="modal-1" :width=100 center content-class="popup" title="Add your track">
+        <b-modal id="modal-1" :width=100 center content-class="popup" title="Add a track">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields1">
@@ -18,18 +18,17 @@
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields1">
-                <input v-model="trackDuration" type="text" id="trackNameInput" placeholder="Track Duration" required>
+                <input v-model="trackDuration" type="time" id="trackNameInput" placeholder="Track Duration" required>
               </form>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <div>
                 <b-form-select id="inputFields1" v-model="trackGenre" :options="options" placeholder="Choose a genre" required></b-form-select>
-                <!-- id="genreInput" -->
               </div>
             </b-row>
             <b-row class="my-4" id="modal-body">
               <b-col-1 class="ml-auto">
-                <b-button id="resetButton">Reset</b-button>
+                <b-button id="resetButton" @click="clear">Reset</b-button>
               </b-col-1>
             </b-row>
           </b-container>
@@ -262,6 +261,9 @@ import { Api } from './Api'
 export default {
   data() {
     return {
+      trackName: '',
+      trackDuration: '',
+      trackGenre: '',
       selected: null,
       options: [
         { value: null, text: 'Please select an option' },
@@ -279,8 +281,13 @@ export default {
     }
   },
   methods: {
-    clearFiles() {
-      this.$refs['file-input'].reset()
+    // clearFiles() {
+    //   this.$refs['file-input'].reset()
+    // },
+    clear() {
+      this.trackName = ''
+      this.trackDuration = ''
+      this.trackGenre = ''
     },
     addTrack() {
       Api.post('/tracks/', {

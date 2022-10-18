@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
 
 const trackSchema = new mongoose.Schema({
-    name: String,
-    genre: String,
-    duration: String
+    name: {
+        type: String,
+        required: true
+    },
+    genre: {
+        type: String,
+        required: true
+    },
+    duration: {
+        type: String,
+        required: true
+    }
 });
 
 const Track = mongoose.model('Track', trackSchema);

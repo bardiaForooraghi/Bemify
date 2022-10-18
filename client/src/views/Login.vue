@@ -22,7 +22,7 @@
         </b-row>
         <div class="fourth justify-content-center">
           <b-row class="login justify-content-center">
-            <b-form-input
+            <b-form-input @keydown.space.prevent
               v-model="username"
               type="text"
               placeholder="Username"
@@ -30,7 +30,7 @@
             ></b-form-input>
           </b-row>
           <b-row class="login justify-content-center">
-            <b-form-input
+            <b-form-input @keydown.space.prevent
               v-model="password"
               type="password"
               placeholder="Password"

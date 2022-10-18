@@ -1,10 +1,22 @@
 const mongoose = require('mongoose');
 
 const artistTrackSchema = new mongoose.Schema({
-    name: String,
-    artist: String,
-    genre: String,
-    duration: String
+    name: {
+        type: String,
+        required: true
+    },
+    artist: {
+        type: String,
+        required: true
+    },
+    genre: {
+        type: String,
+        required: true
+    },
+    duration: {
+        type: String,
+        required: true
+    }
 });
 
 const ArtistTrack = mongoose.model('ArtistTrack', artistTrackSchema);

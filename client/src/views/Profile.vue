@@ -184,43 +184,17 @@
         </b-col>
     </b-row>
     <!-- Playbar -->
-    <footer class="text-center text-lg-start fixed-bottom" id="trackPlaybackBar">
-      <div class="b-container p-4">
-        <b-row>
-          <div class="col-3">
-            <h2 id="listeningTo">You're listening to</h2>
-            <h2 class="song-title">
-              {{ current.title }} - <span>{{ current.artist }}</span>
-            </h2>
-          </div>
-          <div class="col-4" id="currentButtons">
-            <div class="controls">
-              <b-button id="prev" @click="prev">Prev</b-button>
-              <b-button id="play" v-if="!isPlaying" @click="play"
-                ><img src="../../../images/play.png" id="playButton"
-              />
-              </b-button>
-              <b-button id="pause" v-else @click="pause"
-                ><img src="../../../images/pause.png" id="pauseButton"
-              />
-              </b-button>
-              <b-button id="next" @click="next">Next</b-button>
-            </div>
-          </div>
-          <div class="col-5 d-none d-lg-block">
-            Playlist1:
-            <b-button
-              id="demoTrack"
-              v-for="song in songs"
-              :key="song.src"
-              @click="play(song)"
-              :class="song.src == current.src ? 'song playing' : 'song'"
-            >
-              {{ song.title }} - {{ song.artist }}
-            </b-button>
-          </div>
+    <footer class="text-center text-lg-start fixed-bottom" id="footer">
+        <b-row id="bemify-footer">
+          <b-col class="mx-auto align-self-end">
+            Bemify
+          </b-col>
         </b-row>
-      </div>
+        <b-row id="names-footer">
+          <b-col class="mx-auto align-self-start">
+            brought to you by B. Forooraghi, M. Larsson and E. Ahlbäck
+          </b-col>
+        </b-row>
     </footer>
   </div>
 </template>
@@ -365,6 +339,8 @@ header#modal-scrollable___BV_modal_header_.modal-header {
 #followers, #following {
   color: #F76E45;
   font-size: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 div#modal-center___BV_modal_content_.modal-content.popup {
@@ -451,51 +427,44 @@ div#modal-center___BV_modal_content_.modal-content.popup {
   border-radius: 20px;
 }
 
-#trackPlaybackBar {
-  background-color: #E3D5CA;
+#footer {
+  background-color: #7a8cad;
+  height: 75px;
+  padding-top: 0;
+  padding: 0;
+  text-align: center;
 }
 
-#listeningTo {
-  font-size: 14px;
-}
-
-#prev,
-#play,
-#pause,
-#next,
-#demoTrack {
-  background-color:#f76e45;
-  color: #E3D5CA;
-  border: none;
+#bemify-footer {
   font-weight: bold;
+  height: 37.5px;
+  margin: 0;
+  text-align: center;
+  padding-bottom: 5px;
 }
 
-#play, #pause {
-  border-radius: 40px;
-  height: 50px;
-  width: 50px;
-}
-
-#playButton,
-#pauseButton {
-  height: 20px;
-}
-
-#currentButtons {
-  margin-top: 0;
+#names-footer {
+  height: 37.5px;
+  margin: 0;
+  text-align: center;
+  padding-top: 5px;
 }
 
 footer {
-  height: 110px;
   padding: 0px;
   padding-left: 20px;
   padding-bottom: 50px;
   margin: 0;
   line-height: 10px;
+  height: 100px;
 }
 
 h2 {
   text-align: left;
+}
+
+#footerText {
+  font-size: 17px;
 }
 
 @media (max-width: 992px) {

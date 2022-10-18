@@ -11,7 +11,7 @@
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-street">
-                <b-form-input id="input" v-model="email" class="email mx-auto" type="email" placeholder="Email Address"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="email" class="email mx-auto" type="email" placeholder="Email Address"></b-form-input>
                 <span id="signupMsg" v-if="msg.email">{{msg.email}}</span>
             </b-form-group>
             </b-col>
@@ -19,7 +19,7 @@
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-city">
-                <b-form-input id="input" v-model="username" type="text" class="a username mx-auto" placeholder="Username"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="username" type="text" class="a username mx-auto" placeholder="Username"></b-form-input>
                 <span id="signupMsg" v-if="msg.username">{{msg.username}}</span>
             </b-form-group>
             </b-col>
@@ -27,7 +27,7 @@
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-state">
-                <b-form-input id="input" v-model="password" class="password mx-auto" type="password" placeholder="Password"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="password" class="password mx-auto" type="password" placeholder="Password"></b-form-input>
                 <span id="signupMsg" v-if="msg.password">{{msg.password}}</span>
             </b-form-group>
             </b-col>
@@ -35,7 +35,7 @@
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-country">
-                <b-form-input id="input" v-model="confirmPassword" class="confirmPassword mx-auto" type="password" placeholder="Confirm Password"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="confirmPassword" class="confirmPassword mx-auto" type="password" placeholder="Confirm Password"></b-form-input>
                 <span id="signupMsg" v-if="msg.confirmPassword">{{msg.confirmPassword}}</span>
             </b-form-group>
             </b-col>

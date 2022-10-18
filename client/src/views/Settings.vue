@@ -107,15 +107,15 @@
         <!-- input fields col -->
           <b-col class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 order-lg-2 order-md-2" align-self="center" id="inputColumn">
             <b-row id="inputFields" class="fourth justify-content-center">
-                <b-form-input v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
+                <b-form-input @keydown.space.prevent v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
             </b-row>
             <b-row id="" class="justify-content-center">
-                <b-form-input v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
+                <b-form-input @keydown.space.prevent v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your password should be kept secret, avoid sharing it with anyone and staff will never ask for these details.</p>
             </b-row>
             <b-row id="" class="justify-content-center">
-                <b-form-input v-model="email" type="email" v-bind:placeholder="emailPlaceholder" id="password"></b-form-input>
+                <b-form-input @keydown.space.prevent v-model="email" type="email" v-bind:placeholder="emailPlaceholder" id="password"></b-form-input>
             </b-row>
             <b-row id="buttons" class="fourth justify-content-center mx-auto">
               <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
