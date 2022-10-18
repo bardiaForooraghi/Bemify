@@ -363,15 +363,6 @@ export default {
             this.showSuccessfulAlert = true
           }
         }).catch(error => { console.log(error.response) })
-      } else if (this.username === '' && this.email === '') {
-        await Api.patch(`/accounts/${user._id}/password`, {
-          password: this.password
-        }).then(response => {
-          console.log(response)
-          if (response.status === 200) {
-            this.showSuccessfulAlert = true
-          }
-        }).catch(error => { console.log(error.response) })
       } else if (this.email === '' && this.password === '') {
         await Api.patch(`/accounts/${user._id}/username`, {
           username: this.username

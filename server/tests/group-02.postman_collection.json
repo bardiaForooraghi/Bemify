@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a1ad74f6-0619-442a-858d-4a61d67f4949",
+		"_postman_id": "cf79aaa5-e047-4e36-b859-27c02eed46e7",
 		"name": "group-02",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15200425"
@@ -18,8 +18,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"New playlist added has correct data\", function(){\r",
-									"    pm.expect(responseData.playlists[1].name).includes(\"Summer Vibes\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -52,7 +52,7 @@
 							"variable": [
 								{
 									"key": "account_id",
-									"value": ""
+									"value": "63488bb768b8f32768fc8873"
 								}
 							]
 						}
@@ -68,8 +68,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Returns the correct account\", function(){\r",
-									"    pm.expect(responseData._id).to.eql(\"6320a507f04c7b5e7560e60a\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -106,7 +106,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"var responseData = pm.response.json();\r",
 									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})\r",
 									""
 								],
 								"type": "text/javascript"
@@ -144,6 +148,21 @@
 				},
 				{
 					"name": "Deleting all Playlists from an account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -178,8 +197,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Correct playlist is retrieved\", function() {\r",
-									"    pm.expect(responseData[0]._id).to.eql(\"63238d3f940b772cb438f0af\") && pm.expect(responseData[0].name).to.eql(\"Summer Vibes\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -224,8 +243,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Playlist has uploaded correct new Track\", function(){\r",
-									"    pm.expect(responseData.playlists[0].tracks[1].name).includes(\"Little Lion Man\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -280,12 +299,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Retrieve all playlists from correct user\", function(){\r",
-									"    pm.expect(responseData[0]._id).to.eql(\"6320a507f04c7b5e7560e60a\");\r",
-									"})\r",
-									"\r",
-									"pm.test(\"Retrieve all correct playlists from user\", function(){\r",
-									"    pm.expect(responseData[0].playlists[0]._id).to.eql(\"632386de940b772cb438f092\") && pm.expect(responseData[0].playlists[1]._id).to.eql(\"63238d3f940b772cb438f0af\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -318,6 +333,21 @@
 				},
 				{
 					"name": "Getting All Filtered Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -355,16 +385,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"response should have correct data for first index\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.include(\"6320a507f04c7b5e7560e60a\");",
-									"})",
+									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"response should have correct data for second index\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.include(\"63232d620d2dbc37c592ac29\");",
-									"})",
-									""
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -401,16 +426,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"response should have correct data for first index\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.include(\"6320a507f04c7b5e7560e60a\");",
-									"})",
+									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"response should have correct data for second index\", function() {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData).to.include(\"63232d620d2dbc37c592ac29\");",
-									"})",
-									""
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -449,12 +469,9 @@
 								"exec": [
 									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"response should have correct response data\", function() {",
-									"    pm.expect(responseData.followings[0]).to.eql(\"6321bd4df073f117ca2e3510\");",
-									"})",
-									"",
-									"",
-									""
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -498,8 +515,8 @@
 								"exec": [
 									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"the response data should be correct\", function(){",
-									"    pm.expect(responseData.followings[0]).to.eql(\"6321bd4df073f117ca2e3510\");",
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(200);",
 									"})"
 								],
 								"type": "text/javascript"
@@ -544,8 +561,8 @@
 								"exec": [
 									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"the response data should be correct\", function(){",
-									"    pm.expect(responseData.followings[0]).to.eql(\"6321bd4df073f117ca2e3510\");",
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(200);",
 									"})"
 								],
 								"type": "text/javascript"
@@ -590,9 +607,9 @@
 								"exec": [
 									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"Should delete user successfully\", function () {",
-									"    pm.expect(responseData).to.eql({Message: 'User deleted'});",
-									"});"
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(204);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -639,18 +656,9 @@
 								"exec": [
 									"var responseData = pm.response.json();",
 									"",
-									"pm.test(\"User username is updated correctly\", function(){",
-									"    pm.expect(responseData.username).to.eql(\"poopops\");",
-									"})",
-									"",
-									"pm.test(\"User password is updated correctly\", function(){",
-									"    pm.expect(responseData.password).to.eql(\"7942749835\");",
-									"})",
-									"",
-									"pm.test(\"User profile picture is updated correctly\", function(){",
-									"    pm.expect(responseData.profilePicture).to.eql(\"123457678\");",
-									"})",
-									""
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -690,6 +698,21 @@
 				},
 				{
 					"name": "Update a users username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -716,7 +739,7 @@
 							"variable": [
 								{
 									"key": "account_id",
-									"value": ""
+									"value": "634f06e40b2f335b6063b998"
 								}
 							]
 						}
@@ -725,6 +748,21 @@
 				},
 				{
 					"name": "Update a users email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -751,42 +789,7 @@
 							"variable": [
 								{
 									"key": "account_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update a users password",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"password\": \"\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/accounts/:account_id/password",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts",
-								":account_id",
-								"password"
-							],
-							"variable": [
-								{
-									"key": "account_id",
-									"value": null
+									"value": "634f06e40b2f335b6063b998"
 								}
 							]
 						}
@@ -795,6 +798,21 @@
 				},
 				{
 					"name": "Delete all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -818,6 +836,21 @@
 			"item": [
 				{
 					"name": "Get a specific playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -843,6 +876,21 @@
 				},
 				{
 					"name": "Getting Tracks from a Playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -869,6 +917,21 @@
 				},
 				{
 					"name": "Create a new Playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -904,12 +967,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Existing song actually exists\", function(){\r",
-									"    pm.expect(responseData.playlists[0].tracks[1]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
-									"})\r",
-									"\r",
-									"pm.test(\"Existing song is added to playlist\", function(){\r",
-									"    pm.expect(responseData.playlists[1].tracks[0]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -921,7 +980,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"track_id\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -958,12 +1017,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Existing song actually exists\", function(){\r",
-									"    pm.expect(responseData.playlists[0].tracks[1]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
-									"})\r",
-									"\r",
-									"pm.test(\"Existing song is added to playlist\", function(){\r",
-									"    pm.expect(responseData.playlists[1].tracks[0]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -975,7 +1030,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"track_id\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1005,6 +1060,21 @@
 				},
 				{
 					"name": "Deleting a track from a playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1036,6 +1106,21 @@
 				},
 				{
 					"name": "Deleting a artist track from a playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1074,8 +1159,8 @@
 								"exec": [
 									"var responseData = pm.response.json();\r",
 									"\r",
-									"pm.test(\"Retrieves correct songs corresponding to genre\", function(){\r",
-									"    pm.expect(responseData[0].genre).to.eql(\"Indie\") && pm.expect(responseData[1].genre).to.eql(\"Indie\") && pm.expect(responseData[2].genre).to.eql(\"Indie\");\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -1150,6 +1235,21 @@
 				},
 				{
 					"name": "Delete all tracks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1168,6 +1268,21 @@
 				},
 				{
 					"name": "Delete Specific Track",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1193,6 +1308,21 @@
 				},
 				{
 					"name": "Update a tracks information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1227,6 +1357,21 @@
 				},
 				{
 					"name": "Add new Song",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1255,6 +1400,21 @@
 				},
 				{
 					"name": "Get All Filtered Tracks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1283,7 +1443,22 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Generate a token for a logged in user",
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1296,7 +1471,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"username\": \"\",\r\n    \"password\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1323,6 +1498,21 @@
 			"item": [
 				{
 					"name": "Get Track",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1348,6 +1538,21 @@
 				},
 				{
 					"name": "Delete all tracks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1367,6 +1572,21 @@
 				},
 				{
 					"name": "Delete Specific Track",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(204);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1392,9 +1612,28 @@
 				},
 				{
 					"name": "Update a tracks information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"duration\": \"\",\r\n    \"genre\": \"\"\r\n}"
+						},
 						"url": {
 							"raw": "{{host}}/api/tracks/:track_id",
 							"host": [
@@ -1417,6 +1656,21 @@
 				},
 				{
 					"name": "Add new Song",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(201);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1445,6 +1699,21 @@
 				},
 				{
 					"name": "Get All Filtered Tracks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1481,6 +1750,21 @@
 			"item": [
 				{
 					"name": "Get current User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Correct Status Code\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1512,7 +1796,7 @@
 							"script": {
 								"exec": [
 									"var jsonData = pm.response.json();",
-									"var followersList = jsonData.followers;",
+									"var followersList = jsonData.user.followers;",
 									"",
 									"pm.test(\"response should have a JSON body\", function(){",
 									"    pm.response.to.have.jsonBody();",
@@ -1522,10 +1806,9 @@
 									"    pm.expect(followersList[0]).to.eql(undefined);",
 									"})",
 									"",
-									"",
-									"",
-									"",
-									""
+									"pm.test(\"Correct Status Code\", function(){",
+									"    pm.expect(pm.response.code).to.eql(201);",
+									"})"
 								],
 								"type": "text/javascript"
 							}
@@ -1574,9 +1857,7 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"response should respond correct status\", function(){",
-					"    pm.response.to.have.status(200);",
-					"})"
+					""
 				]
 			}
 		}

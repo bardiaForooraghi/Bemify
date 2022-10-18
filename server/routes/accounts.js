@@ -110,10 +110,14 @@ router.get('/:account_id/playlists/:playlist_id', async (req, res) => {
 
     try {
         const user = await User.findById(userId);
+        const playlist = await Playlist.findById(playlistId)
 
-        if (!user) 
+        if (!user) {
             return res.status(404).json({ message: `User with id ${userId} not found`});
-
+        } else if (!playlist) {
+            return res.status(404).json({ message: `Playlist with id ${playlistId} not found`});
+        }
+            
         res.status(200).json(user.playlists.filter(playlist => playlist._id == playlistId));
 
     } catch(err) {
@@ -398,27 +402,7 @@ router.patch('/:account_id/email', async (req, res) => {
         user.email = req.body.email;
         const token = user.generateAuthToken();
         user = await user.save();
-        res.json({token, user});
-        res.status(200).send(user);
-    } catch (e) {
-        res.status(400).send(e.message);
-    }
-});
-
-// Update a user's password information
-router.patch('/:account_id/password', async (req, res) => {
-    let user = await User.findById(req.params.account_id);
-
-    if (!user) 
-        return res.status(404).send('User Not Found!');
-
-    try {
-        user.password = await bcrypt.hash(req.body.password, salt);
-        const salt = await bcrypt.genSalt(10);
-        const token = user.generateAuthToken();
-        user = await user.save();
-        res.json({token, user});
-        res.status(200).send(user);
+        res.status(200).json({token, user});
     } catch (e) {
         res.status(400).send(e.message);
     }
