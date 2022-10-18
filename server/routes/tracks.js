@@ -11,7 +11,7 @@ router.get('/:track_id', async (req, res) => {
     const track = await Track.findById(req.params.track_id);
 
     if (!track) {
-        res.status(404).send('Track Not Found!');
+        return res.status(404).send('Track Not Found!');
     }
         
     res.send(track);
@@ -21,7 +21,7 @@ router.get('/:track_id', async (req, res) => {
 router.delete('/', function(req, res, next) {
     Track.deleteMany(function (err, docs) {
         if (err){
-            res.status(400)
+            return res.status(400)
         }
         else{
             res.status(200).json(docs);
@@ -34,7 +34,7 @@ router.delete('/', function(req, res, next) {
 router.delete('/:track_id', function(req, res, next) {
     Track.findOneAndDelete({_id: req.params.track_id }, function (err, docs) {
         if (err){
-            res.status(400)
+            return res.status(400)
         }
         else{
             res.status(200).json(docs);
@@ -47,7 +47,7 @@ router.put('/:track_id',  async (req, res) => {
     let track = await Track.findById(req.params.track_id);
     
     if (!track) 
-        res.status(404).message('Track Not Found!');
+        return res.status(404).message('Track Not Found!');
 
     try {
         track.name = req.body.name;
@@ -80,7 +80,7 @@ router.post('/', async(req, res) => {
 router.get('/', async (req, res) => {
     Track.find({}, function(err, tracks) {
         if(err) {
-            res.status(404).message('Something went wrong!')
+            return res.status(404).message('Something went wrong!')
         }
         const result = tracks.filter(track => {
             if(req.query.name == ""){

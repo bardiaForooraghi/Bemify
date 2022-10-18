@@ -10,7 +10,7 @@ router.get('/:artistTrack_id', async (req, res) => {
     const track = await ArtistTrack.findById(req.params.artistTrack_id);
 
     if (!track) {
-        res.status(404).send('Artist Track Not Found!');
+        return res.status(404).send('Artist Track Not Found!');
     }
         
     res.send(track);
@@ -20,7 +20,7 @@ router.get('/:artistTrack_id', async (req, res) => {
 router.delete('/', function(req, res, next) {
     ArtistTrack.deleteMany(function (err, docs) {
         if (err){
-            res.status(400)
+            return res.status(400)
         }
         else{
             res.status(200).json(docs);
@@ -33,7 +33,7 @@ router.delete('/', function(req, res, next) {
 router.delete('/:artistTrack_id', function(req, res, next) {
     ArtistTrack.findOneAndDelete({_id: req.params.artistTrack_id }, function (err, docs) {
         if (err){
-            res.status(400)
+            return res.status(400)
         }
         else{
             res.status(200).json(docs);
@@ -46,7 +46,7 @@ router.put('/:artistTrack_id',  async (req, res) => {
     let artistTrack = await ArtistTrack.findById(req.params.artistTrack_id);
     
     if (!track) 
-        res.status(404).message('Artist Track Not Found!');
+        return res.status(404).message('Artist Track Not Found!');
 
     try {
         artistTrack.name = req.body.name;
@@ -81,7 +81,7 @@ router.post('/', async(req, res) => {
 router.get('/', async (req, res) => {
     ArtistTrack.find({}, function(err, artistTracks) {
         if(err) {
-            res.status(404).message('Something went wrong!')
+            return res.status(404).message('Something went wrong!')
         }
         const result = artistTracks.filter(track => {
             if(req.query.name == ""){
