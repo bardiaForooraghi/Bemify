@@ -354,16 +354,45 @@ export default {
     async update() {
       const token = localStorage.getItem('token')
       const user = parseJwt(token)
-      await Api.put(`/accounts/${user._id}`, {
-        username: this.username,
-        password: this.password,
-        email: this.email
-      }).then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          this.showSuccessfulAlert = true
-        }
-      }).catch(error => { console.log(error.response) })
+      if (this.username === '' && this.password === '') {
+        await Api.patch(`/accounts/${user._id}/email`, {
+          email: this.email
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      } else if (this.username === '' && this.email === '') {
+        await Api.patch(`/accounts/${user._id}/password`, {
+          password: this.password
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      } else if (this.email === '' && this.password === '') {
+        await Api.patch(`/accounts/${user._id}/username`, {
+          username: this.username
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      } else if (!(this.username === '' && this.password === '' && this.email === '')) {
+        await Api.put(`/accounts/${user._id}`, {
+          username: this.username,
+          password: this.password,
+          email: this.email
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      }
     },
     //  Method to clear input fields
     async clear() {
@@ -372,7 +401,7 @@ export default {
       this.email = ''
     },
     logout() {
-      localStorage.removeItem('token')
+      localStorage.clear()
       sessionStorage.removeItem('token')
       this.$router.push('/')
     },
@@ -381,9 +410,7 @@ export default {
       const user = parseJwt(token)
       Api.delete(`/accounts/${user._id}`)
         .then(response => {
-          console.log(response)
-          const token = response.data.token
-          localStorage.token = token
+          localStorage.clear()
           this.$router.push('/')
         }).catch(error => { console.log(error.response) })
     }

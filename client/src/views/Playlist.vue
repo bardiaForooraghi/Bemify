@@ -49,6 +49,20 @@
                       /></b-button>
                   </b-col>
                 </b-row>
+                <b-row id="artisttrack" v-for="Song in artisttracks" :key="Song">
+                  <b-col class="col-md-10 col-sm-10 col-xs-9 col-9 mr-auto d-flex" id="trackName">
+                    {{ Song.name }} - {{ Song.artist}} - {{Song.duration}}
+                  </b-col>
+                  <b-col class="col-md-2 col-sm-2 col-xs-3 col-3 ml-auto">
+                    <b-button id="deleteButton" @click="deleteArtistTrackFromPlaylist(Song._id);">
+                      <img
+                          class="button deleteButton"
+                          src="../../../images/delete-playlist.png"
+                          alt="deleteButton"
+                          id="deleteSong"
+                      /></b-button>
+                  </b-col>
+                </b-row>
           <!-- <div class="row" id="song"></div> -->
               </div>
             </div>
@@ -160,6 +174,21 @@ button#filterButto__BV_toggle_.btn.dropdown-toggle.btn-secondary {
 
 #track {
   background-color: #cea874;
+  height: 60px;
+  border-radius: 10px;
+  margin: 20px 20px;
+  height: 60px;
+  cursor: pointer;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  font-size: 20px;
+  color: #e3d5ca;
+  font-weight: bold;
+}
+
+#artisttrack {
+  background-color: #F76E45;
   height: 60px;
   border-radius: 10px;
   margin: 20px 20px;
@@ -322,7 +351,8 @@ export default {
     return {
       username: '',
       playlistName: '',
-      tracks: []
+      tracks: [],
+      artisttracks: []
     }
   },
   methods: {
@@ -339,24 +369,29 @@ export default {
     deleteFromPlaylist(id) {
       Api.delete('/playlists/' + this.$route.params.playlist_id + '/tracks/' + id)
       window.location.reload()
+    },
+    deleteArtistTrackFromPlaylist(id) {
+      Api.delete('/playlists/' + this.$route.params.playlist_id + '/artisttracks/' + id)
+      window.location.reload()
     }
   },
-  created() {
+  async created() {
     const token = localStorage.getItem('token')
     const user = parseJwt(token)
 
     this.username = user.username
 
-    Api.get('/playlists/' + this.$route.params.playlist_id + '/tracks')
+    await Api.get('/playlists/' + this.$route.params.playlist_id + '/tracks')
       .then((response) => {
         this.playlistName = response.data[0].name
         this.tracks = response.data[0].tracks
+        this.artisttracks = response.data[0].artisttracks
+        console.log(this.artisttracks)
       })
       .catch((error) => {
         this.data.length = 0
         console.log(error)
       })
-      .then(function () {})
   }
 }
 </script>

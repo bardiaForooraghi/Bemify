@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const {Track, trackSchema} = require('../models/track');
+const {ArtistTrack, artistTrackSchema} = require('../models/artistTrack')
 
 const playlistSchema = new mongoose.Schema({
     name: String,
@@ -11,6 +12,10 @@ const playlistSchema = new mongoose.Schema({
     tracks: {
         type: [mongoose.SchemaTypes.ObjectId],
         ref: "Track"
+    },
+    artisttracks: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "ArtistTrack"
     }
 });
 

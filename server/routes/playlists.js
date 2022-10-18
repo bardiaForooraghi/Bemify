@@ -20,7 +20,7 @@ router.get('/:playlist_id', async (req, res) => {
 // get all the tracks from a playlist
 router.get('/:playlist_id/tracks', async (req, res) => {
     try {
-    const playlist = await Playlist.find({_id: req.params.playlist_id}).populate("tracks")
+    const playlist = await Playlist.find({_id: req.params.playlist_id}).populate('tracks').populate('artisttracks')
 
     if (!playlist) {
         return res.status(404).json({ message: 'Playlist was not found!'});
@@ -31,7 +31,6 @@ router.get('/:playlist_id/tracks', async (req, res) => {
     res.status(400).json({ message: err.message });
     }  
 })
-
 
 // creating a new playlist (collection)
 router.post('/', async(req, res) => {
@@ -64,7 +63,24 @@ router.patch('/:playlist_id/addTrack', async (req, res) => {
     }
 });
 
+// add an artist song to the specific user's playlist 
+router.patch('/:playlist_id/addArtistTrack', async (req, res) => {
+    let playlist = await Playlist.findById(req.params.playlist_id);
 
+    if (!playlist) {
+        return res.status(404).send('Playlist Not Found!');
+    } else {
+        if(playlist.artisttracks.includes(req.body.track_id)) {
+            return res.status(400).send('Playlist already has this song!')
+        } else {
+            playlist.artisttracks.push(req.body.track_id)
+            playlist = await playlist.save()
+        }
+    res.send(playlist);
+    }
+});
+
+//remove track from a playlist
 router.delete('/:playlist_id/tracks/:track_id', async(req, res) => {
     try { 
         let playlist = await Playlist.findById(req.params.playlist_id);
@@ -73,6 +89,24 @@ router.delete('/:playlist_id/tracks/:track_id', async(req, res) => {
             res.status(404).send('Playlist Not Found!');
         } else {
             const result = await playlist.update({$pull: {tracks: req.params.track_id}}, {new: true});
+            playlist = await playlist.save()
+        res.send(playlist);
+    }
+
+    } catch (e) {
+        res.status(400).json({ message: e.message });
+    }
+})
+
+//remove artist track from a playlist
+router.delete('/:playlist_id/artisttracks/:track_id', async(req, res) => {
+    try { 
+        let playlist = await Playlist.findById(req.params.playlist_id);
+
+        if (!playlist) {
+            res.status(404).send('Playlist Not Found!');
+        } else {
+            const result = await playlist.update({$pull: {artisttracks: req.params.track_id}}, {new: true});
             playlist = await playlist.save()
         res.send(playlist);
     }

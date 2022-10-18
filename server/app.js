@@ -8,7 +8,7 @@ const user = require('./routes/users');
 const account = require('./routes/accounts');
 const auth = require('./routes/auth');
 const track = require('./routes/tracks');
-const artist = require('./routes/artists')
+const artistTrack = require('./routes/artistTracks')
 const playlist = require('./routes/playlists')
 
 // Variables
@@ -41,7 +41,7 @@ app.use('/api/accounts', account);
 app.use('/api/accounts', user);
 app.use('/api/auth', auth);
 app.use('/api/tracks', track)
-app.use('/api/artists', artist)
+app.use('/api/artistTracks', artistTrack)
 app.use('/api/playlists', playlist)
 
 // Import routes

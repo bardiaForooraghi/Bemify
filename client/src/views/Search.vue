@@ -84,8 +84,43 @@
                 </b-row>
               </b-col>
             </b-row>
+            <b-row
+              class="mx-auto"
+              id="noUserResult"
+            >
+              <b-col class="col-7 mx-auto">
+                <p id="user">No Users Found</p>
+              </b-col>
+            </b-row>
           </b-col>
           <b-col class="col-lg-8 col-md-12 col-sm-12 col-xs-12 col-12 mx-auto" id="song-results">
+            <b-row
+              class="mx-auto"
+              id="artistSongResult"
+              v-for="Track in artisttracks"
+              :key="Track"
+            >
+              <b-modal v-bind:id="Track.name" hide-footer title="Select a Playlist to add the song to!">
+                <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addArtistTrackToPlaylist(Playlist._id, Track._id);$bvModal.hide(Track.name);">{{ Playlist.name }}</b-button>
+              </b-modal>
+              <b-col class="col-8 mr-auto d-flex" id="trackCol">
+                  <p id="trackName">{{ Track.name }}</p>
+                </b-col>
+              <b-col class="col-2 mx-auto" id="trackCol">
+                <p id="trackMins">{{ Track.duration }}</p>
+                <!-- <button class="playButton" @click="play(song)">Play</button> -->
+              </b-col>
+              <b-col class="col-2 mx-auto" id="trackCol">
+                <b-button v-b-modal="Track.name" id="saveTrackButton" @click="showPlaylists()">
+                  <img
+                  class="button saveButton"
+                  @click="save(song)"
+                  src="../../../images/plus.png"
+                  alt="saveButton"
+                  id="plus"
+                /></b-button>
+              </b-col>
+            </b-row>
             <b-row
               class="mx-auto"
               id="songResult"
@@ -111,6 +146,14 @@
                   alt="saveButton"
                   id="plus"
                 /></b-button>
+              </b-col>
+            </b-row>
+            <b-row
+              class="mx-auto"
+              id="noSongResult"
+            >
+              <b-col class="col-7 mx-auto">
+                <p id="user">No Tracks Found</p>
               </b-col>
             </b-row>
           </b-col>
@@ -254,6 +297,16 @@ div.col-7.mx-auto.col {
   padding: 10px;
 }
 
+#noUserResult {
+  width: 90%;
+  background-color: #c5b0bb;
+  height: 230px;
+  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+  visibility: hidden;
+}
+
 #user-pic {
   width: 45%;
 }
@@ -266,6 +319,29 @@ div.col-7.mx-auto.col {
   margin: 20px 0;
   padding: 15px 10px;
   padding-left: 20px;
+}
+
+#noSongResult {
+  width: 100%;
+  background-color: #cea874;
+  height: 230px;
+  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  visibility: hidden;
+}
+
+#artistSongResult {
+  width: 100%;
+  background-color: #F76E45;
+  height: 60px;
+  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #search-input:focus,
@@ -414,6 +490,7 @@ export default {
       users: [],
       profilePicture: require('../../public/profile-pic.png'),
       tracks: [],
+      artisttracks: [],
       playlists: [],
       searchInput: '',
       divText: '',
@@ -429,33 +506,56 @@ export default {
     }
   },
   methods: {
-    search() {
+    async search() {
+      const elem = document.getElementById('noUserResult')
+      const elem2 = document.getElementById('noSongResult')
       const token = localStorage.getItem('token')
       const user = parseJwt(token)
-      Api.get(`/accounts/${user._id}/users`, {
+      await Api.get(`/accounts/${user._id}/users`, {
         params: {
           username: this.searchInput
         }
       })
         .then((response) => {
           this.users = response.data
+          console.log(this.users.length)
+          if (this.users.length === 0) {
+            elem.style.visibility = 'visible'
+          } else {
+            elem.style.visibility = 'hidden'
+          }
           console.log(response)
         })
         .catch((error) => {
-          console.log(error.response)
+          console.log(error)
         })
-      Api.get('/tracks', {
+      await Api.get('/tracks', {
         params: {
           name: this.searchInput
         }
       })
         .then((response) => {
           this.tracks = response.data
-          // console.log(response)
         })
         .catch((error) => {
           console.log(error.response)
         })
+      await Api.get('/artistTracks', {
+        params: {
+          name: this.searchInput
+        }
+      })
+        .then((response) => {
+          this.artisttracks = response.data
+        })
+        .catch((error) => {
+          console.log(error.response)
+        })
+      if (this.tracks.length === 0 && this.artisttracks.length === 0) {
+        elem2.style.visibility = 'visible'
+      } else {
+        elem2.style.visibility = 'hidden'
+      }
     },
     followAccount(id) {
       const token = localStorage.getItem('token')
@@ -507,6 +607,21 @@ export default {
     },
     addToPlaylist(id, id2) {
       Api.patch('/playlists/' + id + '/addTrack', {
+        track_id: id2
+      }).then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          this.showSuccessfulDismissibleAlertAddSong = true
+        }
+      }).catch(error => {
+        console.log(error.response)
+        if (error.response.status !== 200) {
+          this.showSuccessfulDismissibleAlertAlreadyAddSong = true
+        }
+      })
+    },
+    addArtistTrackToPlaylist(id, id2) {
+      Api.patch('/playlists/' + id + '/addArtistTrack', {
         track_id: id2
       }).then(response => {
         console.log(response)

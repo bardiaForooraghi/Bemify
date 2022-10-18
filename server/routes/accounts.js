@@ -45,7 +45,7 @@ router.get('/:account_id', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
     if (!user) 
-        res.status(404).send('User Not Found!');
+        return res.status(404).send('User Not Found!');
 
     try {
         res.send(user);
@@ -60,7 +60,7 @@ router.delete('/:account_id/playlists/:playlist_id', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
     if (!user) 
-        res.status(404).message('User Not Found!');
+        return res.status(404).message('User Not Found!');
 
     try {
         Playlist.findByIdAndDelete({_id: req.params.playlist_id}, function (err, docs) {
@@ -84,7 +84,7 @@ router.delete('/:account_id/playlists/', async (req, res) => {
     const user = await User.findById(req.params.account_id);
 
     if (!user) 
-        res.status(404).message('User Not Found!');
+        return res.status(404).message('User Not Found!');
 
     try {
         Playlist.deleteMany({owner: req.params.account_id}, function (err, docs) {
@@ -345,9 +345,30 @@ router.delete('/:account_id/following/:following_id', async (req, res, next) => 
 
 // Delete a specific user from the database
 router.delete('/:account_id', function(req, res, next) {
+    Playlist.deleteMany({owner: req.params.account_id}, function (err, docs) {
+        if (err){
+            return res.status(400)
+        }
+        else{
+            console.log("Deleted Playlists: ", docs);
+        }
+    });
+
+    User.updateMany({followers: {_id: req.params.account_id}}, {$pull: {followers: req.params.account_id}}, function (err, docs) {
+        if (err){
+            return res.status(400)
+        }
+    })
+
+    User.updateMany({followings: {_id: req.params.account_id}}, {$pull: {followings: req.params.account_id}}, function (err, docs) {
+        if (err){
+            return res.status(400)
+        }
+    })
+
     User.findOneAndDelete({_id: req.params.account_id }, function (err, docs) {
         if (err){
-            res.status(400)
+            return res.status(400)
         }
         else{
             res.status(200).json(docs);
