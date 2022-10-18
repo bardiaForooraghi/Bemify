@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
 const {Track, trackSchema} = require('../models/track');
+const {ArtistTrack, artistTrackSchema} = require('../models/artistTrack')
 
 const playlistSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true
+    },
     owner: {
         type: [mongoose.SchemaTypes.ObjectId],
         ref: "User"
@@ -11,6 +15,10 @@ const playlistSchema = new mongoose.Schema({
     tracks: {
         type: [mongoose.SchemaTypes.ObjectId],
         ref: "Track"
+    },
+    artisttracks: {
+        type: [mongoose.SchemaTypes.ObjectId],
+        ref: "ArtistTrack"
     }
 });
 

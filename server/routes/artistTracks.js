@@ -1,25 +1,24 @@
 const mongoose = require('mongoose');
 
 const express = require('express');
-const {Playlist} = require('../models/playlist');
-const {Track} = require('../models/track');
+const {ArtistTrack} = require('../models/artistTrack');
 
 const router = express.Router();
 
-// get a specific track (single item)
-router.get('/:track_id', async (req, res) => {
-    const track = await Track.findById(req.params.track_id);
+// get a specific artist track (single item)
+router.get('/:artistTrack_id', async (req, res) => {
+    const track = await ArtistTrack.findById(req.params.artistTrack_id);
 
     if (!track) {
-        return res.status(404).send('Track Not Found!');
+        return res.status(404).send('Artist Track Not Found!');
     }
         
     res.send(track);
 });
 
-//    Delete all tracks in database
+//    Delete all artist tracks in database
 router.delete('/', function(req, res, next) {
-    Track.deleteMany(function (err, docs) {
+    ArtistTrack.deleteMany(function (err, docs) {
         if (err){
             return res.status(400)
         }
@@ -31,8 +30,8 @@ router.delete('/', function(req, res, next) {
 
 
 // Delete a specific track from the database
-router.delete('/:track_id', function(req, res, next) {
-    Track.findOneAndDelete({_id: req.params.track_id }, function (err, docs) {
+router.delete('/:artistTrack_id', function(req, res, next) {
+    ArtistTrack.findOneAndDelete({_id: req.params.artistTrack_id }, function (err, docs) {
         if (err){
             return res.status(400)
         }
@@ -43,28 +42,30 @@ router.delete('/:track_id', function(req, res, next) {
 });
 
 // Update a tracks information
-router.put('/:track_id',  async (req, res) => {
-    let track = await Track.findById(req.params.track_id);
+router.put('/:artistTrack_id',  async (req, res) => {
+    let artistTrack = await ArtistTrack.findById(req.params.artistTrack_id);
     
     if (!track) 
-        return res.status(404).message('Track Not Found!');
+        return res.status(404).message('Artist Track Not Found!');
 
     try {
-        track.name = req.body.name;
-        track.genre = req.body.genre;
-        track.duration = req.body.duration;
+        artistTrack.name = req.body.name;
+        artistTrack.artist = req.body.artist;
+        artistTrack.genre = req.body.genre;
+        artistTrack.duration = req.body.duration;
         track = await track.save();
-        res.status(200).send(track);
+        res.status(200).send(artistTrack);
     } catch (e) {
         res.status(400).send(e.message);
     }
 });
 
-// creating a new track
+// creating a new artist track
 router.post('/', async(req, res) => {
     try {
-        let track = new Track({
+        let track = new ArtistTrack({
             name: req.body.name,
+            artist: req.body.artist,
             duration: req.body.duration,
             genre: req.body.genre
         });
@@ -78,13 +79,13 @@ router.post('/', async(req, res) => {
 
 // get all filtered tracks (collection)
 router.get('/', async (req, res) => {
-    Track.find({}, function(err, tracks) {
+    ArtistTrack.find({}, function(err, artistTracks) {
         if(err) {
             return res.status(404).message('Something went wrong!')
         }
-        const result = tracks.filter(track => {
+        const result = artistTracks.filter(track => {
             if(req.query.name == ""){
-                return tracks
+                return artistTracks
             } else {
                 return track.name.includes(req.query.name)
             }

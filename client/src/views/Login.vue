@@ -22,7 +22,7 @@
         </b-row>
         <div class="fourth justify-content-center">
           <b-row class="login justify-content-center">
-            <b-form-input
+            <b-form-input @keydown.space.prevent
               v-model="username"
               type="text"
               placeholder="Username"
@@ -30,7 +30,7 @@
             ></b-form-input>
           </b-row>
           <b-row class="login justify-content-center">
-            <b-form-input
+            <b-form-input @keydown.space.prevent
               v-model="password"
               type="password"
               placeholder="Password"
@@ -39,6 +39,7 @@
           </b-row>
           <b-row class="login justify-content-center">
             <b-button @click="login" id="loginButton">Log in</b-button>
+            <b-alert  variant="danger" id="loginFailure" v-model="showUnsuccessfulLogin">Invalid username or password!</b-alert>
           </b-row>
           <b-row class="justify-content-center">
             <p id="createAccount-text">Don't have an account?</p>
@@ -154,6 +155,14 @@
 .logo {
   transform: rotate(-9deg);
 }
+
+#loginFailure {
+  height: 45px;
+  margin: 10px;
+  font-family: 'DM Sans', sans-serif;
+  width: 70%;
+  text-decoration: none;
+}
 </style>
 
 <script>
@@ -165,7 +174,8 @@ export default {
     return {
       greet: 'WELCOME \nTO \nBEMIFY',
       username: '',
-      password: ''
+      password: '',
+      showUnsuccessfulLogin: false
     }
   },
   methods: {
@@ -175,11 +185,14 @@ export default {
         password: this.password
       })
         .then((response) => {
-          this.$router.push('/profile')
           const token = response.data
           localStorage.token = token
+          this.$router.push('/profile')
         })
         .catch((error) => {
+          if (error.response.status !== 200) {
+            this.showUnsuccessfulLogin = true
+          }
           console.log(error.response)
         })
     }

@@ -6,7 +6,6 @@
           <input
             type="search"
             v-model="searchInput"
-            style="border: none"
             id="search-input"
             placeholder="Start looking for something!"
             autocomplete="off"
@@ -43,6 +42,20 @@
         v-model="showUnsuccessfulDismissibleAlertUnfollow"
         >You were not following this user!
       </b-alert>
+      <b-alert
+        dismissible
+        variant="success"
+        id="addingSong"
+        v-model="showSuccessfulDismissibleAlertAddSong"
+        >Added!
+      </b-alert>
+      <b-alert
+        dismissible
+        variant="danger"
+        id="alreadyAddingSong"
+        v-model="showSuccessfulDismissibleAlertAlreadyAddSong"
+        >Already Added!
+      </b-alert>
     </b-row>
     <b-row class="mx-auto" id="resultRow">
       <b-col class="col-md-12 mb-4 mx-auto" id="search-results">
@@ -57,7 +70,7 @@
               :key="User"
             >
               <b-col class="col-7 mx-auto">
-                <p>{{ User.profilePicture }}</p>
+                <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" class="src" :src="profilePicture" id="user-pic" center/></b-row>
                 <p id="user">{{ User.username }}</p>
                 <b-row class="mx-auto">
                   <button class="followButton" @click="followAccount(User._id)">
@@ -71,22 +84,31 @@
                 </b-row>
               </b-col>
             </b-row>
+            <b-row
+              class="mx-auto"
+              id="noUserResult"
+            >
+              <b-col class="col-7 mx-auto">
+                <p id="user">No Users Found</p>
+              </b-col>
+            </b-row>
           </b-col>
           <b-col class="col-lg-8 col-md-12 col-sm-12 col-xs-12 col-12 mx-auto" id="song-results">
             <b-row
               class="mx-auto"
-              id="songResult"
-              v-for="Track in tracks"
+              id="artistSongResult"
+              v-for="Track in artisttracks"
               :key="Track"
             >
               <b-modal v-bind:id="Track.name" hide-footer title="Select a Playlist to add the song to!">
-                <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addToPlaylist(Playlist._id, Track._id);hideModal();">{{ Playlist.name }}</b-button>
+                <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addArtistTrackToPlaylist(Playlist._id, Track._id);$bvModal.hide(Track.name);">{{ Playlist.name }}</b-button>
               </b-modal>
-                <b-col class="col-8 mr-auto" id="trackCol">
-                  <p id="user">{{ Track.name }}</p>
+              <b-col class="col-8 mr-auto d-flex" id="trackCol">
+                  <p id="trackName">{{ Track.name }}</p>
                 </b-col>
               <b-col class="col-2 mx-auto" id="trackCol">
-                <button class="playButton" @click="play(song)">Play</button>
+                <p id="trackMins">{{ Track.duration }}</p>
+                <!-- <button class="playButton" @click="play(song)">Play</button> -->
               </b-col>
               <b-col class="col-2 mx-auto" id="trackCol">
                 <b-button v-b-modal="Track.name" id="saveTrackButton" @click="showPlaylists()">
@@ -97,6 +119,41 @@
                   alt="saveButton"
                   id="plus"
                 /></b-button>
+              </b-col>
+            </b-row>
+            <b-row
+              class="mx-auto"
+              id="songResult"
+              v-for="Track in tracks"
+              :key="Track"
+            >
+              <b-modal v-bind:id="Track.name" hide-footer title="Select a Playlist to add the song to!">
+                <b-button class="mt-3" block v-for="Playlist in playlists" :key="Playlist" @click="addToPlaylist(Playlist._id, Track._id); $bvModal.hide(Track.name);">{{ Playlist.name }}</b-button>
+              </b-modal>
+                <b-col class="col-8 mr-auto d-flex" id="trackCol">
+                  <p id="trackName">{{ Track.name }}</p>
+                </b-col>
+              <b-col class="col-2 mx-auto" id="trackCol">
+                <p id="trackMins">{{ Track.duration }}</p>
+                <!-- <button class="playButton" @click="play(song)">Play</button> -->
+              </b-col>
+              <b-col class="col-2 mx-auto" id="trackCol">
+                <b-button v-b-modal="Track.name" id="saveTrackButton" @click="showPlaylists()">
+                  <img
+                  class="button saveButton"
+                  @click="save(song)"
+                  src="../../../images/plus.png"
+                  alt="saveButton"
+                  id="plus"
+                /></b-button>
+              </b-col>
+            </b-row>
+            <b-row
+              class="mx-auto"
+              id="noSongResult"
+            >
+              <b-col class="col-7 mx-auto">
+                <p id="user">No Tracks Found</p>
               </b-col>
             </b-row>
           </b-col>
@@ -156,7 +213,7 @@ div#card-body1.mx-auto {
 }
 
 .search {
-  padding-top: 5%;
+  padding-top: 30px;
 }
 
 .content {
@@ -166,6 +223,7 @@ div#card-body1.mx-auto {
 .search-row {
   width: 100%;
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 #searchButton {
@@ -186,6 +244,7 @@ div#card-body1.mx-auto {
 #search-input {
   height: 70px;
   border-radius: 40px;
+  border: none;
   background-color: #e3d5ca;
   transition: 2s;
   font-size: 20px;
@@ -193,14 +252,25 @@ div#card-body1.mx-auto {
   padding-left: 20px;
 }
 
-#user {
+#user, #trackName {
   font-size: 20px;
   font-weight: bold;
   color: #e3d5ca;
 }
 
+#trackMins {
+  font-weight: bold;
+  color: #e3d5ca;
+  text-align: end;
+  margin-top: 5px;
+}
+
 div.col-7.mx-auto.col {
   margin: 0;
+}
+
+#search-results {
+  margin-top: 20px;
 }
 
 #resultRow {
@@ -209,6 +279,8 @@ div.col-7.mx-auto.col {
 
 #trackCol {
   margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 #user-results, #song-results {
@@ -218,11 +290,25 @@ div.col-7.mx-auto.col {
 
 #userResult {
   width: 90%;
+  background-color: #b094a2;
+  height: 235px;
+  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+#noUserResult {
+  width: 90%;
   background-color: #c5b0bb;
   height: 230px;
   border-radius: 20px;
   margin: 20px 0;
   padding: 10px;
+  visibility: hidden;
+}
+
+#user-pic {
+  width: 45%;
 }
 
 #songResult {
@@ -231,7 +317,31 @@ div.col-7.mx-auto.col {
   height: 60px;
   border-radius: 20px;
   margin: 20px 0;
+  padding: 15px 10px;
+  padding-left: 20px;
+}
+
+#noSongResult {
+  width: 100%;
+  background-color: #cea874;
+  height: 230px;
+  border-radius: 20px;
+  margin: 20px 0;
   padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  visibility: hidden;
+}
+
+#artistSongResult {
+  width: 100%;
+  background-color: #F76E45;
+  height: 60px;
+  border-radius: 20px;
+  margin: 20px 0;
+  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 #search-input:focus,
@@ -258,6 +368,8 @@ div.col-7.mx-auto.col {
   padding: 0;
   background: none;
   border: none;
+  margin: 0;
+  /* margin-top: 8px; */
 }
 
 #alreadyFollowing {
@@ -297,7 +409,19 @@ div.col-7.mx-auto.col {
 }
 
 #plus {
-  width: 100%;
+  width: 35px;
+}
+
+#addingSong {
+  width: 500px;
+}
+
+#alreadyAddingSong {
+  width: 500px;
+}
+
+div.col-7.mx-auto.col {
+  padding: 10px;
 }
 
 @media (max-width: 992px) {
@@ -309,10 +433,50 @@ div.col-7.mx-auto.col {
   width: 100%;
   background-color: #cea874;
   height: 60px;
+  margin: 20px 0;
+  padding: 5px;
+  padding-left: 20px;
+}
+div.card.example-1.scrollbar-ripe-malinka {
+  background-color: #27416d;
+  height: 450px;
+  border-radius: 40px;
+  width: 80%;
+  margin: 5px 10px 10px 10px;
+  min-height: 0;
+  padding: 30px;
+}
+
+#trackName {
+  font-size: 100%;
+  min-width: 50px;
+  padding-left: 0px;
+  margin-top: 10px;
+}
+}
+
+@media (max-width: 488px) {
+  #songResult {
+    width: 250px;
+  }
+}
+
+@media (max-width: 10480px) {
+  #temporary {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  #saveTrackButton {
   margin: 0;
-  padding: 0;
+  margin-top: 8px;
+}
+#trackMins {
+  margin-top: 13px;
 }
 }
+
 </style>
 
 <script>
@@ -324,45 +488,74 @@ export default {
   data() {
     return {
       users: [],
+      profilePicture: require('../../public/profile-pic.png'),
       tracks: [],
+      artisttracks: [],
       playlists: [],
       searchInput: '',
       divText: '',
       user: {},
+      dismissSecs: 3,
+      dismissCountDown: 0,
       showUnsuccessfulDismissibleAlert: false,
       showSuccessfulDismissibleAlert: false,
       showUnsuccessfulDismissibleAlertUnfollow: false,
-      showSuccessfulDismissibleAlertUnfollow: false
+      showSuccessfulDismissibleAlertUnfollow: false,
+      showSuccessfulDismissibleAlertAddSong: false,
+      showSuccessfulDismissibleAlertAlreadyAddSong: false
     }
   },
   methods: {
-    search() {
+    async search() {
+      const elem = document.getElementById('noUserResult')
+      const elem2 = document.getElementById('noSongResult')
       const token = localStorage.getItem('token')
       const user = parseJwt(token)
-      Api.get(`/accounts/${user._id}/users`, {
+      await Api.get(`/accounts/${user._id}/users`, {
         params: {
           username: this.searchInput
         }
       })
         .then((response) => {
           this.users = response.data
+          console.log(this.users.length)
+          if (this.users.length === 0) {
+            elem.style.visibility = 'visible'
+          } else {
+            elem.style.visibility = 'hidden'
+          }
           console.log(response)
         })
         .catch((error) => {
-          console.log(error.response)
+          console.log(error)
         })
-      Api.get('/tracks', {
+      await Api.get('/tracks', {
         params: {
           name: this.searchInput
         }
       })
         .then((response) => {
           this.tracks = response.data
-          // console.log(response)
         })
         .catch((error) => {
           console.log(error.response)
         })
+      await Api.get('/artistTracks', {
+        params: {
+          name: this.searchInput
+        }
+      })
+        .then((response) => {
+          this.artisttracks = response.data
+        })
+        .catch((error) => {
+          console.log(error.response)
+        })
+      if (this.tracks.length === 0 && this.artisttracks.length === 0) {
+        elem2.style.visibility = 'visible'
+      } else {
+        elem2.style.visibility = 'hidden'
+      }
     },
     followAccount(id) {
       const token = localStorage.getItem('token')
@@ -415,7 +608,32 @@ export default {
     addToPlaylist(id, id2) {
       Api.patch('/playlists/' + id + '/addTrack', {
         track_id: id2
-      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+      }).then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          this.showSuccessfulDismissibleAlertAddSong = true
+        }
+      }).catch(error => {
+        console.log(error.response)
+        if (error.response.status !== 200) {
+          this.showSuccessfulDismissibleAlertAlreadyAddSong = true
+        }
+      })
+    },
+    addArtistTrackToPlaylist(id, id2) {
+      Api.patch('/playlists/' + id + '/addArtistTrack', {
+        track_id: id2
+      }).then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          this.showSuccessfulDismissibleAlertAddSong = true
+        }
+      }).catch(error => {
+        console.log(error.response)
+        if (error.response.status !== 200) {
+          this.showSuccessfulDismissibleAlertAlreadyAddSong = true
+        }
+      })
     },
     hideModal() {
       console.log('hello')

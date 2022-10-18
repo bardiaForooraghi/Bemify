@@ -1,308 +1,11 @@
 {
 	"info": {
-		"_postman_id": "ff312e1a-de46-4604-bcfd-f7eb8c173b3d",
+		"_postman_id": "a1ad74f6-0619-442a-858d-4a61d67f4949",
 		"name": "group-02",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15200425"
 	},
 	"item": [
-		{
-			"name": "Playlist",
-			"item": [
-				{
-					"name": "Getting Tracks from a Playlist",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/playlists/:playlist_id/tracks",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"playlists",
-								":playlist_id",
-								"tracks"
-							],
-							"variable": [
-								{
-									"key": "playlist_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Creating a new Playlist",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add existing song to a specific playlist",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var responseData = pm.response.json();\r",
-									"\r",
-									"pm.test(\"Existing song actually exists\", function(){\r",
-									"    pm.expect(responseData.playlists[0].tracks[1]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
-									"})\r",
-									"\r",
-									"pm.test(\"Existing song is added to playlist\", function(){\r",
-									"    pm.expect(responseData.playlists[1].tracks[0]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/playlists/:playlist_id/addTrack",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"playlists",
-								":playlist_id",
-								"addTrack"
-							],
-							"variable": [
-								{
-									"key": "playlist_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Deleting a specific playlist",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/playlists/:playlist_id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"playlists",
-								":playlist_id"
-							],
-							"variable": [
-								{
-									"key": "playlist_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Deleting a track from a playlist",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/playlists/:playlist_id/tracks/:track_id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"playlists",
-								":playlist_id",
-								"tracks",
-								":track_id"
-							],
-							"variable": [
-								{
-									"key": "playlist_id",
-									"value": null
-								},
-								{
-									"key": "track_id",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Tracks",
-			"item": [
-				{
-					"name": "Add new Song",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Little Lion Man\",\n    \"duration\": \"3:23\",\n    \"genre\": \"Acoustic\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/tracks/",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"tracks",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Track",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete all tracks",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/tracks/:track_id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"tracks",
-								":track_id"
-							],
-							"variable": [
-								{
-									"key": "track_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Specific Track",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/tracks/:track_id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"tracks",
-								":track_id"
-							],
-							"variable": [
-								{
-									"key": "track_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update a tracks information",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/tracks/:track_id",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"tracks",
-								":track_id"
-							],
-							"variable": [
-								{
-									"key": "track_id",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Filtered Tracks",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/accounts/:account_id/tracks",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts",
-								":account_id",
-								"tracks"
-							],
-							"variable": [
-								{
-									"key": "account_id",
-									"value": null
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "Accounts",
 			"item": [
@@ -328,7 +31,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Winter Vibes\",\r\n    \"tracks\": \"[]\"\r\n}",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"tracks\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -534,7 +237,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Beats Boom Pow\",\r\n    \"genre\": \"Pop\",\r\n    \"duration\": \"3:17\"\r\n}",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"genre\": \"\",\r\n    \"duration\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -614,71 +317,12 @@
 					"response": []
 				},
 				{
-					"name": "Get a Users Playlists Genre",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var responseData = pm.response.json();\r",
-									"\r",
-									"pm.test(\"Retrieves correct songs corresponding to genre\", function(){\r",
-									"    pm.expect(responseData[0].genre).to.eql(\"Indie\") && pm.expect(responseData[1].genre).to.eql(\"Indie\") && pm.expect(responseData[2].genre).to.eql(\"Indie\");\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"genre\": \"Indie\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/accounts/:account_id/playlists/:playlist_id/filter",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"accounts",
-								":account_id",
-								"playlists",
-								":playlist_id",
-								"filter"
-							],
-							"variable": [
-								{
-									"key": "account_id",
-									"value": ""
-								},
-								{
-									"key": "playlist_id",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Getting All Filtered Users",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/accounts/:account_id/users",
+							"raw": "{{host}}/api/accounts/:account_id/users?username",
 							"host": [
 								"{{host}}"
 							],
@@ -687,6 +331,12 @@
 								"accounts",
 								":account_id",
 								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": null
+								}
 							],
 							"variable": [
 								{
@@ -1011,7 +661,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"poopops\",\n    \"password\": \"7942749835\",\n    \"email\": \"elisa@gmail.com\",\n    \"profilePicture\": \"123457678\",\n    \"playlist\": [],\n    \"followers\": [],\n    \"followings\": []\n}",
+							"raw": "{\n    \"username\": \"\",\n    \"password\": \"\",\n    \"email\": \"\",\n    \"profilePicture\": \"\",\n    \"playlist\": [],\n    \"followers\": [],\n    \"followings\": []\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1045,7 +695,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"username\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1080,7 +730,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"email\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1113,6 +763,15 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{host}}/api/accounts/:account_id/password",
 							"host": [
@@ -1155,8 +814,696 @@
 			]
 		},
 		{
+			"name": "Playlist",
+			"item": [
+				{
+					"name": "Get a specific playlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting Tracks from a Playlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id/tracks",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id",
+								"tracks"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Playlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"tracks\": [],\n    \"owner\": \"\",\n    \"artisttracks\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/playlists/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add existing song to a specific playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Existing song actually exists\", function(){\r",
+									"    pm.expect(responseData.playlists[0].tracks[1]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Existing song is added to playlist\", function(){\r",
+									"    pm.expect(responseData.playlists[1].tracks[0]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id/addTrack",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id",
+								"addTrack"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add existing artist song to a specific playlist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Existing song actually exists\", function(){\r",
+									"    pm.expect(responseData.playlists[0].tracks[1]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Existing song is added to playlist\", function(){\r",
+									"    pm.expect(responseData.playlists[1].tracks[0]._id).includes(\"63238dd3940b772cb438f0b7\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id/addArtistTrack",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id",
+								"addArtistTrack"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleting a track from a playlist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id/tracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id",
+								"tracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": null
+								},
+								{
+									"key": "track_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleting a artist track from a playlist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id/artisttracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id",
+								"artisttracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": ""
+								},
+								{
+									"key": "track_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Users Playlists Genre",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Retrieves correct songs corresponding to genre\", function(){\r",
+									"    pm.expect(responseData[0].genre).to.eql(\"Indie\") && pm.expect(responseData[1].genre).to.eql(\"Indie\") && pm.expect(responseData[2].genre).to.eql(\"Indie\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"genre\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/playlists/:playlist_id/filter",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"playlists",
+								":playlist_id",
+								"filter"
+							],
+							"variable": [
+								{
+									"key": "playlist_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Artist Track",
+			"item": [
+				{
+					"name": "Get Track",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/artisttracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"artisttracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "track_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all tracks",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/artisttracks",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"artisttracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Specific Track",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/artisttracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"artisttracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "track_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a tracks information",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"artist\": \"\",\n    \"duration\": \"\",\n    \"genre\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/artisttracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"artisttracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "track_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new Song",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"artist\": \"\",\n    \"duration\": \"\",\n    \"genre\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/artistTracks/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"artistTracks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Filtered Tracks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/artisttracks?name",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"artisttracks"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Generate a token for a logged in user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/auth",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tracks",
+			"item": [
+				{
+					"name": "Get Track",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "track_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all tracks",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tracks/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tracks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Specific Track",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "track_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a tracks information",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tracks/:track_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tracks",
+								":track_id"
+							],
+							"variable": [
+								{
+									"key": "track_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new Song",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"duration\": \"\",\n    \"genre\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tracks/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tracks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Filtered Tracks",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/tracks?name",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tracks"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "User",
 			"item": [
+				{
+					"name": "Get current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/signup/me",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"signup",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Adding new account",
 					"event": [
@@ -1189,7 +1536,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"Jason\",\n    \"password\": \"jason123\",\n    \"email\": \"jasonmich@gmail.com\",\n    \"profilePicture\": \"tghuirihf\"\n}",
+							"raw": "{\n    \"username\": \"\",\n    \"password\": \"\",\n    \"email\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1204,38 +1551,6 @@
 							"path": [
 								"api",
 								"signup"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Generate a token for a logged in user",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/auth",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"auth"
 							]
 						}
 					},

@@ -16,15 +16,50 @@
                   <b-button class="mx-auto" id="logoutButton" @click="logout"><img src="../../../images/logout.png" id="logoutImage">Log out</b-button>
                 </b-row>
                 <b-row>
-                  <b-button class="mx-auto" id="deleteAccButton" @click="deleteAccount"><img src="../../../images/delete.png" id="deleteImage">Delete account</b-button>
+                  <b-button v-b-modal.modal-center2 class="mx-auto" id="deleteAccButton"><img src="../../../images/delete.png" id="deleteImage">Delete account</b-button>
+                  <b-modal
+                    id="modal-center2"
+                    content-class="popup"
+                    title="Are you sure?"
+                  >
+                    <b-container fluid>
+                      <b-row
+                        class="my-4 align-self-center d-flex justify-content-center"
+                        id="modal-body"
+                      >
+                        Please confirm that you want to delete your account
+                      </b-row>
+                    </b-container>
+                    <template #modal-footer border-0>
+                      <div class="w-100">
+                        <b-button
+                          variant="primary"
+                          size="sm"
+                          class="float-right"
+                          @click="deleteAccount()"
+                          id="closeButton1"
+                        >
+                          Delete
+                        </b-button>
+                        <b-button
+                          variant="primary"
+                          size="sm"
+                          class="float-right"
+                          @click="$bvModal.hide('modal-center2')"
+                          id="closeModalButton"
+                        >
+                          Close
+                        </b-button>
+                      </div>
+                    </template>
+                  </b-modal>
                 </b-row>
               </b-col>
             </b-row>
           </b-col>
         <!-- Profile pic col -->
-        <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-2 order-md-2" id="profileCol"></b-col> -->
         <b-col class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-6 order-lg-3 order-md-3" id="profileCol">
-            <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" rounded="circle" class="src" :src="profilePicture" id="profile-pic" center/></b-row>
+            <b-row class="order-sm=0" id=""><b-img v-bind="mainPic" class="src" :src="profilePicture" id="profile-pic" center/></b-row>
             <b-row id="" class="fourth justify-content-center">
               <b-col class="col-sm-12">
                 <b-button v-b-modal.modal-lg class="btn d-none d-sm-block mx-auto" id="changeProfilePic">Change Profile Picture</b-button>
@@ -40,7 +75,6 @@
               </b-col-1>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
-              <!-- <b-button @click="clearFiles" class="mr-2">Reset via method</b-button> -->
               <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
             </b-row>
           </b-container>
@@ -50,7 +84,7 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="onChange; $bvModal.hide('modal-lg')"
+              @click="onChange(); $bvModal.hide('modal-lg')"
               id="uploadButton"
             >
               Change
@@ -71,25 +105,22 @@
         </b-row>
         </b-col>
         <!-- input fields col -->
-        <!-- <b-col class="col-md-6 col-sm-12 col-xs-12 order-lg-1 order-md-1" id=""> -->
           <b-col class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 order-lg-2 order-md-2" align-self="center" id="inputColumn">
             <b-row id="inputFields" class="fourth justify-content-center">
-                <!-- <input type="text" id="username" placeholder="*Username"> -->
-                <b-form-input v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
+                <b-form-input @keydown.space.prevent v-model="username" type="text" v-bind:placeholder="usernamePlaceholder" id="username"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your username is what the display name in which other users will see you by, and what you use to login!</p>
             </b-row>
             <b-row id="" class="justify-content-center">
-                <!-- <input type="text" id="password" placeholder="*Password"> -->
-                <b-form-input v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
+                <b-form-input @keydown.space.prevent v-model="password" type="password" placeholder="Password" id="password"></b-form-input>
                 <p class="d-none d-lg-block" id="accountText">Your password should be kept secret, avoid sharing it with anyone and staff will never ask for these details.</p>
             </b-row>
             <b-row id="" class="justify-content-center">
-                <!-- <input type="text" id="emailAddress" placeholder="*Email Address"> -->
-                <b-form-input v-model="email" type="email" v-bind:placeholder="emailPlaceholder" id="password"></b-form-input>
+                <b-form-input @keydown.space.prevent v-model="email" type="email" v-bind:placeholder="emailPlaceholder" id="password"></b-form-input>
             </b-row>
             <b-row id="buttons" class="fourth justify-content-center mx-auto">
               <b-button class="mx-auto btn" @click="clear" id="clear">Clear fields</b-button>
               <b-button class="mx-auto btn" @click="update" id="save">Save Changes</b-button>
+              <b-alert variant="success" id="saveChanges" v-model="showSuccessfulAlert">Your changes have been successfully saved!</b-alert>
             </b-row>
           </b-col>
       </b-row>
@@ -187,6 +218,14 @@ hr {
     height: 55px;
     min-width: fit-content;
     padding: 10px;
+}
+
+#saveChanges {
+  font-size: 18px;
+  font-family: "DM Sans", sans-serif;
+  height: 65px;
+  min-width: fit-content;
+  padding: 10px;
 }
 
 #save {
@@ -307,18 +346,53 @@ export default {
       emailPlaceholder: '',
       password: '',
       profilePicture: require('../../public/profile-pic.png'),
-      file: ''
+      file: '',
+      showSuccessfulAlert: false
     }
   },
   methods: {
     async update() {
       const token = localStorage.getItem('token')
       const user = parseJwt(token)
-      await Api.put(`/accounts/${user._id}`, {
-        username: this.username,
-        password: this.password,
-        email: this.email
-      }).then(response => { console.log(response) }).catch(error => { console.log(error.response) })
+      if (this.username === '' && this.password === '') {
+        await Api.patch(`/accounts/${user._id}/email`, {
+          email: this.email
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      } else if (this.username === '' && this.email === '') {
+        await Api.patch(`/accounts/${user._id}/password`, {
+          password: this.password
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      } else if (this.email === '' && this.password === '') {
+        await Api.patch(`/accounts/${user._id}/username`, {
+          username: this.username
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      } else if (!(this.username === '' && this.password === '' && this.email === '')) {
+        await Api.put(`/accounts/${user._id}`, {
+          username: this.username,
+          password: this.password,
+          email: this.email
+        }).then(response => {
+          console.log(response)
+          if (response.status === 200) {
+            this.showSuccessfulAlert = true
+          }
+        }).catch(error => { console.log(error.response) })
+      }
     },
     //  Method to clear input fields
     async clear() {
@@ -327,8 +401,7 @@ export default {
       this.email = ''
     },
     logout() {
-      localStorage.removeItem('token')
-      sessionStorage.removeItem('token')
+      localStorage.clear()
       this.$router.push('/')
     },
     deleteAccount() {
@@ -336,9 +409,7 @@ export default {
       const user = parseJwt(token)
       Api.delete(`/accounts/${user._id}`)
         .then(response => {
-          console.log(response)
-          const token = response.data.token
-          localStorage.token = token
+          localStorage.clear()
           this.$router.push('/')
         }).catch(error => { console.log(error.response) })
     }

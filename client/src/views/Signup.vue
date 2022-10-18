@@ -11,28 +11,32 @@
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-street">
-                <b-form-input id="input" v-model="email" class="email mx-auto" type="email" placeholder="Email Address"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="email" class="email mx-auto" type="email" placeholder="Email Address"></b-form-input>
+                <span id="signupMsg" v-if="msg.email">{{msg.email}}</span>
             </b-form-group>
             </b-col>
           </b-row>
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-city">
-                <b-form-input id="input" v-model="username" type="text" class="a username mx-auto" placeholder="Username"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="username" type="text" class="a username mx-auto" placeholder="Username"></b-form-input>
+                <span id="signupMsg" v-if="msg.username">{{msg.username}}</span>
             </b-form-group>
             </b-col>
           </b-row>
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-state">
-                <b-form-input id="input" v-model="password" class="password mx-auto" type="password" placeholder="Password"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="password" class="password mx-auto" type="password" placeholder="Password"></b-form-input>
+                <span id="signupMsg" v-if="msg.password">{{msg.password}}</span>
             </b-form-group>
             </b-col>
           </b-row>
           <b-row class="justify-content-center mx-auto" id="signupInput">
             <b-col class="mx-auto">
               <b-form-group label-for="nested-country">
-                <b-form-input id="input" v-model="confirmPassword" class="confirmPassword mx-auto" type="password" placeholder="Confirm Password"></b-form-input>
+                <b-form-input @keydown.space.prevent id="input" v-model="confirmPassword" class="confirmPassword mx-auto" type="password" placeholder="Confirm Password"></b-form-input>
+                <span id="signupMsg" v-if="msg.confirmPassword">{{msg.confirmPassword}}</span>
             </b-form-group>
             </b-col>
           </b-row>
@@ -50,6 +54,10 @@
 </template>
 
 <style>
+#signupMsg {
+  color: red;
+}
+
 .signup-page {
   font-family: "DM Sans", sans-serif;
   background-image: url('../../../images/stacked-waves-haikei.svg');
@@ -141,7 +149,8 @@ export default {
       username: '',
       password: '',
       confirmPassword: '',
-      profilePicture: ''
+      profilePicture: '',
+      msg: []
     }
   },
   methods: {
@@ -168,6 +177,70 @@ export default {
       this.username = ''
       this.password = ''
       this.confirmPassword = ''
+    },
+
+    async validateEmail(value) {
+      if ((/^\w+(\.-?\w+)*@\w+(\.-?\w+)*(\.\w{2,3})+$/).test(value)) {
+        this.msg.email = ''
+      } else if (value === '') {
+        this.msg.email = ''
+      } else {
+        this.msg.email = 'Invalid Email Address'
+        return 0
+      }
+    },
+
+    async validateUsername(value) {
+      if (value.length >= 3) {
+        this.msg.username = ''
+      } else if (value === '') {
+        this.msg.username = ''
+      } else {
+        this.msg.username = 'At least 3 characters are required!'
+      }
+    },
+
+    async validatePassword(value) {
+      if (value.length >= 4) {
+        this.msg.password = ''
+      } else if (value === '') {
+        this.msg.password = ''
+      } else {
+        this.msg.password = 'At least 4 characters are required!'
+      }
+    },
+
+    async validateConfirmPassword(value) {
+      if (this.password === value) {
+        this.msg.password = ''
+      } else if (value.length < 4) {
+        this.msg.password = 'At least 4 characters are required!'
+      } else if (value === '') {
+        this.msg.password = ''
+      } else {
+        this.msg.password = 'Passwords must be identical!'
+      }
+    }
+  },
+  watch: {
+    email(value) {
+      this.email = value
+      this.validateEmail(value)
+    },
+
+    username(value) {
+      this.username = value
+      this.validateUsername(value)
+    },
+
+    password(value) {
+      this.password = value
+      this.validatePassword(value)
+    },
+
+    confirmPassword(value) {
+      this.confirmPassword = value
+      this.validateConfirmPassword(value)
     }
   }
 }

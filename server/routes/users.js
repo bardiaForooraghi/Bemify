@@ -10,6 +10,11 @@ const router = express.Router({ mergeParams: true });
 // Get the current user
 router.get('/me', auth, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
+
+    if(!user){
+        return res.status(404).send('User not found!')
+    }
+    
     res.send(user);
 });
 
@@ -36,9 +41,8 @@ router.post('/', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
         user = await user.save();
-        const token = user.generateAuthToken();
-        // res.header('x-auth-token', token).status(200).send(user);
-        res.json({token, user});
+        const token = await user.generateAuthToken();
+        res.status(201).json({token, user});
     } catch (e) {
         res.status(400).send(e.message);
     }

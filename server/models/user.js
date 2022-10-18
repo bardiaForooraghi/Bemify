@@ -20,8 +20,9 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        required: true,
         unique: true,
-        match: /.*@.*/
+        match: /^\w+(\.-?\w+)*@\w+(\.-?\w+)*(\.\w{2,3})+$/
     },
     profilePicture: {
         type: String,
@@ -41,8 +42,8 @@ const userSchema = new mongoose.Schema({
     },
 });
 
-userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign( this.toJSON(), 'jwtPrivateKey');
+userSchema.methods.generateAuthToken = async function() {
+    const token = await jwt.sign( this.toJSON(), 'jwtPrivateKey');
     return token;
 }
 

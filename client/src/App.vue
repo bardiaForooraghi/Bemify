@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-md justify-content-center" id="navbar" v-if="!['signup', 'login'].includes(this.$route.name)">
+    <nav class="navbar navbar-expand-md justify-content-center" id="navbar" v-if="!['signup', 'login', 'pageNotFound'].includes(this.$route.name)">
       <!-- <a class="navbar-brand" href="#"><img src="../../images/bemify_logo.png" alt="logo" id="logo"></a> -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler01" aria-controls="navbarToggler01" aria-expanded="false" aria-label="Toggle navigation">
       <img src="../../images/bemify_logo.png" alt="logo-toggle" id="logo">
@@ -8,8 +8,8 @@
   <div class="nav-item collapse navbar-collapse" id="navbarToggler01">
     <ul class="navbar-nav mt-2 mx-auto mt-md-0 align-items-center">
       <li class="nav-item">
-        <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Upload</div>
-        <b-modal id="modal-1" :width=100 center content-class="popup" title="Upload your track">
+        <div v-b-modal.modal-1 id="navtext"><img src="../../images/upload.png" id="icon">Add track</div>
+        <b-modal id="modal-1" :width=100 center content-class="popup" title="Add a track">
           <b-container fluid>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <form id="inputFields1">
@@ -17,21 +17,19 @@
               </form>
             </b-row>
             <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
+              <form id="inputFields1">
+                <input v-model="trackDuration" type="time" id="trackNameInput" placeholder="Track Duration" required>
+              </form>
+            </b-row>
+            <b-row class="my-4 align-self-center d-flex justify-content-center" id="modal-body">
               <div>
                 <b-form-select id="inputFields1" v-model="trackGenre" :options="options" placeholder="Choose a genre" required></b-form-select>
-                <!-- id="genreInput" -->
               </div>
             </b-row>
             <b-row class="my-4" id="modal-body">
-              <b-col-11>
-                <b-form-file v-model="file" ref="file-input" class="mb-2" id="file-default" accept=".mp3, .WAV, .AIF, .mp4, .OGG, webM, .AAC, .aup3" placeholder="Choose or drop audio file here"></b-form-file>
-              </b-col-11>
               <b-col-1 class="ml-auto">
-                <b-button id="resetButton" @click="file = null">Reset</b-button>
+                <b-button id="resetButton" @click="clear">Reset</b-button>
               </b-col-1>
-            </b-row>
-            <b-row class="my-4 align-self-center d-flex justify-content-left" id="modal-body">
-              <p class="mt-2">Selected file: <b>{{ file ? file.name : '' }}</b></p>
             </b-row>
           </b-container>
           <template #modal-footer>
@@ -40,9 +38,9 @@
               variant="primary"
               size="sm"
               class="float-right"
-              @click="show=false"
+              @click="addTrack();$bvModal.hide('modal-1')"
               id="uploadButton">
-              Upload
+              Add
             </b-button>
             <b-button
               variant="primary"
@@ -71,7 +69,6 @@
     </ul>
   </div>
 </nav>
-    <div id="body"></div>
     <!-- Render the content of the current page view -->
     <router-view/>
   </div>
@@ -90,14 +87,18 @@ template {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  min-height: 800px;
+  /* min-height: 800px; */
   background-image: url('../../images/stacked-waves-haikei.svg');
   aspect-ratio: 960/300;
-  width: 100%;
+  /* width: 100%; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
+  width: 100vw;
+  position:absolute;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 #body {
@@ -105,6 +106,15 @@ template {
   font-size: 20px;
   color: #E3D5CA;
   display: flex;
+  height: 100vh;
+  width: 100vw;
+  position:absolute;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /* Navbar styling */
@@ -246,31 +256,45 @@ button, b-button {
 </style>
 
 <script>
-
-/* JS for file upload reset */
+import { Api } from './Api'
 export default {
   data() {
     return {
-      file: null,
+      trackName: '',
+      trackDuration: '',
+      trackGenre: '',
       selected: null,
       options: [
         { value: null, text: 'Please select an option' },
-        { value: 'a', text: 'Pop' },
-        { value: 'b', text: 'Hip-hop/Rap' },
-        { value: { C: '3PO' }, text: 'Rock/Metal' },
-        { value: 'd', text: 'Dance/Electronic' },
-        { value: null, text: 'Latin' },
-        { value: 'a', text: 'Indie/Aletrnative rock' },
-        { value: 'b', text: 'Classical' },
-        { value: { C: '3PO' }, text: 'K-pop' },
-        { value: 'd', text: 'Country' },
-        { value: null, text: 'R&B' }
+        { value: 'Pop', text: 'Pop' },
+        { value: 'Hip-hop/Rap', text: 'Hip-hop/Rap' },
+        { value: 'Rock/Metal', text: 'Rock/Metal' },
+        { value: 'Dance/Electronic', text: 'Dance/Electronic' },
+        { value: 'Latin', text: 'Latin' },
+        { value: 'Indie/Aletrnative rock', text: 'Indie/Aletrnative rock' },
+        { value: 'Classical', text: 'Classical' },
+        { value: 'K-pop', text: 'K-pop' },
+        { value: 'Country', text: 'Country' },
+        { value: 'R&B', text: 'R&B' }
       ]
     }
   },
   methods: {
-    clearFiles() {
-      this.$refs['file-input'].reset()
+    clear() {
+      this.trackName = ''
+      this.trackDuration = ''
+      this.trackGenre = ''
+    },
+    addTrack() {
+      Api.post('/tracks/', {
+        name: this.trackName,
+        duration: this.trackDuration,
+        genre: this.trackGenre
+      }).then((response) => {
+      })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }
